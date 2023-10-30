@@ -2479,7 +2479,6 @@ $successsecond  = $applicantModel->save_olevel($datas);
 }
 $applicantModel = new ApplicantModel();
 
-//$selectedsubjects =  $applicantModel->getsubject_details($selsub);
 $selectedsubject =  $applicantModel->getjambsubject_details($sel_sub) ?? [];
 
 
@@ -2504,41 +2503,6 @@ if ($hasDoubleSitting) {
 $selectedsubjects = $selectedsubjects ?? [];
  
 $selectedsubjects = array_merge($selectedsubject, $selectedsubjects);
-
-
-
-//print_r($selectedsubjects); 
-
-//check that maths/eng is selected
-/*$requiredSubjects = ['MATHEMATICS', 'ENGLISH LANG.'];
-$foundSubjects = [];
-
-foreach ($selectedsubjects as $reqSubject) {
-    if (in_array($reqSubject->subjects, $requiredSubjects)) {
-        $foundSubjects[] = $reqSubject->subjects;
-    }
-}
-
-if (count(array_intersect($requiredSubjects, $foundSubjects)) !== count($requiredSubjects)) {
-	echo '<script type="text/javascript">
-	alert("You must select MATHEMATICS AND ENGLISH LANG.");
-	window.location = "'.base_url('applicant/screening').'";
-  </script>'; exit;
-}  
-
-//check for duplicate subjects
-$uniqueCheck = [];
-$duplicates = [];
-
-foreach ($selectedsubjects as $subjects) {
-    if (in_array($subjects->subjects, $uniqueCheck)) {
-        $duplicates[] = $subjects->subjects;
-    } else {
-        $uniqueCheck[] = $subjects->subjects;
-    }
-}
-
-*/
 
 
 
@@ -2607,16 +2571,6 @@ $duplicatedsubjects = array();
 		 
 	}   
 
-//check for 2nd sitting
-
-/*$foundSecond = false;
-foreach ($selectedsubjects as $subject) {
-    if ($subject->sitting === 'Second') {
-        $foundSecond = true;
-        break;
-    }
-}*/
-
 $jambcutoff = 120;
 
 //compute score
@@ -2669,8 +2623,6 @@ foreach ($gradeWeightsArray as $gradeweight) {
   </script>'; exit;
 
 	}
-
-	
 
     }
 	  
