@@ -1,0 +1,16 @@
+[15-Mar-2022 04:35:41 America/Chicago] PHP Fatal error:  Uncaught ErrorException: include(): Filename cannot be empty in /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php:308
+Stack trace:
+#0 /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php(308): CodeIgniter\Debug\Exceptions->errorHandler(2, 'include(): File...', '/home/oystigr/p...', 308, Array)
+#1 /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php(308): include()
+#2 /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php(174): CodeIgniter\Debug\Exceptions->render(Object(CodeIgniter\Exceptions\PageNotFoundException), 404)
+#3 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(CodeIgniter\Exceptions\PageNotFoundException))
+#4 {main}
+  thrown in /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php on line 308
+[15-Mar-2022 04:35:48 America/Chicago] PHP Fatal error:  Uncaught ErrorException: include(): Filename cannot be empty in /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php:308
+Stack trace:
+#0 /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php(308): CodeIgniter\Debug\Exceptions->errorHandler(2, 'include(): File...', '/home/oystigr/p...', 308, Array)
+#1 /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php(308): include()
+#2 /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php(174): CodeIgniter\Debug\Exceptions->render(Object(CodeIgniter\Exceptions\PageNotFoundException), 404)
+#3 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(CodeIgniter\Exceptions\PageNotFoundException))
+#4 {main}
+  thrown in /home/oystigr/public_html/newtops/application/system/Debug/Exceptions.php on line 308
