@@ -2543,7 +2543,6 @@ foreach ($selectedsubjects as $subjects) {
 
 
 $mathEnglishSubjects = [];
-$duplicatesExist = false;
 
 foreach ($selectedsubjects as $reqSubject) {
     $lowercaseSubject = strtolower($reqSubject->subjects);
@@ -2584,44 +2583,29 @@ if (count($mathEnglishSubjects) < 2) {
   </script>'; exit;
 } 
 
+$prefixes = array();
+$duplicates = array();
+$duplicatedsubjects = array();
 
-foreach ($selectedsubjects as $items) {
-    $subjectCounts = array();
-
-    // Parsing the subjects from the subject_grades string
-    $pattern = '/([a-zA-Z\s]+) - [A-Z0-9]+/';
-    preg_match_all($pattern, $items->subject_grades, $matches);
-
-    if (isset($matches[1])) {
-        foreach ($matches[1] as $subject) {
-            $lowercaseSubject = strtolower($subject);
-            if (!isset($subjectCounts[$lowercaseSubject])) {
-                $subjectCounts[$lowercaseSubject] = 1;
-            } else {
-                $subjectCounts[$lowercaseSubject]++;
-            }
+    foreach ($selectedsubjects as $allsubjects) {
+        $prefix = substr($allsubjects->subjects, 0, 3);
+        if (in_array($prefix, $prefixes)) {
+            $duplicates[] = $prefix;
+			$duplicatedsubjects[] = $allsubjects->subjects;
+        } else {
+            $prefixes[] = $prefix;
         }
     }
 
-    $duplicatedSubjects = array_filter($subjectCounts, function ($count) {
-        return $count > 1;
-    });
-
-    if (count($duplicatedSubjects) > 0) {
-        echo "Some subjects are duplicated in the 'subject_grades' string for log_id: " . $item->log_id . ".\n";
-        echo "The duplicated subjects are: " . implode(", ", array_keys($duplicatedSubjects)) . "\n";
-    } else {
-        echo "No subjects are duplicated in the 'subject_grades' string for log_id: " . $item->log_id . ".\n";
-    }
-}
- 
-if ($duplicatesExist) {
-    $duppy = implode(", ", $mathEnglishSubjects);
-	echo '<script type="text/javascript">
+    $duplicates = array_unique($duplicates);
+	if (count($duplicates) > 0) {
+		$duppy = implode(", ", $duplicatedsubjects);
+		echo '<script type="text/javascript">
 	alert("You have selected duplicated subject(s): '.$duppy.'\n");
 	window.location = "'.base_url('applicant/screening').'";
   </script>'; exit;
-} 
+		 
+	}   
 
 //check for 2nd sitting
 
@@ -2668,7 +2652,7 @@ foreach ($gradeWeightsArray as $gradeweight) {
 		'havesecondsitting' => $hasDoubleSitting,
 		'score'  => $totalscore
 	];
-	 print_r($data); exit;
+	// print_r($data); exit;
  
 	$submit = $applicantModel->save_screening($data);
 	if ($submit) {
