@@ -850,10 +850,19 @@ public function save_screening($data)
 		$builder->select('online_screening');
 		$result=$builder->get();
          $arr =  $result->getResult();
-		return     $arr[0]->online_screening;
-		     
+		return     $arr[0]->online_screening;	     
         
     }
+    public function get_screeningdata($sid)
+    {
 
+        $db = \Config\Database::connect();
+		$builder = $db->table('screening');
+        $builder->where('log_id',$sid);
+		$result=$builder->get();
+         $arr =  $result->getResult();
+		return    $arr  ;     
+        
+    }
 
 }
