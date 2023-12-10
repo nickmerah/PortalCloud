@@ -161,7 +161,7 @@
                </td>
 
                 <td colspan="3"><span class="mb-3 col-md-6">
-                  <?= $firstchoice; ?>
+                <?= $firstchoice; ?>
                 </span></td>
               </tr>
 

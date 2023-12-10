@@ -141,11 +141,11 @@ offer.      </p>
    
    <table width="100%" border="0">
   <tr>
-    <td width="50%" align="left"><img src="<?= base_url('assets/img/provost_signature.jpg')?>" width="118" height="40" /></td>
+    <td width="50%" align="left"><img src="<?= base_url('assets/img/registrar_signature.png')?>" width="118" height="40" /></td>
     
   </tr>
   <tr>
-    <td align="left"><strong>J.O ADIGUN JP, FNIM<br>Ag. Registrar</strong></td>
+    <td align="left"><strong>OJO ADEOLU AYANGBEMIGA (MR.)<br>Registrar</strong></td>
     
   </tr>
 </table>

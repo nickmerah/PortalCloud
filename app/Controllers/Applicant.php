@@ -1358,15 +1358,14 @@ $fnames = $datac['stddetails'][0]->surname. ' '.$datac['stddetails'][0]->firstna
 		$datac['olevels'] =  $applicantModel->get_olevel(session()->get('log_id'));
 		 
 		
-		
-		 
-		
 		$datac['jambs'] =  $accountModel->getjambdetail($datac['stddetails'][0]->jambno);
-		if ($datac['stddetails'][0]->stdprogramme_id == 1) {
+		if ($datac['stddetails'][0]->stdprogramme_id == 1 and $datac['stddetails'][0]->stdprogrammetype_id == 1 ) {
 			$datac['firstchoice'] = $datac['jambs'][0]->course;
 		}else{
 			$datac['firstchoice'] = $datac['stddetails'][0]->stdcourse;
 		}
+		 
+	 
          
  
 		$datac['examvenue'] = $applicantModel->get_school($datac['stddetails'][0]->evenue);
@@ -2381,6 +2380,8 @@ $successsecond  = $applicantModel->save_olevel($datas);
 		$accountModel = new AccountModel();
 		$applicantModel = new ApplicantModel();
 
+		
+		
 
 		$checkolevelscreen =  $applicantModel->getscreeningstatus();
 
@@ -2391,12 +2392,25 @@ $successsecond  = $applicantModel->save_olevel($datas);
   </script>'; exit;
 }
 
+$jambcutoff = 120;
+        
+		$utmescore = $applicantModel->getjambscore(session()->get('log_id')); 
+
+
+		if ($utmescore < $jambcutoff) {
+			echo '<script type="text/javascript">
+	  alert("Your JambScore is less than the cutoff of 120, you cannot proceed with the screening back later.");
+	  window.location = "'.base_url('applicant').'";
+  </script>'; exit;
+
+		}
+
 		$checkolevelscreen =  $applicantModel->checkScreen(session()->get('log_id'));
 
 		if ($checkolevelscreen) {
 			echo '<script type="text/javascript">
 	  alert("You have already submitted your Olevel Subjects for screening");
-	  window.location = "'.base_url('applicant').'";
+	  window.location = "'.base_url('applicant/screeningresult').'";
   </script>'; exit;
 }
   
@@ -2423,6 +2437,8 @@ $successsecond  = $applicantModel->save_olevel($datas);
 	   
 	   $fnames = $data['stddetails'][0]->surname. ' '.$data['stddetails'][0]->firstname;
 	   $data['jambdetails'] =  $accountModel->getjambdetail($data['stddetails'][0]->jambno);
+
+	   
 
 	    $admreg = $applicantModel->get_admreq($data['stddetails'][0]->stdcourse);
   
@@ -2600,19 +2616,20 @@ foreach ($gradeWeightsArray as $gradeweight) {
     }
       $subject_grades =  implode(', ', $result) . ', Sitting('.$divisor.'), UTME Score: '.$utmescore.'('.$jambscore.')';
 
+	 $sitting = $hasDoubleSitting ?? 0;
 	  $data = [
 		'log_id' => session()->get('log_id'),
 		'subject_grades'  => $subject_grades,
-		'havesecondsitting' => $hasDoubleSitting,
+		'havesecondsitting' => $sitting,
 		'score'  => $totalscore
 	];
-	// print_r($data); exit;
+	 // print_r($data); exit;
  
 	$submit = $applicantModel->save_screening($data);
 	if ($submit) {
 		echo '<script type="text/javascript">
 	alert("OLevel Subjects have been successfully submitted for screening");
-	window.location = "'.base_url('applicant').'";
+	window.location = "'.base_url('applicant/screeningresult').'";
   </script>'; exit;
 
 	}else{
@@ -2625,8 +2642,68 @@ foreach ($gradeWeightsArray as $gradeweight) {
 	}
 
     }
+
+	public function screeningresult()
+    {
+		$accountModel = new AccountModel();
+		$applicantModel = new ApplicantModel();
+
+
+		$checkolevelscreen =  $applicantModel->getscreeningstatus();
+
+		if (!$checkolevelscreen) {
+			echo '<script type="text/javascript">
+	  alert("Online Screening is currently not available, you can check back later.");
+	  window.location = "'.base_url('applicant').'";
+  </script>'; exit;
+}
+
+		$checkolevelscreen =  $applicantModel->checkScreen(session()->get('log_id'));
+
+		if (!$checkolevelscreen) {
+			echo '<script type="text/javascript">
+	  alert("You have not submitted your Olevel Subjects for screening");
+	  window.location = "'.base_url('applicant').'";
+  </script>'; exit;
+}
+  
+		$appyear = $accountModel->getsess();
+		$pstat = $applicantModel->getfeestatus(session()->get('log_id'));
+		$biostatus = $applicantModel->getbiostatus(session()->get('log_id'));
+  
+		if ($pstat == '0'){
+			   echo '<script type="text/javascript">
+			  alert("You must pay for the Application Form before you update your biodata");
+			  window.location = "'.base_url('applicant/').'";
+		  </script>';
+			  exit;
+		  }
+  
+  
+	   if ( $biostatus == 1 ){
+	   $data['stddetails'] =  $accountModel->getacctdetails(session()->get('log_id'));
+	   }else{
+		 $data['stddetails'] =  $accountModel->getacctdetail(session()->get('log_id'));
+	   }
+	   
+	 
+	   
+	   $fnames = $data['stddetails'][0]->surname. ' '.$data['stddetails'][0]->firstname;
+	   $data['jambdetails'] =  $accountModel->getjambdetail($data['stddetails'][0]->jambno);
+
+	   $data['screeningdata'] = $applicantModel->get_screeningdata(session()->get('log_id'));
+	   $data['sess'] = $appyear;
+		//print_r($screeningdata); exit;
+   
+ 
+	 
+		  echo view('applicants/resultscreening',$data);
+		  
+
+    }
 	  
 }
+
 
  
 
