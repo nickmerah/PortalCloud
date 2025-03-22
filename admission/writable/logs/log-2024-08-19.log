@@ -1,0 +1,1018 @@
+CRITICAL - 2024-08-19 03:06:25 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 03:06:43 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 06:45:35 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/school]
+in APPPATH/Controllers/Applicant.php on line 875.
+ 1 APPPATH/Controllers/Applicant.php(875): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 875)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->school()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 07:09:27 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 08:19:18 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/olevel]
+in APPPATH/Controllers/Applicant.php on line 749.
+ 1 APPPATH/Controllers/Applicant.php(749): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 749)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->olevel()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 08:37:48 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 08:38:20 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 08:51:52 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 10:18:29 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 10:42:24 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 11:10:14 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/declares]
+in APPPATH/Views/applicants/declares.php on line 34.
+ 1 APPPATH/Views/applicants/declares.php(34): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/declares.php', 34)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/declares.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/declares', [], true)
+ 5 APPPATH/Controllers/Applicant.php(909): view('applicants/declares', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 11:10:30 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/olevel]
+in APPPATH/Controllers/Applicant.php on line 749.
+ 1 APPPATH/Controllers/Applicant.php(749): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 749)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->olevel()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 11:47:55 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:49:41 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:49:52 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:50:03 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:50:27 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:50:27 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:50:40 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:50:47 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:50:51 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:54:09 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:54:15 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:54:19 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:54:23 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:54:29 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:54:33 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:54:42 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:58:27 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:58:49 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:59:33 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:59:50 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:59:52 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 12:59:59 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:00:10 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:00:23 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:00:28 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:01:03 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:01:21 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:01:33 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:01:42 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:01:45 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:02:03 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:02:06 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:02:10 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:11:07 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:16:04 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 13:38:55 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:09:27 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:09:33 --> ErrorException: Undefined array key "status"
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "status"', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:16:24 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:16:31 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:16:51 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:16:53 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:21:49 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:32:42 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:32:57 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:33:18 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:34:08 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:34:12 --> ErrorException: Attempt to read property "message" on null
+[Method: GET, Route: applicant/checkpayment]
+in APPPATH/Controllers/Applicant.php on line 427.
+ 1 APPPATH/Controllers/Applicant.php(427): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "message" on null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 427)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->checkpayment()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:34:19 --> ErrorException: Attempt to read property "message" on null
+[Method: GET, Route: applicant/checkpayment]
+in APPPATH/Controllers/Applicant.php on line 427.
+ 1 APPPATH/Controllers/Applicant.php(427): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "message" on null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 427)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->checkpayment()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:34:29 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:35:05 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:35:13 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:35:26 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: applicant/paynow]
+in APPPATH/Controllers/Applicant.php on line 208.
+ 1 APPPATH/Controllers/Applicant.php(208): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 208)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paynow()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:42:25 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:42:31 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:42:32 --> ErrorException: Trying to access array offset on value of type null
+[Method: GET, Route: applicant/remitaresponse]
+in APPPATH/Controllers/Applicant.php on line 313.
+ 1 APPPATH/Controllers/Applicant.php(313): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 313)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->remitaresponse()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:44:16 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:48:17 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:48:30 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:48:30 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:48:44 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 15:51:15 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 19:25:00 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/olevel]
+in APPPATH/Controllers/Applicant.php on line 749.
+ 1 APPPATH/Controllers/Applicant.php(749): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 749)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->olevel()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 19:44:40 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/application_card]
+in APPPATH/Controllers/Applicant.php on line 1088.
+ 1 APPPATH/Controllers/Applicant.php(1088): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 1088)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->application_card()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 20:09:17 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 20:23:13 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 20:23:27 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 20:26:34 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 20:29:03 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 20:29:48 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 20:32:59 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/phistory]
+in APPPATH/Views/applicants/mypayments.php on line 56.
+ 1 APPPATH/Views/applicants/mypayments.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php', 56)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/applicants/mypayments.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('applicants/mypayments', [], true)
+ 5 APPPATH/Controllers/Applicant.php(386): view('applicants/mypayments', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->phistory()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 21:14:46 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/olevel]
+in APPPATH/Controllers/Applicant.php on line 749.
+ 1 APPPATH/Controllers/Applicant.php(749): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 749)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->olevel()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 21:15:21 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/school]
+in APPPATH/Controllers/Applicant.php on line 875.
+ 1 APPPATH/Controllers/Applicant.php(875): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 0', '/home/prtald/public_html/admissions/app/Controllers/Applicant.php', 875)
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->school()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Applicant))
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 22:55:51 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admreq.php"
+[Method: GET, Route: home/admreq]
+in SYSTEMPATH/Exceptions/FrameworkException.php on line 41.
+ 1 SYSTEMPATH/View/View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admreq.php')
+ 2 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('admreq', [], true)
+ 3 APPPATH/Controllers/Home.php(75): view('admreq', [...])
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Home->admreq()
+ 5 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 22:56:25 --> ErrorException: Undefined variable $pumeenddate
+[Method: GET, Route: home/admreq]
+in APPPATH/Views/footer.php on line 12.
+ 1 APPPATH/Views/footer.php(12): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $pumeenddate', '/home/prtald/public_html/admissions/app/Views/footer.php', 12)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/footer.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('footer', [], true)
+ 5 APPPATH/Controllers/Home.php(76): view('footer')
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Home->admreq()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-08-19 22:56:48 --> ErrorException: Undefined variable $pumeenddate
+[Method: GET, Route: home/admreq]
+in APPPATH/Views/footer.php on line 12.
+ 1 APPPATH/Views/footer.php(12): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $pumeenddate', '/home/prtald/public_html/admissions/app/Views/footer.php', 12)
+ 2 SYSTEMPATH/View/View.php(234): include('/home/prtald/public_html/admissions/app/Views/footer.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render('footer', [], true)
+ 5 APPPATH/Controllers/Home.php(76): view('footer')
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Home->admreq()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

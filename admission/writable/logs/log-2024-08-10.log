@@ -1,0 +1,242 @@
+CRITICAL - 2024-08-10 21:51:57 --> ArgumentCountError: Too few arguments to function App\Models\AccountModel::getcos(), 0 passed in /var/www/html/delta/app/Controllers/Home.php on line 41 and exactly 1 expected
+[Method: GET, Route: home/startpart]
+in APPPATH/Models/AccountModel.php on line 348.
+ 1 APPPATH/Controllers/Home.php(41): App\Models\AccountModel->getcos()
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Home->startpart()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+ERROR - 2024-08-10 22:09:53 --> mysqli_sql_exception: Duplicate entry 'NDFT2022000002' for key 'jlogin.jambno' in /var/www/html/delta/system/Database/MySQLi/Connection.php:312
+Stack trace:
+#0 /var/www/html/delta/system/Database/MySQLi/Connection.php(312): mysqli->query()
+#1 /var/www/html/delta/system/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+#2 /var/www/html/delta/system/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+#3 /var/www/html/delta/system/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+#4 /var/www/html/delta/app/Models/AccountModel.php(63): CodeIgniter\Database\BaseBuilder->insert()
+#5 /var/www/html/delta/app/Controllers/Account.php(162): App\Models\AccountModel->create_account()
+#6 /var/www/html/delta/system/CodeIgniter.php(933): App\Controllers\Account->store()
+#7 /var/www/html/delta/system/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+#8 /var/www/html/delta/system/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+#9 /var/www/html/delta/system/Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 /var/www/html/delta/system/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+#11 /var/www/html/delta/index.php(56): CodeIgniter\Boot::bootWeb()
+#12 {main}
+ERROR - 2024-08-10 22:11:16 --> mysqli_sql_exception: Duplicate entry 'NDFT2022000002' for key 'jlogin.jambno' in /var/www/html/delta/system/Database/MySQLi/Connection.php:312
+Stack trace:
+#0 /var/www/html/delta/system/Database/MySQLi/Connection.php(312): mysqli->query()
+#1 /var/www/html/delta/system/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+#2 /var/www/html/delta/system/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+#3 /var/www/html/delta/system/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+#4 /var/www/html/delta/app/Models/AccountModel.php(63): CodeIgniter\Database\BaseBuilder->insert()
+#5 /var/www/html/delta/app/Controllers/Account.php(162): App\Models\AccountModel->create_account()
+#6 /var/www/html/delta/system/CodeIgniter.php(933): App\Controllers\Account->store()
+#7 /var/www/html/delta/system/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+#8 /var/www/html/delta/system/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+#9 /var/www/html/delta/system/Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 /var/www/html/delta/system/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+#11 /var/www/html/delta/index.php(56): CodeIgniter\Boot::bootWeb()
+#12 {main}
+CRITICAL - 2024-08-10 22:14:50 --> ErrorException: Undefined array key 0
+[Method: GET, Route: applicant/paymentslip/4100824221429]
+in APPPATH/Controllers/Applicant.php on line 264.
+ 1 APPPATH/Controllers/Applicant.php(264): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->paymentslip()
+ 3 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+ERROR - 2024-08-10 22:23:13 --> mysqli_sql_exception: Not unique table/alias: 'dept_options' in /var/www/html/delta/system/Database/MySQLi/Connection.php:312
+Stack trace:
+#0 /var/www/html/delta/system/Database/MySQLi/Connection.php(312): mysqli->query()
+#1 /var/www/html/delta/system/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+#2 /var/www/html/delta/system/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+#3 /var/www/html/delta/system/Database/BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query()
+#4 /var/www/html/delta/app/Models/AccountModel.php(172): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/delta/app/Controllers/Applicant.php(903): App\Models\AccountModel->getacctdetails()
+#6 /var/www/html/delta/system/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+#7 /var/www/html/delta/system/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+#8 /var/www/html/delta/system/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+#9 /var/www/html/delta/system/Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 /var/www/html/delta/system/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+#11 /var/www/html/delta/index.php(56): CodeIgniter\Boot::bootWeb()
+#12 {main}
+CRITICAL - 2024-08-10 22:23:13 --> CodeIgniter\Database\Exceptions\DatabaseException: Not unique table/alias: 'dept_options'
+[Method: GET, Route: applicant/declares]
+in SYSTEMPATH/Database/BaseConnection.php on line 688.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query()
+ 2 APPPATH/Models/AccountModel.php(172): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH/Controllers/Applicant.php(903): App\Models\AccountModel->getacctdetails()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+ 5 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 22:23:13 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Not unique table/alias: 'dept_options'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 317.
+ 1 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query()
+ 4 APPPATH/Models/AccountModel.php(172): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH/Controllers/Applicant.php(903): App\Models\AccountModel->getacctdetails()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 22:23:13 --> [Caused by] mysqli_sql_exception: Not unique table/alias: 'dept_options'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 312.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(312): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query()
+ 5 APPPATH/Models/AccountModel.php(172): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH/Controllers/Applicant.php(903): App\Models\AccountModel->getacctdetails()
+ 7 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+ 8 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 22:35:34 --> ErrorException: Trying to access array offset on value of type null
+[Method: GET, Route: applicant/declares]
+in APPPATH/Views/applicants/declares.php on line 34.
+ 1 APPPATH/Views/applicants/declares.php(34): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(234): include('/var/www/html/delta/app/Views/applicants/declares.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Applicant.php(908): view()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+ERROR - 2024-08-10 22:37:16 --> mysqli_sql_exception: Unknown column 'dept1.dept_name' in 'field list' in /var/www/html/delta/system/Database/MySQLi/Connection.php:312
+Stack trace:
+#0 /var/www/html/delta/system/Database/MySQLi/Connection.php(312): mysqli->query()
+#1 /var/www/html/delta/system/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+#2 /var/www/html/delta/system/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+#3 /var/www/html/delta/system/Database/BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query()
+#4 /var/www/html/delta/app/Models/AccountModel.php(181): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/delta/app/Controllers/Applicant.php(903): App\Models\AccountModel->getacctdetails()
+#6 /var/www/html/delta/system/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+#7 /var/www/html/delta/system/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+#8 /var/www/html/delta/system/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+#9 /var/www/html/delta/system/Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 /var/www/html/delta/system/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+#11 /var/www/html/delta/index.php(56): CodeIgniter\Boot::bootWeb()
+#12 {main}
+CRITICAL - 2024-08-10 22:37:16 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'dept1.dept_name' in 'field list'
+[Method: GET, Route: applicant/declares]
+in SYSTEMPATH/Database/BaseConnection.php on line 688.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query()
+ 2 APPPATH/Models/AccountModel.php(181): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH/Controllers/Applicant.php(903): App\Models\AccountModel->getacctdetails()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+ 5 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 22:37:16 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'dept1.dept_name' in 'field list'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 317.
+ 1 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query()
+ 4 APPPATH/Models/AccountModel.php(181): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH/Controllers/Applicant.php(903): App\Models\AccountModel->getacctdetails()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 22:37:16 --> [Caused by] mysqli_sql_exception: Unknown column 'dept1.dept_name' in 'field list'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 312.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(312): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query()
+ 5 APPPATH/Models/AccountModel.php(181): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH/Controllers/Applicant.php(903): App\Models\AccountModel->getacctdetails()
+ 7 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->declares()
+ 8 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 22:40:00 --> ErrorException: Undefined property: stdClass::$aprogramme_name
+[Method: GET, Route: applicant]
+in APPPATH/Views/applicants/index.php on line 44.
+ 1 APPPATH/Views/applicants/index.php(44): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(234): include('/var/www/html/delta/app/Views/applicants/index.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Applicant.php(94): view()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->index()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 22:40:14 --> ErrorException: Undefined property: stdClass::$aprogramme_name
+[Method: GET, Route: applicant]
+in APPPATH/Views/applicants/index.php on line 44.
+ 1 APPPATH/Views/applicants/index.php(44): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(234): include('/var/www/html/delta/app/Views/applicants/index.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Applicant.php(94): view()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->index()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 22:40:20 --> ErrorException: Undefined property: stdClass::$aprogramme_name
+[Method: GET, Route: applicant/]
+in APPPATH/Views/applicants/index.php on line 44.
+ 1 APPPATH/Views/applicants/index.php(44): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(234): include('/var/www/html/delta/app/Views/applicants/index.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Applicant.php(94): view()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->index()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 22:40:29 --> ErrorException: Undefined property: stdClass::$aprogramme_name
+[Method: GET, Route: applicant/]
+in APPPATH/Views/applicants/index.php on line 44.
+ 1 APPPATH/Views/applicants/index.php(44): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(234): include('/var/www/html/delta/app/Views/applicants/index.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Applicant.php(94): view()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->index()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-10 23:51:12 --> ErrorException: Undefined variable $paydetails
+[Method: GET, Route: applicant/print_receipt]
+in APPPATH/Views/applicants/print_receipt.php on line 96.
+ 1 APPPATH/Views/applicants/print_receipt.php(96): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(234): include('/var/www/html/delta/app/Views/applicants/print_receipt.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Applicant.php(1013): view()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->print_receipt()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()

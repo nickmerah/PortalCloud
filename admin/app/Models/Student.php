@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Student extends Model
+{
+    use HasFactory;
+
+    protected $table = 'stdprofile';
+    protected $primaryKey = 'std_id';
+    public $timestamps = false;
+
+    protected $fillable = [
+        'std_logid',
+        'matric_no',
+        'surname',
+        'firstname',
+        'othernames',
+        'gender',
+        'marital_status',
+        'birthdate',
+        'matset',
+        'local_gov',
+        'state_of_origin',
+        'religion',
+        'nationality',
+        'contact_address',
+        'student_email',
+        'student_homeaddress',
+        'student_mobiletel',
+        'std_genotype',
+        'std_bloodgrp',
+        'std_pc',
+        'next_of_kin',
+        'nok_address',
+        'nok_tel',
+        'stdprogramme_id',
+        'stdprogrammetype_id',
+        'stdfaculty_id',
+        'stddepartment_id',
+        'stdcourse',
+        'stdlevel',
+        'std_admyear',
+        'std_photo',
+        'cs_status',
+        'std_status',
+        'student_status',
+        'promote_status'
+    ];
+
+    public function programme()
+    {
+        return $this->belongsTo(Programme::class, 'stdprogramme_id', 'programme_id');
+    }
+
+    public function programmeType()
+    {
+        return $this->belongsTo(ProgrammeType::class, 'stdprogrammetype_id', 'programmet_id');
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class, 'stdlevel', 'level_id');
+    }
+
+    public function stdcourseOption(): BelongsTo
+    {
+        return $this->belongsTo(DeptOption::class, 'stdcourse', 'do_id');
+    }
+
+    public function stateor(): BelongsTo
+    {
+        return $this->belongsTo(StateOfOrigin::class, 'state_of_origin', 'state_id');
+    }
+
+    public function lga(): BelongsTo
+    {
+        return $this->belongsTo(Lga::class, 'local_gov', 'lga_id');
+    }
+
+    public function deptOption()
+    {
+        return $this->hasOne(DeptOption::class, 'do_id', 'stdcourse');
+    }
+
+    public function getGenderByLogId($std_logid)
+    {
+        return $this->where('std_logid', $std_logid)->value('gender');
+    }
+
+    public function courseRegs()
+    {
+        return $this->hasMany(CourseRegistration::class, 'log_id', 'std_logid');
+    }
+}
