@@ -260,7 +260,7 @@ class LoginController extends Controller
             ]);
         }
         $genPass = rand(00000, 999999);
-        $surname = strtolower(trim($user->log_surname));
+        $surname = strtolower(trim(preg_replace("/[^a-zA-Z]/", "", $user->log_surname)));
 
         $user->log_password = $genPass;
         $user->log_spassword = $surname;

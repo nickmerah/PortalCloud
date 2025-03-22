@@ -942,8 +942,25 @@ class PortalController extends Controller
         if (empty($studentId)) {
             $studentId = DB::table('stdaccess')
                 ->where("matno", $this->student->matric_no)
-                ->value('stdno'); // More concise
+                ->value('stdno');
         }
+        
+        // sometimes the studentID isn't updated for new students, so we check again
+        if (empty($studentId) and $this->student->matset != 0) {
+            $studentId = DB::table('jprofile')
+                ->where("app_no", $this->student->matset)
+                ->value('student_id');
+
+        }
+
+        if ($this->student->cs_status == 0) {
+            // attempt to update it on the student table 
+
+            $this->student->cs_status = $studentId;
+            $this->student->save();
+        }
+        
+                
 
         return $studentId;
     }
