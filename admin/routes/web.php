@@ -57,6 +57,7 @@ Route::middleware(['checkUserSession', 'audit'])->group(function () {
             $filePath = public_path('course.csv');
             return response()->download($filePath);
         });
+        Route::delete('/deletecourse/{id}', [CourseController::class, 'deletecourse'])->name('deletecourse');
 
         Route::resource('appfees', ApplicantFeeFieldController::class);
         Route::get('getappfee/{id}', [ApplicantFeeFieldController::class, 'getappfees'])

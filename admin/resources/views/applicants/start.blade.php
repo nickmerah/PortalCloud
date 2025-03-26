@@ -183,7 +183,7 @@
                         <div class="body">
                             <div class="table-responsive">
 
-                                <table class="table table-hover js-basic-example contact_list" style="font-size:12px">
+                                <table class="table table-hover js-basic-example contact_list" style="font-size:11px">
                                     <thead>
                                         <tr>
                                             <th class="center">#</th>

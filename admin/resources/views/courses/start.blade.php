@@ -358,7 +358,7 @@
                     @endif
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-hover js-basic-example contact_list" style="fon-size=12px">
+                            <table class="table table-hover js-basic-example contact_list" style="font-size:12px">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -382,12 +382,16 @@
                                         <td>{{ $course->level->level_name}}</td>
                                         <td>{{ $course->semester}}</td>
                                         <td>
+                                            <?php if ($showdelete) {  ?>
+                                                <button data-bs-toggle="modal" data-id="{{ $course->thecourse_id }}" id="fieldEdit" class="btn btn-success edit">
+                                                    <i class="material-icons">create</i>
+                                                </button>
 
-                                            <button data-bs-toggle="modal" data-id="{{ $course->thecourse_id }}" id="fieldEdit" class="btn btn-success edit">
-                                                <i class="material-icons">create</i>
-                                            </button>
+                                                <button class="btn btn-danger" onclick="deleteCourse({{ $course->thecourse_id }}, '{{ $course->thecourse_code }}')">
+                                                    <i class="material-icons">delete</i>
+                                                </button>
 
-
+                                            <?php } ?>
                                         </td>
                                     </tr>@endforeach
                                 </tbody>
@@ -438,4 +442,33 @@
         </div>
     </div>
 </section>
+
+<script>
+    function deleteCourse(cid, cname) {
+        var confirmation = confirm(`You are about to delete the course ${cname}, click OK to continue or Cancel to abort.`);
+        if (confirmation) {
+
+            fetch(`{{ url('/deletecourse/') }}/${cid}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Something went wrong!');
+                });
+        }
+    }
+</script>
 @endsection

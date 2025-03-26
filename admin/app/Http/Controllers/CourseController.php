@@ -18,24 +18,29 @@ class CourseController extends Controller
         $programmeTypes = ProgrammeType::all();
         $courseofstudy = DeptOption::all();
         $query = Course::with('programme', 'programmeType', 'level', 'deptOption');
+        $showdelete = false;
 
         if ($request->filled('level_id')) {
             $query->where('levels', 'like', '%' . $request->level_id . '%');
+            $showdelete = true;
         }
         if ($request->filled('programmet_id')) {
             $query->where('prog_type', 'like', '%' . $request->programmet_id . '%');
+            $showdelete = true;
         }
         if ($request->filled('programme_id')) {
             $query->where('prog', 'like', '%' . $request->programme_id . '%');
+            $showdelete = true;
         }
         if ($request->filled('cos')) {
             $query->where('stdcourse', 'like', '%' . $request->cos . '%');
+            $showdelete = true;
         }
 
 
         $courses = $query->paginate(100);
 
-        return view('courses.start', compact('courses', 'levels', 'programmes', 'programmeTypes', 'courseofstudy'));
+        return view('courses.start', compact('courses', 'levels', 'programmes', 'programmeTypes', 'courseofstudy', 'showdelete'));
     }
 
 
@@ -148,5 +153,15 @@ class CourseController extends Controller
         }
 
         return redirect()->back()->withErrors('Course upload failed.');
+    }
+
+    public function deletecourse($id)
+    {
+        $course = Course::find($id);
+        if ($course) {
+            $course->delete();
+            return response()->json(['success' => true, 'message' => 'Course deleted successfully']);
+        }
+        return response()->json(['success' => false, 'message' => 'Course not found'], 404);
     }
 }
