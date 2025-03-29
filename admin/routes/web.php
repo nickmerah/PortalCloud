@@ -131,6 +131,7 @@ Route::middleware(['checkUserSession', 'audit'])->group(function () {
 
         Route::get('applicantspwd', [ApplicantController::class, 'applicantspwd'])->name('applicantspwd');
         Route::get('resetPass/{id}', [ApplicantController::class, 'applicantspwdreset'])->name('resetPass');
+        Route::get('disableAccount/{id}', [ApplicantController::class, 'applicantDisableAccount'])->name('disableAccount');
         Route::post('uploadapplicantphoto', [ApplicantController::class, 'applicantphotoupdate'])->name('uploadapplicantphoto');
         Route::resource('olevelsubjects', SubjectController::class);
 
@@ -163,7 +164,7 @@ Route::middleware(['checkUserSession', 'audit'])->group(function () {
             return response()->download($filePath);
         });
         Route::post('/uploadstudentphoto', [StudentController::class, 'savestudentphoto'])->name('uploadstudentphoto');
-
+        Route::get('/download-stdpassports', [StudentController::class, 'downloadPassports'])->name('download-stdpassports');
         Route::get('/promotelist', [StudentController::class, 'getPromotionList']);
         Route::get('/download-promotionlist-csv', function () {
             $filePath = public_path('promotionlist.csv');
@@ -173,6 +174,7 @@ Route::middleware(['checkUserSession', 'audit'])->group(function () {
         Route::get('/matnolist', [StudentController::class, 'getMatricNoList']);
         Route::get('/admittedapplicants', [ApplicantController::class, 'getAdmittedApplicants']);
         Route::post('/uploaddeptchangelist', [ApplicantController::class, 'updateAdmissionDepartment']);
+        Route::post('/studentlist', [StudentController::class, 'getStudentList']);
     });
     Route::get('verifystudent', [StudentController::class, 'getStudentdata'])->middleware('check_access:accessViewStudentData')->name('verify.student');
 

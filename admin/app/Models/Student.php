@@ -96,4 +96,9 @@ class Student extends Model
     {
         return $this->hasMany(CourseRegistration::class, 'log_id', 'std_logid');
     }
+
+    public function getStudentIdByLogId($std_logid)
+    {
+        return $this->where('std_logid', $std_logid)->value('cs_status');
+    }
 }

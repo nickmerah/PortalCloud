@@ -242,10 +242,14 @@ class Account extends Controller
 		$passkey = esc($validData['passkey']);
 
 		$accountModel = new AccountModel();
-		$data = $accountModel->select('log_password,log_id,log_username')->where('log_username', $semail)->first();
+		$data = $accountModel->select('log_password,log_id,log_username,log_status')->where('log_username', $semail)->first();
 
 		if (!$data) {
 			return redirect()->back()->with('error', 'Invalid Application Number/Password');
+		}
+
+		if ($data['log_status'] == 0) {
+			return redirect()->back()->with('error', 'Accout is not activated, please check with admission office');
 		}
 
 		$pass = $data['log_password'];

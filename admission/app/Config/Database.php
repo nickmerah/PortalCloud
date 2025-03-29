@@ -27,9 +27,9 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username' => 'root',
-        'password' => 'root',
-        'database' => 'dspg',
+        'username' => 'prtald_wapagazi',
+        'password' => 'nBW[;GcN@ers',
+        'database' => 'prtald_lango',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,

@@ -29,7 +29,7 @@
        <?php endif; ?>
 
 
-       <form id="add_create" name="add_create" action="<?= base_url('public/account/store'); ?>" method="post">
+       <form id="add_create" name="add_create" action="<?= base_url('account/store'); ?>" method="post">
          <?= csrf_field() ?>
          <div class="card-body">
            <input name="isjamb" type="hidden" value="no">
@@ -66,7 +66,7 @@
                <div class="input-group-prepend">
                  <div class="input-group-text"><i class="fas fa-school"></i></div>
                </div>
-               <select name="sprogtype" id="sprogtype" class="form-control" required>
+              <select name="sprogtype" id="sprogtype" class="form-control" required>
                  <option value="">Select Programme Type</option>
                  <?php foreach ($progtypes as $progtype) : ?>
                    <option value="<?= $progtype->programmet_id; ?>" <?= old('sprogtype') == $progtype->programmet_id ? 'selected' : '' ?>><?= $progtype->programmet_name; ?></option>
@@ -120,7 +120,7 @@
                cosSelect.innerHTML = `<option value="">${optionText}</option>`;
 
                if (progId && progTypeId) {
-                 fetch("<?= base_url('/public/account/getCos'); ?>", {
+                 fetch("<?= base_url('/account/getCos'); ?>", {
                      method: 'POST',
                      headers: {
                        'Content-Type': 'application/x-www-form-urlencoded'
@@ -161,11 +161,10 @@
                  setTimeout(function() {
                    updateCourseOptions('sel_cos', progId, sprogTypeId, 'Select First Choice');
                    updateCourseOptions('sel_cos_two', progId, sprogTypeId, 'Select Second Choice');
-                 }, 200); // Delay of 200ms to allow for the dropdown reset
+                 }, 500); // Delay of 200ms to allow for the dropdown reset
                });
              });
            </script>
-
 
 
            <div class="form-group">

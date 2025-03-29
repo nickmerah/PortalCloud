@@ -270,6 +270,10 @@ class ApplicantController extends Controller
 
         $applicants = $query->paginate(50);
 
+        foreach ($applicants as $applicant) {
+            $applicant->log_status = Applicant::getApplicantLogStatusByLogId($applicant->std_logid)->log_status;
+        }
+
         return view('applicants.pwdchange', compact('applicants'));
     }
 
@@ -288,10 +292,27 @@ class ApplicantController extends Controller
 
         DB::table('jlogin')
             ->where('log_id', $id)
-            ->update(['log_password' => $hashedPassword]);
+            ->update(['log_password' => $hashedPassword, 'log_status' => 1]);
 
         return redirect()->route('applicantspwd')
             ->with('success', "Password successful change to  $passes");
+    }
+
+    public function applicantDisableAccount($id)
+    {
+        $applicant = Applicant::find($id);
+
+        if (is_null($applicant)) {
+            return redirect()->route('applicants.applicantspwdreset')
+                ->with('error', 'Record not found');
+        }
+
+        DB::table('jlogin')
+            ->where('log_id', $id)
+            ->update(['log_status' => 0]);
+
+        return redirect()->route('applicantspwd')
+            ->with('success', "Account successful Disabled");
     }
 
     public function subjects()

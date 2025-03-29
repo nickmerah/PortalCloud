@@ -1631,7 +1631,7 @@ class Applicant extends Controller
 			}
 
 			//check if transaction ID has already been generated
-			/*$genid =  $this->applicantModel->gettransid(session()->get('log_id'));
+		 /*	$genid =  $this->applicantModel->gettransid(session()->get('log_id'), 4);
 				if (!empty($genid)) {
 				$message = "You have already generated a Transaction, You will be redirected to make payment";
 				$redirectUrl = base_url('applicant/paymentslip/' . $genid);
@@ -1904,86 +1904,92 @@ class Applicant extends Controller
 
 
 	public function addcert()
-	{
-		helper(['form', 'url']);
+{
+    helper(['form', 'url']);
 
-		if ($this->request->getMethod() == 'POST') {
-			$documents = [
-				'jamb_nd_result' => 'Jamb_ND Result',
-				'o_level_result' => 'O Level Result',
-				'birth_certificate' => 'Birth Certificate',
-				'lga_proof' => 'Proof of LGA',
-				'attestation_letter' => 'Attestation Letter',
-				'it_letter' => 'IT Letter',
-				'nd_admission_letter_jamb_result' => 'ND Admission Letter/Jamb Result',
-			];
+    if ($this->request->getMethod() == 'POST') {
+        $documents = [
+            'jamb_nd_result' => 'Jamb_ND Result',
+            'o_level_result' => 'O Level Result',
+            'birth_certificate' => 'Birth Certificate',
+            'lga_proof' => 'Proof of LGA',
+            'attestation_letter' => 'Attestation Letter',
+            'it_letter' => 'IT Letter',
+            'nd_admission_letter_jamb_result' => 'ND Admission Letter_Jamb Result',
+        ];
 
-			$success = true;
+        $success = true;
+        $allErrors = []; // Array to collect ALL errors
 
+        $this->applicantModel->db->transStart();
 
-			$this->applicantModel->db->transStart();
+        foreach ($documents as $key => $documentName) {
+            if ($this->request->getFile($key)) {
+                $appno = session()->get('appno');
+                $file = $this->request->getFile($key);
+                $allowedExtensions = ['pdf'];
+                $allowedMimeTypes = ['application/pdf'];
+                $ext = $file->guessExtension();
+                $mimeType = $file->getClientMimeType();
 
-			foreach ($documents as $key => $documentName) {
-				if ($this->request->getFile($key)) {
-					$appno = session()->get('appno');
-					$file = $this->request->getFile($key);
-					$allowedExtensions = ['pdf'];
-					$allowedMimeTypes = ['application/pdf'];
-					$ext = $file->guessExtension();
-					$mimeType = $file->getClientMimeType();
+                // Check file type
+                if (!in_array($ext, $allowedExtensions) || !in_array($mimeType, $allowedMimeTypes)) {
+                    $allErrors[] = "Invalid file type for $documentName. Only PDF files are allowed.";
+                    $success = false;
+                    continue;
+                }
 
-					if (!in_array($ext, $allowedExtensions) || !in_array($mimeType, $allowedMimeTypes)) {
-						session()->setFlashdata('error', "Invalid file type for $documentName. Only PDF files are allowed.");
-						$success = false;
-						continue;
-					}
+                $timesammp = DATE("dmyHis");
+                $newName = $timesammp . '_' . strtolower(str_replace(' ', '_', $documentName)) . '.' . $ext;
 
-					$timesammp = DATE("dmyHis");
-					$newName = $timesammp . '_' . strtolower(str_replace(' ', '_', $documentName)) . '.' . $ext;
+                if ($file->isValid() && !$file->hasMoved()) {
+                    // Check file size
+                    if ($file->getSize() > 102400) {
+                        $allErrors[] = "$documentName exceeds the 100KB limit.";
+                        $success = false;
+                        continue;
+                    }
 
-					if ($file->isValid() && !$file->hasMoved()) {
-						if ($file->getSize() > 102400) {
-							session()->setFlashdata('error', "$documentName exceeds the 100KB limit.");
-							$success = false;
-							continue;
-						}
+                    // Move the file to the uploads directory
+                    if ($file->move(WRITEPATH . 'uploads/', $newName)) {
+                        $data = [
+                            'stdid' => session()->get('log_id'),
+                            'docname' => $documentName,
+                            'uploadname' => $newName,
+                        ];
 
-						// Move the file to the uploads directory
-						if ($file->move(WRITEPATH . 'uploads/', $newName)) {
-							$data = [
-								'stdid' => session()->get('log_id'),
-								'docname' => $documentName,
-								'uploadname' => $newName,
-							];
+                        // Save document to database
+                        if (!$this->applicantModel->savedocument($data)) {
+                            $allErrors[] = "Failed to save $documentName to the database.";
+                            $success = false;
+                        }
+                    } else {
+                        $allErrors[] = "Error moving the file for $documentName.";
+                        $success = false;
+                    }
+                } else {
+                    $allErrors[] = "Error uploading $documentName.";
+                    $success = false;
+                }
+            }
+        }
 
-							if (!$this->applicantModel->savedocument($data)) {
-								$success = false;
-							}
-						} else {
-							session()->setFlashdata('error', "Error moving the file for $documentName.");
-							$success = false;
-						}
-					} else {
-						session()->setFlashdata('error', "Error uploading $documentName.");
-						$success = false;
-					}
-				}
-			}
+        $this->applicantModel->db->transComplete();
 
-			$this->applicantModel->db->transComplete();
+        if ($success) {
+            session()->setFlashdata('success', 'Documents uploaded successfully.');
+        } else {
+            // Combine all errors into a single message
+            $errorMessage = 'One or more documents failed to upload. Errors:<br>' . implode('<br>', $allErrors);
+            session()->setFlashdata('error', $errorMessage);
+        }
 
-			if ($success) {
-				session()->setFlashdata('success', 'Documents uploaded successfully.');
-			} else {
-				session()->setFlashdata('error', 'One or more documents failed to upload. Please try again.');
-			}
-
-			return redirect()->to(base_url('applicant/resultupload'));
-		} else {
-			session()->setFlashdata('error', 'Error Updating Documents');
-			return redirect()->to(base_url('resultupload'))->withInput();
-		}
-	}
+        return redirect()->to(base_url('applicant/resultupload'));
+    } else {
+        session()->setFlashdata('error', 'Error Updating Documents');
+        return redirect()->to(base_url('resultupload'))->withInput();
+    }
+}
 
 	public function rem_doc()
 	{

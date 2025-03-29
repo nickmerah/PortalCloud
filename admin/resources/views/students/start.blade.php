@@ -37,6 +37,9 @@
                                 Add Student <i class="material-icons">add</i>
                             </a>
 
+                            &nbsp;
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#studentModal">Student List<i class="material-icons">search</i> </button>
+
                             <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -63,6 +66,67 @@
                                                 </div>
                                                 <br>
                                                 <button type="submit" class="btn btn-info waves-effect">Search Student</button>
+
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                            <button type="button" class="btn btn-danger waves-effect" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="formModal">Get Students List</h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="{{ url('/studentlist') }}" target="_blank">
+                                                @csrf
+                                                <label for="email_address1">Programme</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <select name="prog_id" class="form-control" required="required">
+                                                            <option value="">&nbsp;</option>
+                                                            @foreach($programmes as $programme)
+                                                            <option value="{{ $programme->programme_id }}">{{ $programme->programme_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <label for="email_address1">Programme Type</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <select name="progtype_id" class="form-control" required="required">
+                                                            <option value="">&nbsp;</option>
+                                                            @foreach($programmeTypes as $programmeType)
+                                                            <option value="{{ $programmeType->programmet_id }}">{{ $programmeType->programmet_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <label for="email_address1">Level</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <select name="level_id" class="form-control" required="required">
+                                                            <option value="">&nbsp;</option>
+                                                            @foreach($levels as $level)
+                                                            <option value="{{ $level->level_id }}">{{ $level->level_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <button type="submit" class="btn btn-info waves-effect">Get Student List</button>
 
                                             </form>
                                         </div>

@@ -20,9 +20,16 @@ use App\Models\StdCurrentSession;
 use App\Models\StdTransaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
+use ZipArchive;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
+    protected $baseUrl = 'https://portal.mydspg.edu.ng/eportal/storage/app/public/passport/';
+    private $saveDir = 'stdpassports';
+    private $batchSize = 100;
+
     public function index(Request $request)
     {
         $query = Student::with('programme');
@@ -35,10 +42,12 @@ class StudentController extends Controller
         }
 
         $programmes = Programme::all();
+        $programmeTypes = ProgrammeType::all();
+        $levels = Level::all();
 
         $students = $query->paginate(50);
 
-        return view('students.start', compact('students', 'programmes'));
+        return view('students.start', compact('students', 'programmes', 'programmeTypes', 'levels'));
     }
 
     public function show($id)
@@ -709,5 +718,122 @@ class StudentController extends Controller
         }
 
         return view('students.verifystudent', compact('matno', 'student', 'searched'));
+    }
+
+    public function downloadPassports(Request $request)
+    {
+        $baseUrl = 'https://portal.mydspg.edu.ng/eportal/storage/app/public/passport/';
+
+        try {
+            // Set execution time limit
+            set_time_limit(120); // 2 minutes, adjust as needed
+
+            // Fetch only the photo field to minimize memory usage
+            $students = Student::select('std_photo')
+                ->whereNotNull('std_photo') // Skip null photos
+                ->get();
+
+            if ($students->isEmpty()) {
+                return redirect()->back()->with('error', 'No student photos found.');
+            }
+
+            // Define storage paths
+            $tempDir = 'temp/passports_' . time(); // Unique temp directory
+            Storage::makeDirectory($tempDir);
+
+            $downloadedFiles = [];
+            $httpClient = Http::timeout(15); // 15-second timeout per request
+
+            // Process students in chunks of 50
+            $students->chunk(50)->each(function ($chunk) use ($httpClient, $baseUrl, $tempDir, &$downloadedFiles) {
+                foreach ($chunk as $student) {
+                    $fileName = basename($student->std_photo); // Sanitize filename
+                    $fileUrl = $baseUrl . $fileName;
+                    $filePath = storage_path("app/{$tempDir}/{$fileName}");
+
+                    try {
+                        // Download only if not already cached
+                        if (!Storage::exists("{$tempDir}/{$fileName}")) {
+                            $response = $httpClient->get($fileUrl);
+
+                            if ($response->successful()) {
+                                Storage::put("{$tempDir}/{$fileName}", $response->body());
+                                $downloadedFiles[] = $filePath;
+                            } else {
+                                \Log::warning("Failed to download: {$fileName}, Status: {$response->status()}");
+                            }
+                        } else {
+                            $downloadedFiles[] = $filePath;
+                        }
+                    } catch (\Exception $e) {
+                        \Log::error("Error downloading {$fileName}: " . $e->getMessage());
+                    }
+                }
+            });
+
+            // Create ZIP file
+            $zipFileName = 'student_passports_' . date('Ymd_His') . '.zip';
+            $zipFilePath = storage_path("app/{$tempDir}/{$zipFileName}");
+
+            $zip = new ZipArchive();
+            if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+                throw new \Exception('Failed to create ZIP file.');
+            }
+
+            foreach ($downloadedFiles as $file) {
+                if (file_exists($file)) {
+                    $zip->addFile($file, basename($file));
+                }
+            }
+
+            $zip->close();
+
+            if (!file_exists($zipFilePath)) {
+                throw new \Exception('ZIP file was not created.');
+            }
+
+            // Return the ZIP file for download and clean up
+            return response()->download($zipFilePath, $zipFileName, [
+                'Content-Type' => 'application/zip',
+            ])->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+
+            Storage::deleteDirectory($tempDir); // Clean up on failure
+
+            return redirect()->back()
+                ->with('error', 'Failed to download passports: ' . $e->getMessage());
+        } finally {
+            // Clean up temp directory if not deleted after send
+            if (Storage::exists($tempDir)) {
+                Storage::deleteDirectory($tempDir);
+            }
+        }
+    }
+
+    public function getStudentList(Request $request)
+    {
+        if ($request->prog_id == null || $request->progtype_id == null || $request->level_id == null) {
+            return redirect()->route('students.index')
+                ->with('error', 'Please select all fields');
+        }
+        $request->validate([
+            'prog_id' => 'required|integer',
+            'progtype_id' => 'required|integer',
+            'level_id' => 'required|integer',
+        ], [
+            'prog_id.required' => 'The Programme field is required.',
+            'progtype_id.required' => 'The Programme Type field is required.',
+            'level_id.required' => 'The Level field is required.',
+        ]);
+        $std_lists = Student::where(
+            [
+                'stdprogramme_id' => $request->prog_id,
+                'stdprogrammetype_id' => $request->progtype_id,
+                'stdlevel' => $request->level_id,
+            ]
+        )->orderBy('matric_no', 'asc')
+            ->orderBy('stdcourse', 'asc')
+            ->get();
+        return view('students.std_list', compact('std_lists'));
     }
 }

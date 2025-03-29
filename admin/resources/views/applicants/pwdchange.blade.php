@@ -99,6 +99,7 @@
                                             <th class="center"> Fullnames </th>
                                             <th class="center">Programme</th>
                                             <th class="center"> App Status </th>
+                                            <th class="center"> Login Status </th>
                                             <th class="center"> Actions </th>
                                         </tr>
                                     </thead>
@@ -127,6 +128,13 @@
 
                                             </td>
                                             <td class="center">
+
+                                                <b style="color: {{ $applicant->log_status == 1 ? 'green' : 'red' }}">
+                                                    {{ $applicant->log_status == 1 ? 'Active' : 'Not Active' }}
+                                                </b>
+
+                                            </td>
+                                            <td class="center">
                                                 <a href="{{ URL::to('/resetPass/'.$applicant->std_logid) }}" class="btn btn-tbl-edit" onclick="return confirmPasswordChange()">
                                                     <i class="material-icons">lock</i>
                                                 </a>
@@ -134,6 +142,16 @@
                                                 <script>
                                                     function confirmPasswordChange() {
                                                         return confirm("You are able to change the applicant's password. Click OK to proceed.");
+                                                    }
+                                                </script>
+
+                                                <a href="{{ URL::to('/disableAccount/'.$applicant->std_logid) }}" class="btn btn-tbl-edit" onclick="return confirmDisableAccount()">
+                                                    <i class="material-icons">block</i>
+                                                </a>
+
+                                                <script>
+                                                    function confirmDisableAccount() {
+                                                        return confirm("You are able to disable the applicant's account. Click OK to proceed.");
                                                     }
                                                 </script>
                                             </td>

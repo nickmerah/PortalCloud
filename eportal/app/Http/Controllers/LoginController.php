@@ -6,13 +6,12 @@ use App\Models\SchoolInfo;
 use App\Models\StudentLogin;
 use Illuminate\Http\Request;
 use App\Models\StudentProfile;
-use App\Mail\PasswordResetEmail;
 use App\Models\RemedialStudents;
 use App\Models\ClearanceStudents;
+use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 
 class LoginController extends Controller
@@ -254,16 +253,20 @@ class LoginController extends Controller
 
 
         $user = StudentLogin::where('log_username', $matno)->first();
-        if (!$user) {
+
+        $std = StudentProfile::where('matric_no', $matno)->first();
+
+        if (!$user || !$std) {
             return back()->withErrors([
                 'matno' => 'Invalid Matriculation No / Password',
             ]);
         }
         $genPass = rand(00000, 999999);
-        $surname = strtolower(trim(preg_replace("/[^a-zA-Z]/", "", $user->log_surname)));
+        $surname = strtolower(trim(preg_replace("/[^a-zA-Z]/", "", $std->surname)));
 
         $user->log_password = $genPass;
         $user->log_spassword = $surname;
+        $user->log_surname = strtoupper($surname);
         $user->save();
 
         // Send the email 

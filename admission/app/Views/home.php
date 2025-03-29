@@ -36,7 +36,7 @@
         <div class="d-block">
           <label for="password" class="control-label">Password</label>
           <div class="float-right">
-            <a href="<?= base_url('home/fpass'); ?>"> <strong> Forgot Passport?</strong> </a>
+            <a href="<?= base_url('home/fpass'); ?>"> <strong> Forgot Password?</strong> </a>
           </div>
         </div>
         <input id="password" type="password" class="form-control" name="passkey" minlength="4" tabindex="2" required>

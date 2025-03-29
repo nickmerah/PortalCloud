@@ -7,7 +7,7 @@ use CodeIgniter\Config\BaseConfig;
 class App extends BaseConfig
 {
 
-    public string $baseURL = 'http://localhost:84/delta/admission/';
+    public string $baseURL = 'https://portal.mydspg.edu.ng/admissions/';
 
 
     public array $allowedHostnames = [];

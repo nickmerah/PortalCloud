@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Applicant extends Model
 {
@@ -97,5 +98,20 @@ class Applicant extends Model
     public function deptOption()
     {
         return $this->hasOne(DeptOption::class, 'do_id', 'stdcourse');
+    }
+
+    public static function getApplicantLogStatusByLogId($logid)
+    {
+        $log_status = DB::table('jlogin')
+            ->where('log_id', $logid)
+            ->select('log_status')
+            ->first();
+        if ($log_status) {
+            $log_status = $log_status;
+        } else {
+            $log_status = 0;
+        }
+
+        return $log_status;
     }
 }
