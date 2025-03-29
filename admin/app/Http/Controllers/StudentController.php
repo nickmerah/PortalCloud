@@ -27,8 +27,7 @@ use Illuminate\Support\Facades\Storage;
 class StudentController extends Controller
 {
     protected $baseUrl = 'https://portal.mydspg.edu.ng/eportal/storage/app/public/passport/';
-    private $saveDir = 'stdpassports';
-    private $batchSize = 100;
+
 
     public function index(Request $request)
     {
@@ -812,7 +811,10 @@ class StudentController extends Controller
 
     public function getStudentList(Request $request)
     {
-        if ($request->prog_id == null || $request->progtype_id == null || $request->level_id == null) {
+        $prog_id = $request->prog_id;
+        $progtype_id = $request->progtype_id;
+        $level_id = $request->level_id;
+        if ($prog_id == null || $progtype_id == null || $level_id == null) {
             return redirect()->route('students.index')
                 ->with('error', 'Please select all fields');
         }
@@ -827,13 +829,13 @@ class StudentController extends Controller
         ]);
         $std_lists = Student::where(
             [
-                'stdprogramme_id' => $request->prog_id,
-                'stdprogrammetype_id' => $request->progtype_id,
-                'stdlevel' => $request->level_id,
+                'stdprogramme_id' => $prog_id,
+                'stdprogrammetype_id' => $progtype_id,
+                'stdlevel' => $level_id,
             ]
         )->orderBy('matric_no', 'asc')
             ->orderBy('stdcourse', 'asc')
             ->get();
-        return view('students.std_list', compact('std_lists'));
+        return view('students.std_list', compact('std_lists', 'prog_id', 'progtype_id', 'level_id'));
     }
 }

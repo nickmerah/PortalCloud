@@ -27,8 +27,10 @@
 
         <div class="mb-3">
             <button class="btn btn-primary me-2" onclick="exportCSV()">Export to CSV</button>
+            <button class="btn btn-success me-2" onclick="downloadPassport( {{$prog_id}}, {{$progtype_id}}, {{$level_id}})">Download Passports</button>
 
         </div>
+
 
         <table id="studentTable" class="table table-striped table-bordered">
             <thead class="table-dark">
@@ -109,6 +111,14 @@
             window.URL.revokeObjectURL(url);
         }
     </script>
+
+    <script>
+        function downloadPassport(prog, progtype, level) {
+            let url = `https://portal.mydspg.edu.ng/eportal/download-passports?p=${prog}&pt=${progtype}&l=${level}`;
+            window.location.href = url;
+        }
+    </script>
+
 </body>
 
 </html>

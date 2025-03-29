@@ -46,6 +46,8 @@ Route::post('/clearanceregister', [RegisterController::class, 'clearanceRegister
 Route::get('/get-departments/{programme_id}', [RegisterController::class, 'getDepartments']);
 Route::get('/get-levels/{programme_id}', [RegisterController::class, 'getLevels']);
 
+Route::get('/download-passports', [SchoolInfoController::class, 'downloadAllPassports']);
+
 
 Route::middleware('throttle:5,1')->group(function () {
     Route::post('clearancelogin', [LoginController::class, 'clearancelogin']);
