@@ -288,15 +288,21 @@ class PortalController extends Controller
     {
         $feeService = new FeeService($this->student);
         $fees = $feeService->getStudentFees()->toArray();
-
+        $paybalance = false;
         $feesToPay = $feeService->getStudentCompulsoryAndRemainingFees($fees);
 
         if (empty($feesToPay)) {
-            return redirect('/fees')->with('error', 'Fees already Paid, Proceed to print your receipt.');
+            $checkSchoolFeesCompleted = $feeService->checkSchoolFeesCompletePaid();
+            if ($checkSchoolFeesCompleted) {
+                return redirect('/fees')->with('error', 'Fees already Paid, Proceed to print your receipt.');
+            }
+            $paybalance = true;
+            $feesToPay = $feeService->getStudentBalanceFees($fees);
         }
 
         return view('portal.pfee', [
             'fees' => $feesToPay,
+            'paybalance' => $paybalance,
         ]);
     }
 

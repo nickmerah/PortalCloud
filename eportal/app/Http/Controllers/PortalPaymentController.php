@@ -1092,9 +1092,13 @@ class PortalPaymentController extends Controller
         $feesToPay = $feeService->getStudentCompulsoryAndRemainingFees($fees);
 
         if (empty($feesToPay)) {
-            $message = "Fees already Paid, Proceed to print your receipt";
-            $redirectUrl = url('/pfhistory/');
-            self::redirectWithAlert($message, $redirectUrl);
+            $checkSchoolFeesCompleted = $feeService->checkSchoolFeesCompletePaid();
+            if ($checkSchoolFeesCompleted) {
+                $message = "Fees already Paid, Proceed to print your receiptddd";
+                $redirectUrl = url('/pfhistory/');
+                self::redirectWithAlert($message, $redirectUrl);
+            }
+            $feesToPay = $feeService->getStudentBalanceFees($fees);
         }
 
         $compulsoryFees = array_filter($feesToPay, fn($item) => $item->group == 1);
@@ -1251,21 +1255,21 @@ class PortalPaymentController extends Controller
             })->amount;
             $postFields["lineItems"] = [];
 
-            if ($policy != 1) {
+            if ($policy != 0.6) {
                 $postFields["lineItems"][] = [
                     "lineItemsId" => 'OTHERS',
                     "beneficiaryName" => "DELTA STATE POLYTECHNIC O/UKU",
                     "beneficiaryAccount" => $this->first_bank_main,
                     "bankCode" => "011",
                     "beneficiaryAmount" => $othersAmount,
-                    "deductFeeFrom" => ($policy == 2 || $policy == 0) ? 1 : 0,
+                    "deductFeeFrom" => ($policy == 0.4 || $policy == 0) ? 1 : 0,
                 ];
             }
 
             $mSAmount = 0;
 
 
-            if (($this->student->stdlevel == 1 or $this->student->stdlevel == 3) and $policy != 2) {
+            if (($this->student->stdlevel == 1 or $this->student->stdlevel == 3) and $policy != 0.4) {
                 $postFields["lineItems"][] = [
                     "lineItemsId" => 'MS_ACADEMY',
                     "beneficiaryName" => "INTERKEL TECHNOLOGIES LTD",
@@ -1278,7 +1282,7 @@ class PortalPaymentController extends Controller
             }
 
             $school_share = $feeAmount - $mSAmount - $medicalsAmount - $othersAmount;
-            if ($policy != 2) {
+            if ($policy != 0.4) {
                 $postFields["lineItems"] = array_merge($postFields["lineItems"], [
                     [
                         "lineItemsId" => 'SCHOOL_FEES',
@@ -1286,7 +1290,7 @@ class PortalPaymentController extends Controller
                         "beneficiaryAccount" => $this->sterling_bank_main,
                         "bankCode" => "232",
                         "beneficiaryAmount" => $school_share,
-                        "deductFeeFrom" =>  $policy == 1 ? 1 : 0
+                        "deductFeeFrom" =>  $policy == 0.6 ? 1 : 0
                     ],
                     [
                         "lineItemsId" => 'MEDICALS',

@@ -146,7 +146,8 @@ class STransaction extends Model
             'trans_no',
             'rrr',
             't_date',
-            'pay_status'
+            'pay_status',
+            'policy'
         )
             ->where([
                 'log_id' => $sid,
@@ -161,7 +162,8 @@ class STransaction extends Model
                 'trans_no',
                 'rrr',
                 't_date',
-                'pay_status'
+                'pay_status',
+                'policy'
             )
             ->get();
     }

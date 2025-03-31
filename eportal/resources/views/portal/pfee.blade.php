@@ -48,20 +48,23 @@
 
         </tbody>
     </table>
-    @php if ($fee->field_id == 1) { @endphp
 
+    @if ($fee->field_id == 1)
     <div class="form-group">
-        <label for="gender"><strong>Select Policy </strong></label>
+        <label for="policy"><strong>Select Policy</strong></label>
         <select class="form-control" id="policy" name="policy" required>
-            <option value=""> Select Policy </option>
-            <option value="0"> Full Payment </option>
-            <option value="1"> 60% </option>
-            <?php /*  <option value="2"> 40% </option> */ ?>
+            <option value="">Select Policy</option>
+
+            @if (!$paybalance)
+            <option value="0">Full Payment</option>
+            <option value="0.6">60%</option>
+            @else
+            <option value="0.4">40%</option>
+            @endif
         </select>
     </div>
-    @php
-    }
-    @endphp
+    @endif
+
 
 
     <button class="btn btn-success">Make Payment</button>

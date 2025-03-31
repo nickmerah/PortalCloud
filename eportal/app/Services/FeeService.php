@@ -234,4 +234,36 @@ class FeeService
             ->select('tuition_fees_amt.*', 'fields.field_name')
             ->get();
     }
+
+    public function checkSchoolFeesCompletePaid()
+    {
+
+        $paidTransaction = STransaction::getPaidTransactionsForSession($this->student->std_logid, 0)->toArray();
+        $policyPaid = array_sum(array_column($paidTransaction, 'policy'));
+
+        if ($policyPaid == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getStudentBalanceFees(array $fees)
+    {
+
+        //get school fee
+        $schoolfee = array_filter($fees, function ($item) {
+            return $item->group == 0;
+        });
+
+
+        //check if schools fees is completely paid
+        $checkifBalanceIsleft = self::checkSchoolFeesCompletePaid();
+
+        if (!$checkifBalanceIsleft) {
+            return $schoolfee;
+        } else {
+            return [];
+        }
+    }
 }
