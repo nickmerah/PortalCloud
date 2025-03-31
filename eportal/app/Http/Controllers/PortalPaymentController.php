@@ -1084,7 +1084,7 @@ class PortalPaymentController extends Controller
         }
     }
 
-    public function savenewfees()
+    public function savenewfees(Request $request)
     {
         $feeService = new FeeService($this->student);
         $fees = $feeService->getStudentFees()->toArray();
@@ -1219,7 +1219,8 @@ class PortalPaymentController extends Controller
                 return redirect('/fees')->with('error', 'Error generating fees.');
             }
             $feeAmount = $schoolFees[0]->amount;
-
+            $policy = $request->input('policy', 0);
+            $totalAmount = 0;
             $postFields = array(
                 "serviceTypeId" => $this->service_type_id_NEW_SCHOOL_FEES,
                 "amount" => $feeAmount,
@@ -1243,14 +1244,28 @@ class PortalPaymentController extends Controller
             $medicalsAmount = $feesSplit->first(function ($item) {
                 return $item->field_name === 'Medicals';
             })->amount;
+
+
             $othersAmount = $feesSplit->first(function ($item) {
                 return $item->field_name === 'Others';
             })->amount;
-
-            $mSAmount = 0;
             $postFields["lineItems"] = [];
 
-            if ($this->student->stdlevel == 1 or $this->student->stdlevel == 3) {
+            if ($policy != 1) {
+                $postFields["lineItems"][] = [
+                    "lineItemsId" => 'OTHERS',
+                    "beneficiaryName" => "DELTA STATE POLYTECHNIC O/UKU",
+                    "beneficiaryAccount" => $this->first_bank_main,
+                    "bankCode" => "011",
+                    "beneficiaryAmount" => $othersAmount,
+                    "deductFeeFrom" => ($policy == 2 || $policy == 0) ? 1 : 0,
+                ];
+            }
+
+            $mSAmount = 0;
+
+
+            if (($this->student->stdlevel == 1 or $this->student->stdlevel == 3) and $policy != 2) {
                 $postFields["lineItems"][] = [
                     "lineItemsId" => 'MS_ACADEMY',
                     "beneficiaryName" => "INTERKEL TECHNOLOGIES LTD",
@@ -1263,34 +1278,34 @@ class PortalPaymentController extends Controller
             }
 
             $school_share = $feeAmount - $mSAmount - $medicalsAmount - $othersAmount;
+            if ($policy != 2) {
+                $postFields["lineItems"] = array_merge($postFields["lineItems"], [
+                    [
+                        "lineItemsId" => 'SCHOOL_FEES',
+                        "beneficiaryName" => "DELTA STATE POLYTECHNIC",
+                        "beneficiaryAccount" => $this->sterling_bank_main,
+                        "bankCode" => "232",
+                        "beneficiaryAmount" => $school_share,
+                        "deductFeeFrom" =>  $policy == 1 ? 1 : 0
+                    ],
+                    [
+                        "lineItemsId" => 'MEDICALS',
+                        "beneficiaryName" => "DELTA STATE POLYTECHNIC OGWASHI-UKU MEDICAL CENTRE",
+                        "beneficiaryAccount" => $this->premium_trust_MEDICALS,
+                        "bankCode" => "105",
+                        "beneficiaryAmount" => $medicalsAmount,
+                        "deductFeeFrom" => 0
+                    ],
 
-            $postFields["lineItems"] = array_merge($postFields["lineItems"], [
-                [
-                    "lineItemsId" => 'SCHOOL_FEES',
-                    "beneficiaryName" => "DELTA STATE POLYTECHNIC",
-                    "beneficiaryAccount" => $this->sterling_bank_main,
-                    "bankCode" => "232",
-                    "beneficiaryAmount" => $school_share,
-                    "deductFeeFrom" => 0
-                ],
-                [
-                    "lineItemsId" => 'MEDICALS',
-                    "beneficiaryName" => "DELTA STATE POLYTECHNIC OGWASHI-UKU MEDICAL CENTRE",
-                    "beneficiaryAccount" => $this->premium_trust_MEDICALS,
-                    "bankCode" => "105",
-                    "beneficiaryAmount" => $medicalsAmount,
-                    "deductFeeFrom" => 0
-                ],
-                [
-                    "lineItemsId" => 'OTHERS',
-                    "beneficiaryName" => "DELTA STATE POLYTECHNIC O/UKU",
-                    "beneficiaryAccount" => $this->first_bank_main,
-                    "bankCode" => "011",
-                    "beneficiaryAmount" => $othersAmount,
-                    "deductFeeFrom" => 1
-                ]
-            ]);
+                ]);
+            }
 
+            $totalAmount = array_sum(array_column($postFields['lineItems'], 'beneficiaryAmount'));
+
+            // Replace the amount
+            $postFields['amount'] = $totalAmount;
+            //  print_r($postFields);
+            //  exit;
             $response = $this->makeRemitaApiCall($postFields);
 
             $this->handleRemitaResponse($response, $orderId);
@@ -1300,7 +1315,7 @@ class PortalPaymentController extends Controller
             $sess = ""; // current session
 
             foreach ($schoolFees as $fee) {
-                $feedata[] = $this->createTransactionData($fee, $orderId, $sess, $fee->amount, $fullNames, $rrr, "fees");
+                $feedata[] = $this->createTransactionData($fee, $orderId, $sess, $totalAmount, $fullNames, $rrr, "fees", $policy);
             }
             if (empty($feedata)) {
                 return redirect('/fees')->with('error', 'Error generating fees.');
