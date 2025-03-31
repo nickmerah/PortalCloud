@@ -194,7 +194,7 @@ class RegisterController extends Controller
                 'token_expires_at' => now()->addHour(),
             ];
 
-            //      $login = StudentLogin::create($loginData);
+            $login = StudentLogin::create($loginData);
 
             $nullable = '';
             $deptId = DepartmentOptions::where('do_id', $student->do_id)->value('dept_id') ?? 0;
@@ -202,7 +202,7 @@ class RegisterController extends Controller
 
             $studentData = [
 
-                'std_logid' => 555555,
+                'std_logid' => $login->log_id,
                 'matric_no' => $student->matno,
                 'surname'  => $student->surname,
                 'firstname' => $student->firstname,
@@ -238,10 +238,10 @@ class RegisterController extends Controller
                 'promote_status' => 0
             ];
 
-            print_r($studentData);
-            exit;
-
             StudentProfile::create($studentData);
+
+            // activate the stdaccess account
+            DB::table('stdaccess')->where('matno', $student->matno)->update(['activated' => 1]);
             // DB::commit();
             return redirect()->route('portallogin')->with('success', 'Registration successful. Please log in.');
         } catch (\Exception $e) {
@@ -259,6 +259,10 @@ class RegisterController extends Controller
 
         if (!$student) {
             return ['error' => 'Matriculation number not found.'];
+        }
+
+        if ($student->activated == 1) {
+            return ['error' => 'Matriculation number already verified, Login to continue.'];
         }
 
         $studentProfile = StudentProfile::where('matric_no', $matricNo)->first();

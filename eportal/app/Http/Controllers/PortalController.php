@@ -247,11 +247,11 @@ class PortalController extends Controller
     public function printReceipt(int $transno)
     {
         // check student has passport
-        $photoPath = storage_path('app/public/passport/' . $this->student->std_photo);
+        /* $photoPath = storage_path('app/public/passport/' . $this->student->std_photo);
         if (!file_exists($photoPath)) {
             return redirect('/passport')->with('error', 'Upload Passport to Continue');
             exit;
-        }
+        }*/
 
         $trans = STransaction::getPaidTransaction($transno)->toArray();
 
@@ -669,15 +669,16 @@ class PortalController extends Controller
         }
 
         // Extract the prefix and increment the number
+        $qprefix = implode('/', array_slice(explode('/', $matNo), 0, 2)) . '/';
+
         $prefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
 
         // Get the last record in the db where matric_no starts with the prefix
-        $lastMatNo = StudentProfile::where('matric_no', 'like', $prefix . '%')
-            ->where('stdprogramme_id', $this->student->stdprogramme_id)
-            ->where('stdprogrammetype_id', $this->student->stdprogrammetype_id)
-            ->orderBy('matric_no', 'desc')
+        $lastMatNo = StudentProfile::where('matric_no', 'like', $qprefix . '%')
+            ->where('stdprogramme_id', 1)
+            ->where('stdprogrammetype_id', 1)
+            ->orderByRaw('CAST(SUBSTRING_INDEX(matric_no, "/", -1) AS UNSIGNED) DESC')
             ->first();
-
 
         $lastDigits = explode('/', $lastMatNo->matric_no)[3];
 
