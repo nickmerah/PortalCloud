@@ -675,8 +675,8 @@ class PortalController extends Controller
 
         // Get the last record in the db where matric_no starts with the prefix
         $lastMatNo = StudentProfile::where('matric_no', 'like', $qprefix . '%')
-            ->where('stdprogramme_id', 1)
-            ->where('stdprogrammetype_id', 1)
+            ->where('stdprogramme_id', $this->student->stdprogramme_id)
+            ->where('stdprogrammetype_id', $this->student->stdprogrammetype_id)
             ->orderByRaw('CAST(SUBSTRING_INDEX(matric_no, "/", -1) AS UNSIGNED) DESC')
             ->first();
 
