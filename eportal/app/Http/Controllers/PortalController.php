@@ -674,15 +674,25 @@ class PortalController extends Controller
         $prefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
 
         // Get the last record in the db where matric_no starts with the prefix
-        $lastMatNo = StudentProfile::where('matric_no', 'like', $qprefix . '%')
+        $lastPrefixMatNo = StudentProfile::where('matric_no', 'like', $prefix . '%')
             ->where('stdprogramme_id', $this->student->stdprogramme_id)
             ->where('stdprogrammetype_id', $this->student->stdprogrammetype_id)
             ->orderByRaw('CAST(SUBSTRING_INDEX(matric_no, "/", -1) AS UNSIGNED) DESC')
             ->first();
 
-        $lastDigits = explode('/', $lastMatNo->matric_no)[3];
+        // Get the last record in the db where matric_no starts with the qprefix
+        $lastQPrefixMatNo = StudentProfile::where('matric_no', 'like', $qprefix . '%')
+            ->where('stdprogramme_id', $this->student->stdprogramme_id)
+            ->where('stdprogrammetype_id', $this->student->stdprogrammetype_id)
+            ->orderByRaw('CAST(SUBSTRING_INDEX(matric_no, "/", -1) AS UNSIGNED) DESC')
+            ->first();
 
-        $nextDigits = str_pad((int)$lastDigits + 1, strlen($lastDigits), '0', STR_PAD_LEFT);
+        $lastPDigits = explode('/', $lastPrefixMatNo->matric_no)[3];
+        $lastQDigits = explode('/', $lastQPrefixMatNo->matric_no)[3];
+
+        $nextDigit = max($lastPDigits, $lastQDigits);
+
+        $nextDigits = str_pad((int)$nextDigit + 1, strlen($nextDigit), '0', STR_PAD_LEFT);
 
         return $prefix . $nextDigits;
     }
