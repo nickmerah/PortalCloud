@@ -669,9 +669,12 @@ class PortalController extends Controller
         }
 
         // Extract the prefix and increment the number
-        $qprefix = implode('/', array_slice(explode('/', $matNo), 0, 2)) . '/';
-
+        //  echo $qprefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
         $prefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
+
+        $parts = explode('/', $matNo);
+        $parts[2] = (int)$parts[2] - 1; // Convert to integer, subtract 1
+        $qprefix = implode('/', array_slice($parts, 0, 3)) . '/';
 
         // Get the last record in the db where matric_no starts with the prefix
         $lastPrefixMatNo = StudentProfile::where('matric_no', 'like', $prefix . '%')
