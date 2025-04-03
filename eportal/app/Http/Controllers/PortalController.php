@@ -691,9 +691,9 @@ class PortalController extends Controller
             ->first();
 
         $lastPDigits = explode('/', $lastPrefixMatNo->matric_no)[3];
-        $lastQDigits = explode('/', $lastQPrefixMatNo->matric_no)[3];
+        $lastQDigits = $lastQPrefixMatNo?->matric_no ? explode('/', $lastQPrefixMatNo->matric_no)[3] ?? 0 : 0;
 
-        $nextDigit = max($lastPDigits, $lastQDigits);
+         $nextDigit = max($lastPDigits, $lastQDigits);  
 
         $nextDigits = str_pad((int)$nextDigit + 1, strlen($nextDigit), '0', STR_PAD_LEFT);
 
@@ -975,7 +975,7 @@ class PortalController extends Controller
         if ($this->student->cs_status == 0) {
             // attempt to update it on the student table 
 
-            $this->student->cs_status = $studentId;
+            $this->student->cs_status = substr($studentId, 0, 10);
             $this->student->save();
         }
 
