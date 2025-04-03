@@ -247,11 +247,11 @@ class PortalController extends Controller
     public function printReceipt(int $transno)
     {
         // check student has passport
-        /* $photoPath = storage_path('app/public/passport/' . $this->student->std_photo);
+        $photoPath = storage_path('app/public/passport/' . $this->student->std_photo);
         if (!file_exists($photoPath)) {
             return redirect('/passport')->with('error', 'Upload Passport to Continue');
             exit;
-        }*/
+        }
 
         $trans = STransaction::getPaidTransaction($transno)->toArray();
 
@@ -693,7 +693,7 @@ class PortalController extends Controller
         $lastPDigits = explode('/', $lastPrefixMatNo->matric_no)[3];
         $lastQDigits = $lastQPrefixMatNo?->matric_no ? explode('/', $lastQPrefixMatNo->matric_no)[3] ?? 0 : 0;
 
-         $nextDigit = max($lastPDigits, $lastQDigits);  
+        $nextDigit = max($lastPDigits, $lastQDigits);
 
         $nextDigits = str_pad((int)$nextDigit + 1, strlen($nextDigit), '0', STR_PAD_LEFT);
 
