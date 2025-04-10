@@ -34,13 +34,8 @@
 
                         <p>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-
-
-
                             &nbsp; &nbsp; <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#searchModal">Search Payment<i class="material-icons">search</i> </button>
-
-
                         </div>
 
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -103,7 +98,18 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <label for="email_address1">Session</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
 
+                                                        <select name="sess" class="form-control">
+                                                            <option value="">All</option>
+                                                            @foreach($getPaymentSessions as $getPaymentSession)
+                                                            <option value={{ $getPaymentSession }}>{{ $getPaymentSession }}/{{ $getPaymentSession+1 }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
 
                                                 <br>
                                                 <button type="submit"
@@ -132,7 +138,7 @@
                     </div>
                     @endif
                     <div class="body">
-                        <h5 align="center">Showing Payment from {{ $frommonth->format('M, Y') }} to {{ $tomonth->format('M, Y') }}
+                        <h5 align="center">Showing Payment from {{ $frommonth->format('M, Y') }} to {{ $tomonth->format('M, Y') }} {{ isset($sess) && is_numeric($sess) ? " - $sess/" . ($sess + 1) . " Session" : 'All Session' }}
                         </h5>
                         <div class="table-responsive">
                             <table class="table table-hover js-basic-example contact_list">
@@ -150,7 +156,7 @@
                                     @foreach ($paymentReport as $report)
                                     <tr class="odd">
                                         <td class="center">{{$loop->iteration}}</td>
-                                        <td> <a href="{{ route('studentsummarylist', array_merge(request()->query(), ['fid' => $report?->fee_id, 'ft' => $report?->fee_type])) }}">
+                                        <td> <a href="{{ route('studentsummarylist', array_merge(request()->query(), ['fid' => $report?->fee_id, 'ft' => $report?->fee_type, 'sess' => $sess])) }}">
                                                 {{ $report?->trans_name }}
                                             </a>
                                         </td>

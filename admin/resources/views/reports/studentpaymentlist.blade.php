@@ -35,7 +35,8 @@
                     </div>
                     @endif
                     <div class="body">
-                        <h5 align="center">Showing Payment for {{ $paymentReport[0]?->trans_name ?? 'Fees' }} for {{ $progtype ?? 'FT and PT' }}, {{ $prog ?? 'ND and HND' }}
+                        <h5 align="center">Showing Payment for {{ $paymentReport[0]?->trans_name ?? 'Fees' }} for {{ isset($progtype) && $progtype ? $progtype : 'FT and PT' }}, {{ isset($prog) && $prog ? $prog : 'ND and HND' }} {{ isset($sess) && is_numeric($sess) ? " - $sess/" . ($sess + 1) . " Session" : 'All Session' }}
+
                         </h5>
                         <div class="table-responsive">
                             <table class="table table-hover js-basic-example contact_list">

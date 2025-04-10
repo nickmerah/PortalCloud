@@ -16,8 +16,9 @@ class StudentPaymentListExport  implements FromCollection, WithStyles, ShouldAut
     protected $frommonth;
     protected $tomonth;
     protected $totalSum;
+    protected $sess;
 
-    public function __construct($data, $prog, $progtype, $frommonth, $tomonth, $totalSum)
+    public function __construct($data, $prog, $progtype, $frommonth, $tomonth, $totalSum, $sess)
     {
 
         $this->data = $data;
@@ -26,17 +27,21 @@ class StudentPaymentListExport  implements FromCollection, WithStyles, ShouldAut
         $this->frommonth = $frommonth;
         $this->tomonth = $tomonth;
         $this->totalSum = $totalSum;
+        $this->sess = $sess;
     }
 
     public function collection()
     {
         $feename =  $this->data[0]->trans_name;
-        $prog = $this->prog ?? 'ND and HND';
-        $progtype = $this->progtype ?? 'FT and PT';
+        $prog = !empty($this->prog) ? $this->prog : 'ND and HND';
+        $progtype = !empty($this->progtype) ? $this->progtype : 'FT and PT';
+        $session = isset($this->sess) && is_numeric($this->sess)
+            ? " - {$this->sess}/" . ($this->sess + 1) . " Session"
+            : 'All Sessions';
         $rows = collect();
         $rows->push([Controller::SCHOOLNAME]);
         $rows->push([]);
-        $rows->push(["Student List for  $feename  showing from {$this->frommonth->format('M, Y')} to {$this->tomonth->format('M, Y')} for $prog, $progtype"]);
+        $rows->push(["Student List for  $feename  showing from {$this->frommonth->format('M, Y')} to {$this->tomonth->format('M, Y')} for $prog, $progtype $session"]);
         $rows->push([]);
 
         // Add headers

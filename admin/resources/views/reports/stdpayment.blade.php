@@ -27,20 +27,11 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
-
-
-
                     <div class="header">
-
                         <p>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-
-
-
                             &nbsp; &nbsp; <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#searchModal">Search Payment<i class="material-icons">search</i> </button>
-
-
                         </div>
 
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -112,9 +103,18 @@
                                                             name="rrr">
                                                     </div>
                                                 </div>
+                                                <label for="email_address1">Session</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
 
-
-
+                                                        <select name="sess" class="form-control">
+                                                            <option value="">All</option>
+                                                            @foreach($getPaymentSessions as $getPaymentSession)
+                                                            <option value={{ $getPaymentSession }}>{{ $getPaymentSession }}/{{ $getPaymentSession+1 }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <br>
                                                 <button type="submit"
                                                     class="btn btn-info waves-effect">Search Payment</button>
@@ -139,6 +139,18 @@
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ Session::get('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+
+
+                    @if ($errors->any())
+
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                     @endif
                     <div class="body">

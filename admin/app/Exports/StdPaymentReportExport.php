@@ -15,12 +15,21 @@ class StdPaymentReportExport implements FromArray, WithHeadings, WithEvents
     protected $stdPaymentReport;
     protected $fromdate;
     protected $todate;
+    protected $sess;
+    protected $session;
 
-    public function __construct($stdPaymentReport, $fromdate, $todate)
+    public function __construct($stdPaymentReport, $fromdate, $todate, $sess)
     {
         $this->stdPaymentReport = $stdPaymentReport;
         $this->fromdate = $fromdate;
         $this->todate = $todate;
+        $this->sess = $sess;
+        $this->session = $this->sess ?? "All";
+    }
+
+    public function query()
+    {
+        return $this->stdPaymentReport;
     }
 
     // The array of data to be used in the report
@@ -28,7 +37,6 @@ class StdPaymentReportExport implements FromArray, WithHeadings, WithEvents
     {
         $data = [];
         $totalAmount = 0;
-
         //retrieve gender
         $studentModel = new Student();
 
@@ -39,7 +47,7 @@ class StdPaymentReportExport implements FromArray, WithHeadings, WithEvents
             $amount = $transaction->trans_amount;
             $totalAmount += $amount;
             $studentId = $studentModel->getStudentIdByLogId($transaction->log_id);
-            $studentId = 0 ? "" : $studentId;
+            $studentId = $studentId == 0 ? "" : $studentId;
             $data[] = [
                 $index + 1,
                 strtoupper($transaction->fullnames),
@@ -52,11 +60,13 @@ class StdPaymentReportExport implements FromArray, WithHeadings, WithEvents
                 $studentId,
                 $transaction->trans_name,
                 number_format($transaction->trans_amount, 2),
+                $transaction->trans_year,
                 Carbon::parse($transaction->t_date)->format('d-M-Y'),
             ];
         }
 
         $data[] = [
+            '',
             '',
             '',
             '',
@@ -79,9 +89,9 @@ class StdPaymentReportExport implements FromArray, WithHeadings, WithEvents
     {
         return [
             [Controller::SCHOOLNAME],
-            ['Payment Report from ' . Carbon::parse($this->fromdate)->format('jS F, Y') . ' to ' . Carbon::parse($this->todate)->format('jS F, Y')],
+            ['Payment Report from ' . Carbon::parse($this->fromdate)->format('jS F, Y') . ' to ' . Carbon::parse($this->todate)->format('jS F, Y') . ' for ' . $this->session . ' Session'],
             [''],
-            ['S/N', 'Fullname', 'MatNo', 'Programme', 'Course of Study',  'Level', 'RRR', 'Gender',  'StudentId', 'Fee Name', 'Amount', 'Date Paid']
+            ['S/N', 'Fullname', 'MatNo', 'Programme', 'Course of Study',  'Level', 'RRR', 'Gender',  'StudentId', 'Fee Name', 'Amount', 'Session', 'Date Paid']
         ];
     }
 
@@ -93,22 +103,22 @@ class StdPaymentReportExport implements FromArray, WithHeadings, WithEvents
                 $sheet = $event->sheet->getDelegate();
 
                 // Merge header cells and center align them
-                $sheet->mergeCells('A1:L1');
-                $sheet->mergeCells('A2:L2');
-                $sheet->getStyle('A1:L1')->getAlignment()->setHorizontal('center');
-                $sheet->getStyle('A2:L2')->getAlignment()->setHorizontal('center');
-                $sheet->getStyle('A1:L1')->getFont()->setBold(true)->setSize(16);
-                $sheet->getStyle('A2:L2')->getFont()->setBold(true);
-                $sheet->getStyle('A4:L4')->getFont()->setBold(true);
+                $sheet->mergeCells('A1:M1');
+                $sheet->mergeCells('A2:M2');
+                $sheet->getStyle('A1:M1')->getAlignment()->setHorizontal('center');
+                $sheet->getStyle('A2:M2')->getAlignment()->setHorizontal('center');
+                $sheet->getStyle('A1:M1')->getFont()->setBold(true)->setSize(16);
+                $sheet->getStyle('A2:M2')->getFont()->setBold(true);
+                $sheet->getStyle('A4:M4')->getFont()->setBold(true);
 
                 // Set column auto size
-                foreach (range('A', 'L') as $column) {
+                foreach (range('A', 'M') as $column) {
                     $sheet->getColumnDimension($column)->setAutoSize(true);
                 }
 
                 // Style the table border
                 $lastRow = count($this->stdPaymentReport) + 6; // +6 because we have 5 rows before the data (headers and title)
-                $sheet->getStyle('A4:L' . $lastRow)->applyFromArray([
+                $sheet->getStyle('A4:M' . $lastRow)->applyFromArray([
                     'borders' => [
                         'outline' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
@@ -122,9 +132,9 @@ class StdPaymentReportExport implements FromArray, WithHeadings, WithEvents
                 ]);
 
                 // Style the total row
-                $sheet->getStyle('A' . ($lastRow + 1) . ':J' . ($lastRow + 1))
+                $sheet->getStyle('A' . ($lastRow + 1) . ':K' . ($lastRow + 1))
                     ->getFont()->setBold(true);
-                $sheet->getStyle('K' . ($lastRow + 1))->getAlignment()->setHorizontal('right');
+                $sheet->getStyle('L' . ($lastRow + 1))->getAlignment()->setHorizontal('right');
             }
         ];
     }

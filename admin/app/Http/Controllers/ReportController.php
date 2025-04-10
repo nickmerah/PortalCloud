@@ -450,6 +450,7 @@ class ReportController extends Controller
 
         $fromdate = Carbon::today()->toDateString();
         $todate = $fromdate;
+        $getPaymentSessions = StdTransaction::getStdTransactionSessions();
         $stdPaymentReport = StdTransaction::select(
             'rrr',
             'fullnames',
@@ -462,7 +463,7 @@ class ReportController extends Controller
             ->groupBy('rrr', 'fullnames', 'appno')
             ->get();
 
-        return view('reports.stdpayment', compact('stdPaymentReport', 'fromdate', 'todate'));
+        return view('reports.stdpayment', compact('stdPaymentReport', 'fromdate', 'todate', 'getPaymentSessions'));
     }
 
     public function getstudentpaymentbysearch(Request $request)
@@ -474,11 +475,12 @@ class ReportController extends Controller
             'surname' => 'nullable|string',
             'rrr' => 'nullable|string',
             'appno' => 'nullable|string',
+            'sess' => 'nullable|string',
         ]);
 
         // If it's a POST request, store the search criteria in the session
         if ($request->isMethod('post')) {
-            Session::put('search_criteria', $request->only(['fromdate', 'todate', 'surname', 'rrr', 'appno']));
+            Session::put('search_criteria', $request->only(['fromdate', 'todate', 'surname', 'rrr', 'appno', 'sess']));
         }
 
         // Retrieve search criteria from the session
@@ -488,6 +490,7 @@ class ReportController extends Controller
             'surname' => null,
             'rrr' => null,
             'appno' => null,
+            'sess' => null,
         ]);
 
         // Build the query using the search criteria
@@ -496,6 +499,7 @@ class ReportController extends Controller
 
         $fromdate = $criteria['fromdate'];
         $todate = $criteria['todate'];
+        $sess = $criteria['sess'];
 
         if (!empty($fromdate) && !empty($todate)) {
             $query->whereBetween('t_date', [$fromdate, $todate]);
@@ -515,16 +519,25 @@ class ReportController extends Controller
             $query->where('appno', $criteria['appno']);
         }
 
+        if (!empty($criteria['sess'])) {
+            $query->where('trans_year', $criteria['sess']);
+        }
+
         $query->where('pay_status', self::STATUS_PAID);
 
         // Get filtered results
         $stdPaymentReport = $query->get();
+        $count = $stdPaymentReport->count();
 
+        if ($count > 20000) {
+            return redirect()->back()->withErrors('The search results have a large dataset, kindly add more search criteria.');
+        }
 
+        $getPaymentSessions = StdTransaction::getStdTransactionSessions();
         // Check if the request is for export to Excel
         if ($request->query('export') === 'excel') {
             // Export the filtered data to Excel
-            $export = Excel::download(new StdPaymentReportExport($stdPaymentReport, $fromdate, $todate), 'std_payment_report.xls');
+            $export = Excel::download(new StdPaymentReportExport($stdPaymentReport, $fromdate, $todate, $sess), 'std_payment_report.xls');
 
             Session::flash('success', 'The payment report has been successfully exported!');
 
@@ -532,7 +545,7 @@ class ReportController extends Controller
         }
 
         // Return the view with filtered data
-        return view('reports.stdpayment', compact('stdPaymentReport', 'fromdate', 'todate'));
+        return view('reports.stdpayment', compact('stdPaymentReport', 'fromdate', 'todate', 'getPaymentSessions'));
     }
 
 
@@ -812,6 +825,7 @@ class ReportController extends Controller
     {
         $prog = "";
         $progtype = "";
+        $sess = "";
 
         $validated = $request->validate([
             'fromdate' => 'nullable|date',
@@ -819,10 +833,11 @@ class ReportController extends Controller
             'prog' => 'nullable|integer',
             'progtype' => 'nullable|integer',
             'export' => 'nullable|string',
+            'sess' => 'nullable|string',
         ]);
 
         if ($request->isMethod('get')) {
-            Session::put('search_criteria', $request->only(['fromdate', 'todate', 'prog', 'progtype']));
+            Session::put('search_criteria', $request->only(['fromdate', 'todate', 'prog', 'progtype', 'sess']));
         }
 
         $frommonth = Carbon::parse($validated['fromdate'] ?? Carbon::today()->startOfMonth());
@@ -837,6 +852,7 @@ class ReportController extends Controller
         // Fetch additional data for the view
         $programmes = Programme::all();
         $programmeTypes = ProgrammeType::all();
+        $getPaymentSessions = StdTransaction::getStdTransactionSessions();
 
         // Initialize the query
         $query = StdTransaction::query();
@@ -856,6 +872,11 @@ class ReportController extends Controller
             $query->where('prog_type', $criteria['progtype']);
         }
 
+        if (!empty($criteria['sess'])) {
+            $query->where('trans_year', $criteria['sess']);
+            $sess = $criteria['sess'];
+        }
+
         // Fetch payment summary
         $paymentReport = $query->select(
             'trans_name',
@@ -873,7 +894,7 @@ class ReportController extends Controller
         if ($request->query('export') === 'excel') {
 
             // Export the filtered data to Excel
-            $export = Excel::download(new StudentsSummaryExport($paymentReport,  $prog, $progtype, $frommonth, $tomonth, $totalSum), 'studentsPayment_summary.xlsx');
+            $export = Excel::download(new StudentsSummaryExport($paymentReport,  $prog, $progtype, $frommonth, $tomonth, $totalSum, $sess), 'studentsPayment_summary.xlsx');
 
             Session::flash('success', 'The payment report has been successfully exported!');
 
@@ -881,7 +902,7 @@ class ReportController extends Controller
         }
 
         return view('reports.studentsummarypayment', array_merge(
-            compact('paymentReport', 'programmes', 'programmeTypes', 'frommonth', 'tomonth', 'totalSum'),
+            compact('paymentReport', 'programmes', 'programmeTypes', 'frommonth', 'tomonth', 'totalSum', 'getPaymentSessions', 'sess'),
             array_filter([
                 'prog' => $prog ?? null,
                 'progtype' => $progtype ?? null,
@@ -959,6 +980,7 @@ class ReportController extends Controller
     {
         $prog = "";
         $progtype = "";
+        $sess = "";
 
         $query = $request->query();
 
@@ -968,6 +990,7 @@ class ReportController extends Controller
         $progtypes = $request->query('progtype');
         $fid = $request->query('fid');
         $ft = $request->query('ft');
+        $sess = $request->query('sess');
 
 
         $frommonth = Carbon::parse($frommonth ?? Carbon::today()->startOfMonth());
@@ -1000,6 +1023,11 @@ class ReportController extends Controller
         }
 
 
+        if (!empty($sess)) {
+            $query->where('trans_year', $sess);
+        }
+
+
         // Fetch payment summary
         $paymentReport = $query->select(
             'appno',
@@ -1019,7 +1047,7 @@ class ReportController extends Controller
         if ($request->query('export') === 'excel') {
 
             // Export the filtered data to Excel
-            $export = Excel::download(new StudentPaymentListExport($paymentReport,  $prog, $progtype, $frommonth, $tomonth, $totalSum), 'studentsPayment_list.xlsx');
+            $export = Excel::download(new StudentPaymentListExport($paymentReport,  $prog, $progtype, $frommonth, $tomonth, $totalSum, $sess), 'studentsPayment_list.xlsx');
 
             Session::flash('success', 'The payment report has been successfully exported!');
 
@@ -1027,7 +1055,7 @@ class ReportController extends Controller
         }
 
 
-        return view('reports.studentpaymentlist', compact('paymentReport', 'frommonth', 'prog', 'progtype', 'tomonth', 'totalSum'));
+        return view('reports.studentpaymentlist', compact('paymentReport', 'frommonth', 'prog', 'progtype', 'tomonth', 'totalSum', 'sess'));
     }
 
 
