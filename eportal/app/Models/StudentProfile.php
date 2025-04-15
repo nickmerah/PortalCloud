@@ -48,7 +48,8 @@ class StudentProfile extends Model
         'cs_status',
         'std_status',
         'student_status',
-        'promote_status'
+        'promote_status',
+        'is_repeating',
     ];
 
     public $timestamps = false;

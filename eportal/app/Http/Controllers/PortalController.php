@@ -247,7 +247,7 @@ class PortalController extends Controller
     public function printReceipt(int $transno)
     {
         // check student has passport
-        $photoPath = storage_path('app/public/passport/' . $this->student->std_photo);
+         $photoPath = storage_path('app/public/passport/' . $this->student->std_photo);
         if (!file_exists($photoPath)) {
             return redirect('/passport')->with('error', 'Upload Passport to Continue');
             exit;
@@ -687,15 +687,19 @@ class PortalController extends Controller
         $lastQPrefixMatNo = StudentProfile::where('matric_no', 'like', $qprefix . '%')
             ->where('stdprogramme_id', $this->student->stdprogramme_id)
             ->where('stdprogrammetype_id', $this->student->stdprogrammetype_id)
+            ->where('is_repeating', 1)
             ->orderByRaw('CAST(SUBSTRING_INDEX(matric_no, "/", -1) AS UNSIGNED) DESC')
             ->first();
+            
+            
+            
 
         $lastPDigits = explode('/', $lastPrefixMatNo->matric_no)[3];
         $lastQDigits = $lastQPrefixMatNo?->matric_no ? explode('/', $lastQPrefixMatNo->matric_no)[3] ?? 0 : 0;
 
-        $nextDigit = max($lastPDigits, $lastQDigits);
+        $nextDigit = max($lastPDigits, $lastQDigits);  
 
-        $nextDigits = str_pad((int)$nextDigit + 1, strlen($nextDigit), '0', STR_PAD_LEFT);
+        $nextDigits = str_pad((int)$nextDigit + 1, strlen($nextDigit), '0', STR_PAD_LEFT);  
 
         return $prefix . $nextDigits;
     }
