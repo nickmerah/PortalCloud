@@ -101,4 +101,11 @@ class Student extends Model
     {
         return $this->where('std_logid', $std_logid)->value('cs_status');
     }
+
+    public function getLgaNameByLogId($std_logid)
+    {
+        return $this->join('lga', 'lga_id', '=', 'local_gov')
+            ->where('std_logid', $std_logid)
+            ->value('lga_name');
+    }
 }

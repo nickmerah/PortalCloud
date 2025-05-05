@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Student;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -45,14 +46,17 @@ class StudentPaymentListExport  implements FromCollection, WithStyles, ShouldAut
         $rows->push([]);
 
         // Add headers
-        $rows->push(['S/N', 'MATRICULATION NO', 'STUDENT NAME', 'FEE NAME', 'FEE TYPE', 'RRR', 'TOTAL AMOUNT', 'DATE PAID']);
-
+        $rows->push(['S/N', 'MATRICULATION NO', 'STUDENT NAME',  'STATE', 'LGA', 'FEE NAME', 'FEE TYPE', 'RRR', 'TOTAL AMOUNT', 'DATE PAID']);
+        $student = new Student();
         // Add data rows
         foreach ($this->data as $index => $report) {
+            $lgaName = $report?->log_id ? $student->getLgaNameByLogId($report->log_id) : null;
             $rows->push([
                 $index + 1,
                 $report?->appno,
                 $report?->fullnames,
+                $report?->stateor->state_name,
+                $lgaName,
                 $report?->trans_name,
                 $report?->fee_type == 'fees' ? 'Fees' : 'Other Fees',
                 " $report?->rrr",

@@ -38,4 +38,9 @@ class StdTransaction extends Model
             ->orderBy('trans_year', 'DESC')
             ->pluck('trans_year');
     }
+
+    public function stateor(): BelongsTo
+    {
+        return $this->belongsTo(StateOfOrigin::class, 'appsor', 'state_id');
+    }
 }

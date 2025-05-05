@@ -1032,6 +1032,8 @@ class ReportController extends Controller
         $paymentReport = $query->select(
             'appno',
             'fullnames',
+            'log_id',
+            'appsor',
             'trans_name',
             'fee_type',
             't_date',

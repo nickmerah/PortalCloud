@@ -537,6 +537,30 @@ class ApplicantController extends Controller
                 ->with('error', 'Applicant not yet Admitted');
         }
 
+        if ($applicant->eclearance == 1) {
+            return redirect()->route('applicants.index')
+                ->with('error', 'Applicant already cleared');
+        }
+
+        // Check if the applicant has a student ID
+        if ($applicant->student_id) {
+            return redirect()->route('applicants.index')
+                ->with('error', 'Applicant already cleared');
+        }
+
+        // we need to confirm that the applicant migration has an issue
+        $studentLogin = DB::table('stdlogin')->where(['log_username' => $applicant->app_no])->first();
+
+        $studentProfile = Student::where(['matric_no' => $applicant->app_no])->first();
+
+
+        if ($studentLogin && !$studentProfile) {
+            // Delete the login record
+            DB::table('stdlogin')->where('log_username', $applicant->app_no)->delete();
+
+            return redirect()->back()->with('error', 'Error Clearing and Migrating Applicant. Try Again');
+        }
+
         // get the last record of student id
         $lastStudentId = Applicant::whereNotNull('student_id')
             ->whereRaw("student_id REGEXP '^P[0-9]+$'")
