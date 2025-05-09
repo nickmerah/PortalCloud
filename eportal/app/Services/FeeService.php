@@ -115,6 +115,12 @@ class FeeService
     public function insertJsonData($jsonData, $requestType)
     {
         try {
+
+            // Check if the JSON data contains HTML tags
+            if ($this->containsHtmlTags($jsonData)) {
+                $jsonData = '503 Service Unavailable';
+            }
+
             $inserted = DB::table('remitalogs')->insert([
                 'json_data' => $jsonData,
                 'requesttype' => $requestType,
@@ -125,6 +131,11 @@ class FeeService
             Log::error('Error inserting JSON data: ' . $e->getMessage());
             return false;
         }
+    }
+
+    private function containsHtmlTags($string)
+    {
+        return preg_match('/<[^>]*>/', $string) === 1;
     }
 
     public function getStudentFeeExclusion(): int|null

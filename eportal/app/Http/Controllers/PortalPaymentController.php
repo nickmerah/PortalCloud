@@ -31,7 +31,7 @@ class PortalPaymentController extends Controller
         $union_SIWES,
         $feeCalculationService,
         $union_bank_NADESSTU,
-        $union_bank_SUG,
+        $zenith_bank_SUG,
         $union_ANTICULT_SW,
         $premium_trust_bank_NIPOGA,
         $first_bank_GNS,
@@ -68,7 +68,7 @@ class PortalPaymentController extends Controller
         $this->union_bank_otherfees = $accountsConfig['union_bank_otherfees'];
         $this->union_SIWES = $accountsConfig['union_SIWES'];
         $this->union_bank_NADESSTU = $accountsConfig['union_bank_NADESSTU'];
-        $this->union_bank_SUG = $accountsConfig['union_bank_SUG'];
+        $this->zenith_bank_SUG = $accountsConfig['zenith_bank_SUG'];
         $this->union_ANTICULT_SW = $accountsConfig['union_ANTICULT_SW'];
         $this->premium_trust_bank_NIPOGA = $accountsConfig['premium_trust_bank_NIPOGA'];
         $this->first_bank_GNS = $accountsConfig['first_bank_GNS'];
@@ -572,9 +572,9 @@ class PortalPaymentController extends Controller
                 "lineItems" => [
                     [
                         "lineItemsId" => 'SUG',
-                        "beneficiaryName" => "SUG DELTA STATE POLY",
-                        "beneficiaryAccount" => $this->union_bank_SUG,
-                        "bankCode" => "032",
+                        "beneficiaryName" => "STUDENTS UNION GOVERNMENT DSPG",
+                        "beneficiaryAccount" => $this->zenith_bank_SUG,
+                        "bankCode" => "057",
                         "beneficiaryAmount" => $sugAmount->amount,
                         "deductFeeFrom" => 0
                     ],
@@ -963,9 +963,9 @@ class PortalPaymentController extends Controller
                 "lineItems" => [
                     [
                         "lineItemsId" => 'SUG',
-                        "beneficiaryName" => "SUG DELTA STATE POLY",
-                        "beneficiaryAccount" => $this->union_bank_SUG,
-                        "bankCode" => "032",
+                        "beneficiaryName" => "STUDENTS UNION GOVERNMENT DSPG",
+                        "beneficiaryAccount" => $this->zenith_bank_SUG,
+                        "bankCode" => "057",
                         "beneficiaryAmount" => $sugAmount->amount,
                         "deductFeeFrom" => 0
                     ],
@@ -1158,9 +1158,9 @@ class PortalPaymentController extends Controller
                 "lineItems" => [
                     [
                         "lineItemsId" => 'SUG',
-                        "beneficiaryName" => "SUG DELTA STATE POLY",
-                        "beneficiaryAccount" => $this->union_bank_SUG,
-                        "bankCode" => "032",
+                        "beneficiaryName" => "STUDENTS UNION GOVERNMENT DSPG",
+                        "beneficiaryAccount" => $this->zenith_bank_SUG,
+                        "bankCode" => "057",
                         "beneficiaryAmount" => $sugAmount->amount,
                         "deductFeeFrom" => 0
                     ],
