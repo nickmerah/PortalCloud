@@ -254,7 +254,6 @@
                                                     'X-CSRF-TOKEN': _token
                                                 },
                                                 success: function(response) {
-                                                    console.log('selectedDepartments:', selectedDepartments);
                                                     if (response.options && response.options.length > 0) {
                                                         response.options.forEach(function(option) {
                                                             const checked = selectedDepartments.includes(String(option.do_id)) ? 'checked' : '';
