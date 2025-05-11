@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
+use App\Models\Level;
 use App\Models\Users;
 use App\Models\Programme;
-use App\Models\ProgrammeType;
 use App\Models\UserGroups;
 use Illuminate\Http\Request;
+use App\Models\ProgrammeType;
 
 class UserController extends Controller
 {
@@ -190,10 +192,10 @@ class UserController extends Controller
         $courseadviserGroupId = self::COURSE_ADVISER_GROUP_ID;
 
         $users = Users::where('u_group', $courseadviserGroupId)->get();
-        $programmes = Programme::all();
-        $programmeTypes = ProgrammeType::all();
+        $departments = Department::all();
+        $levels = Level::all();
 
-        return view('users.assigndeptscourse', compact('users', 'programmes', 'programmeTypes'));
+        return view('users.assigndeptscourse', compact('users', 'departments', 'levels'));
     }
 
     function savecourseadvisers(Request $request)
@@ -206,17 +208,22 @@ class UserController extends Controller
 
         $selectedCourses = $request->input('cos', []);
 
-        if ($request->input('updatettype') == 1) {
-            // Ensure existing courses are properly retrieved, avoiding issues with null values
-            $existingCourses = !empty($user->u_cos) ? explode(',', $user->u_cos) : [];
+        $selectedLevels = $request->input('level', []);
 
-            // Merge and remove duplicates
+        if ($request->input('updatettype') == 1) {
+            // Merge selected courses
+            $existingCourses = !empty($user->u_cos) ? explode(',', $user->u_cos) : [];
             $selectedCourses = array_unique(array_merge($existingCourses, $selectedCourses));
+
+            // Merge selected levels
+            $existingLevels = !empty($user->u_level) ? explode(',', $user->u_level) : [];
+            $selectedLevels = array_unique(array_merge($existingLevels, $selectedLevels));
         }
 
-
         $user->u_cos = implode(',', $selectedCourses);
-
+        $user->u_level = implode(',', $selectedLevels);
+        $user->u_prog = 0;
+        $user->u_progtype = 0;
         if ($user->save()) {
 
             return redirect()->route('courseadvisers')->with('success', 'User department courses updated successfully.');

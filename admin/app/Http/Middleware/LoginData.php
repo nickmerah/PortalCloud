@@ -33,7 +33,7 @@ class LoginData
         if (session()->has('user_data')) {
             $userData = json_decode(Crypt::decryptString(session('user_data')), true);
             $userGroup = UserGroups::find($userData['uGroup']);
-            $user = Users::find($userData['userId']);
+            $cuser = Users::find($userData['userId']);
         }
 
         View::share([
@@ -42,7 +42,7 @@ class LoginData
             'schoolAbvName' => $schoolInfo->schoolabvname,
             'userData' => $userData ?? null,
             'userGroup' => $userGroup ?? null,
-            'user' => $user ?? null,
+            'cuser' => $cuser ?? null,
         ]);
 
         return $next($request);

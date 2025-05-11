@@ -109,8 +109,7 @@
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-
-                                            <button type="button" class="btn btn-danger waves-effect" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-danger waves-effect" data-bs-dismiss="modal" onclick="location.reload();">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -181,7 +180,11 @@
                                         </td>
                                         <td>
 
-                                            <button data-bs-toggle="modal" data-id="{{ $user->user_id }}" id="fieldEdit" class="btn btn-success edit">
+                                            <button data-bs-toggle="modal"
+                                                data-id="{{ $user->user_id }}"
+                                                data-department="{{ $user->u_dept }}"
+                                                id="fieldEdit"
+                                                class="btn btn-success edit">
                                                 <i class="material-icons">create</i>
                                             </button>
 
@@ -192,6 +195,9 @@
                             </table>
 
                             <script type="text/javascript">
+                                // Declare globally so all functions can access it
+                                let selectedDepartments = [];
+
                                 $(document).on('click', '#fieldEdit', function(e) {
                                     e.preventDefault();
 
@@ -213,6 +219,14 @@
                                                 $('#eu_surname').val(response.data.u_surname);
                                                 $('#eu_firstname').val(response.data.u_firstname);
                                                 $('#eu_status').val(response.data.u_status);
+
+                                                $('#prog').val(response.data.u_programme);
+                                                $('#progtype').val(response.data.u_programme_type);
+
+                                                selectedDepartments = response.data.u_dept ?
+                                                    response.data.u_dept.split(',').map(id => id.trim()) : [];
+
+                                                fetchCourseOptions();
                                             } else {
                                                 $('.edit_response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>' + response.data + '</div>');
                                             }
@@ -222,9 +236,7 @@
                                         }
                                     });
                                 });
-                            </script>
 
-                            <script type="text/javascript">
                                 $(document).ready(function() {
                                     // Function to fetch course options
                                     function fetchCourseOptions() {
@@ -242,12 +254,14 @@
                                                     'X-CSRF-TOKEN': _token
                                                 },
                                                 success: function(response) {
+                                                    console.log('selectedDepartments:', selectedDepartments);
                                                     if (response.options && response.options.length > 0) {
                                                         response.options.forEach(function(option) {
+                                                            const checked = selectedDepartments.includes(String(option.do_id)) ? 'checked' : '';
                                                             $('#courseOfStudyContainer').append(`
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="cos[]" value="${option.do_id}" />
+                                            <input type="checkbox" name="cos[]" value="${option.do_id}" ${checked} />
                                             <span>${option.programme_option}</span>
                                         </label>
                                     </div>
@@ -272,6 +286,7 @@
                                     });
                                 });
                             </script>
+
                         </div>
                     </div>
                 </div>

@@ -69,7 +69,7 @@
                 <ul class="list">
                     <li class="sidebar-user-panel active">
                         <div class="profile-usertitle">
-                            <div class="sidebar-userpic-name">{{ strtoupper($user->u_firstname) }} {{ strtoupper($user->u_lastname) }}</div>
+                            <div class="sidebar-userpic-name">{{ strtoupper($cuser->u_firstname) }} {{ strtoupper($cuser->u_lastname) }}</div>
                             <div class="profile-usertitle-job">{{ $userGroup->group_name }}</div>
                         </div>
                     </li>

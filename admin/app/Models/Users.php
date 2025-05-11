@@ -66,10 +66,17 @@ class Users extends Model
         return $this->belongsTo(Programme::class, 'u_prog', 'programme_id');
     }
 
-    public function getCosOptionNamesAttribute()
+    public function getDepartmentNamesAttribute()
     {
-        $cosIds = explode(',', $this->u_cos);
+        $deptIds = explode(',', $this->u_cos);
 
-        return DeptOption::whereIn('do_id', $cosIds)->pluck('programme_option')->toArray();
+        return Department::whereIn('departments_id', $deptIds)->pluck('departments_name')->toArray();
+    }
+
+    public function getLevelNamesAttribute()
+    {
+        $levelIds = explode(',', $this->u_level);
+
+        return Level::whereIn('level_id', $levelIds)->pluck('level_name')->toArray();
     }
 }

@@ -58,34 +58,17 @@
                                                     </div>
                                                 </div>
 
-                                                <label for="email_address1">Programme Type</label>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <select name="progtype" id="progtype" class="form-control" required>
-                                                            <option value="">Select Programme Type</option>
-                                                            @foreach($programmeTypes as $programmeType)
-                                                            <option value="{{ $programmeType->programmet_id }}">{{ $programmeType->programmet_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <label for="email_address1">Programme</label>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <select name="prog" id="prog" class="form-control" required>
-                                                            <option value="">Select Programme</option>
-                                                            @foreach($programmes as $programme)
-                                                            <option value="{{ $programme->programme_id }}">{{ $programme->programme_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <label>Course of Study</label>
+                                                <label>Departments</label>
                                                 <hr>
                                                 <div class="form-group">
                                                     <div class="form-line" id="courseOfStudyContainer">
+                                                    </div>
+                                                </div>
+
+                                                <label>Level</label>
+                                                <hr>
+                                                <div class="form-group">
+                                                    <div class="form-line" id="levelContainer">
                                                     </div>
                                                 </div>
                                                 <label for="email_address1">Courses Update Type
@@ -93,7 +76,7 @@
                                                         <div class="form-line">
                                                             <select name="updatettype" class="form-control" required>
                                                                 <option value="">Select</option>
-                                                                <option value="1">Add to Already assigned Courses</option>
+                                                                <option value="1">Add to Already assigned Departments</option>
                                                                 <option value="0">Remove existing and add my selection</option>
                                                             </select>
                                                         </div>
@@ -154,8 +137,7 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Assigned Departments</th>
-                                        <th>Prog</th>
-                                        <th>ProgType</th>
+                                        <th>Assigned Level</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -165,12 +147,14 @@
                                     <tr class="odd">
                                         <td class="center">{{$loop->iteration}}</td>
                                         <td>{{ $user->u_surname }} {{ $user->u_firstname }}</td>
-                                        <td>@foreach($user->cos_option_names as $optionName)
-                                            <li>{{ $optionName }}</li>
+                                        <td>@foreach($user->department_names as $deptName)
+                                            <li>{{ $deptName }}</li>
                                             @endforeach
                                         </td>
-                                        <td>{{ $user->programme?->aprogramme_name }}</td>
-                                        <td>{{ $user->programmeType?->programmet_aname }}</td>
+                                        <td>@foreach($user->level_names as $levelName)
+                                            <li>{{ $levelName }}</li>
+                                            @endforeach
+                                        </td>
                                         <td>
                                             <b style="color: {{ $user->u_status == 1 ? 'green' : 'red' }}">
                                                 {{ $user->u_status == 1 ? 'Active' : 'Disabled' }}
@@ -179,7 +163,12 @@
                                         </td>
                                         <td>
 
-                                            <button data-bs-toggle="modal" data-id="{{ $user->user_id }}" id="fieldEdit" class="btn btn-success edit">
+                                            <button data-bs-toggle="modal"
+                                                data-id="{{ $user->user_id }}"
+                                                data-level="{{ $user->u_level }}"
+                                                data-department="{{ $user->u_cos }}"
+                                                id="fieldEdit"
+                                                class="btn btn-success edit">
                                                 <i class="material-icons">create</i>
                                             </button>
 
@@ -211,6 +200,19 @@
                                                 $('#eu_surname').val(response.data.u_surname);
                                                 $('#eu_firstname').val(response.data.u_firstname);
                                                 $('#eu_status').val(response.data.u_status);
+
+                                                const userLevels = response.data.u_level ? response.data.u_level.split(',') : [];
+                                                $('#levelContainer input[type="checkbox"]').prop('checked', false);
+                                                userLevels.forEach(function(levelId) {
+                                                    $(`#levelContainer input[type="checkbox"][value="${levelId.trim()}"]`).prop('checked', true);
+                                                });
+
+                                                const userDepartments = response.data.u_cos ? response.data.u_cos.split(',') : [];
+                                                $('#courseOfStudyContainer input[type="checkbox"]').prop('checked', false);
+                                                userDepartments.forEach(function(deptId) {
+                                                    $(`#courseOfStudyContainer input[type="checkbox"][value="${deptId.trim()}"]`).prop('checked', true);
+                                                });
+
                                             } else {
                                                 $('.edit_response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>' + response.data + '</div>');
                                             }
@@ -224,52 +226,46 @@
 
                             <script type="text/javascript">
                                 $(document).ready(function() {
-                                    // Function to fetch course options
-                                    function fetchCourseOptions() {
-                                        let programmeId = $('#prog').val();
-                                        let programmetId = $('#progtype').val();
-                                        let _token = $('meta[name="csrf-token"]').attr('content');
+                                    const levels = @json($levels);
+                                    const departments = @json($departments);
 
-                                        $('#courseOfStudyContainer').html(''); // Clear the container
-
-                                        if (programmeId && programmetId) {
-                                            $.ajax({
-                                                url: "{{ url('dept-options') }}/" + programmeId + "/" + programmetId,
-                                                type: "GET",
-                                                headers: {
-                                                    'X-CSRF-TOKEN': _token
-                                                },
-                                                success: function(response) {
-                                                    if (response.options && response.options.length > 0) {
-                                                        response.options.forEach(function(option) {
-                                                            $('#courseOfStudyContainer').append(`
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="cos[]" value="${option.do_id}" />
-                                            <span>${option.programme_option}</span>
-                                        </label>
-                                    </div>
-                                `);
-                                                        });
-                                                    } else {
-                                                        $('#courseOfStudyContainer').html('<p>No options available for this programme and programme type.</p>');
-                                                    }
-                                                },
-                                                error: function() {
-                                                    $('#courseOfStudyContainer').html('<p class="text-danger">An error occurred while fetching course options.</p>');
-                                                }
-                                            });
-                                        } else {
-                                            $('#courseOfStudyContainer').html('<p>Please select both Programme and Programme Type.</p>');
-                                        }
+                                    // Render departments (course of study)
+                                    $('#courseOfStudyContainer').html('');
+                                    if (departments.length > 0) {
+                                        departments.forEach(function(dept) {
+                                            $('#courseOfStudyContainer').append(`
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="cos[]" value="${dept.departments_id}" />
+                            <span>${dept.departments_name}</span>
+                        </label>
+                    </div>
+                `);
+                                        });
+                                    } else {
+                                        $('#courseOfStudyContainer').html('<p>No departments available.</p>');
                                     }
 
-                                    // Trigger fetchCourseOptions when either prog or progtype changes
-                                    $('#prog, #progtype').change(function() {
-                                        fetchCourseOptions();
-                                    });
+                                    // Render levels
+                                    $('#levelContainer').html('');
+                                    if (levels.length > 0) {
+                                        levels.forEach(function(level) {
+                                            $('#levelContainer').append(`
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="level[]" value="${level.level_id}" />
+                            <span>${level.level_name}</span>
+                        </label>
+                    </div>
+                `);
+                                        });
+                                    } else {
+                                        $('#levelContainer').html('<p>No levels available.</p>');
+                                    }
                                 });
                             </script>
+
+
                         </div>
                     </div>
                 </div>

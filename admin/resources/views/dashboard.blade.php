@@ -344,7 +344,7 @@
                     <div class="tab-content">
                         <div class="tab-pane body active" id="about">
 
-                            <p class="text-default">Welcome! <strong>{{ strtoupper($user->u_firstname) }} {{ strtoupper($user->u_lastname) }}</strong> - {{ $userGroup->group_name }}</p>
+                            <p class="text-default">Welcome! <strong>{{ strtoupper($cuser->u_firstname) }} {{ strtoupper($cuser->u_lastname) }}</strong> - {{ $userGroup->group_name }}</p>
 
                             <p class="text-default">Use the left navigation menu to access the functionalities of the system.</p>
                             <small class="text-muted">Help and Support: </small>
