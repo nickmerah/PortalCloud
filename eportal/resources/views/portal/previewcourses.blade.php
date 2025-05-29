@@ -50,6 +50,8 @@
             </tr>
         </tbody>
     </table>
+     Total Unit Already Registered: {{ $firstSemesterRegisterUnits }}
+     <br> Total Units: {{ $firstSemesterCourses->sum('thecourse_unit') +  $firstSemesterRegisterUnits }}
     <hr>
     <table class="table table-bordered mt-4">
         <thead class="thead-light">
@@ -80,8 +82,14 @@
             </tr>
         </tbody>
     </table>
-    Total Unit Selected: {{ $totunit = $firstSemesterCourses->sum('thecourse_unit') + $secondSemesterCourses->sum('thecourse_unit')}}
-    <hr>@php if ( $totunit > 40 ) { @endphp
+    Total Unit Already Registered: {{ $secondSemesterRegisterUnits }}
+      <br> Total Units: {{ $secondSemesterCourses->sum('thecourse_unit') +  $secondSemesterRegisterUnits }}
+    <br>
+   
+    <hr>@php if (
+    (($firstSemesterCourses->sum('thecourse_unit') + $firstSemesterRegisterUnits) > $maxUnitToRegister) ||
+    (($secondSemesterCourses->sum('thecourse_unit') + $secondSemesterRegisterUnits) > $maxUnitToRegister)
+) { @endphp
     <a href="{{ url('courses') }}" class="btn btn-danger">Maximum Courses Exceeded, Go back to try again</a>
     @php }else{ @endphp
     <button class="btn btn-success">Register Courses</button>

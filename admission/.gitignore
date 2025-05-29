@@ -1,0 +1,12 @@
+/system
+/tests
+/vendor
+.env
+env
+error_log
+/writable
+/.fleet
+/.idea
+/.vscode
+phpuniyt.xml.dist
+README.md

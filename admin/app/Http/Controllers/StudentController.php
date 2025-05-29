@@ -562,17 +562,13 @@ class StudentController extends Controller
             if ($userData) {
                 // Get assigned departments
                 $assignedDepts = explode(',', $userData->u_cos ?? '');
-
-                // Get assigned program type
-                $assignedProgtype = $userData->u_progtype ?? '';
-
-                // Get assigned programme
-                $assignedProg = $userData->u_prog ?? '';
+                
+                $assignedLevels = explode(',', $userData->u_level ?? '');
 
                 // Apply filters to the main query
-                $query->whereIn('stdcourse', $assignedDepts)
-                    ->where('stdprogrammetype_id', $assignedProgtype)
-                    ->where('stdprogramme_id', $assignedProg);
+                $query->whereIn('stddepartment_id', $assignedDepts)
+                       ->whereIn('stdlevel', $assignedLevels);
+                    
             } else {
                 throw new \Exception("User data not found for the given criteria.");
             }
@@ -603,10 +599,9 @@ class StudentController extends Controller
             $userAssign = Users::where([
                 'u_group' => $cAGroupId,
                 'user_id' => $decryptedUserData['userId'],
-                'u_prog' => $student->stdprogramme_id,
-                'u_progtype' => $student->stdprogrammetype_id,
             ])
-                ->whereRaw("FIND_IN_SET(?, u_cos)", [$student->stdcourse])
+                ->whereRaw("FIND_IN_SET(?, u_cos)", [$student->stddepartment_id])
+                ->whereRaw("FIND_IN_SET(?, u_level)", [$student->stdlevel])
                 ->first();
             if (is_null($userAssign)) {
                 return redirect()->route('coursereg')

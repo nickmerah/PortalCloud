@@ -81,6 +81,33 @@ class ApplicantFeeFieldController extends Controller
     {
 
         $fees = ApplicantFee::with('fees', 'programme', 'programmeType')->where(['item_id' => $id])->get();
+
         return view('feefields.appfees', compact('fees'));
+    }
+
+    public function getappfeeamt(string $id)
+    {
+        $fields = ApplicantFee::findOrFail($id);
+        if (is_null($fields)) {
+            return response()->json(['done' => false, 'data' => 'Record not found'], 404);
+        }
+        return response()->json(['done' => true, 'data' => $fields]);
+    }
+
+    public function updateappfeeamt(Request $request)
+    {
+        $request->validate([
+            'fee_id' => 'required',
+            'amount' => 'required',
+        ], [
+            'fee_id.required' => 'The fee id is required.',
+            'amount.required' => 'The amount is required.',
+        ]);
+
+        ApplicantFee::where('fee_id', $request->fee_id)->update([
+            'amount' => $request->amount,
+        ]);
+        return redirect()->route('getappfee', ['id' => $request->item_id])
+            ->with('success', 'Fees updated successfully.');
     }
 }

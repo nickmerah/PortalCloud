@@ -204,7 +204,7 @@
                                             //console.log(response);
                                             if (response.done) {
                                                 $('#eprogrammet_name').val(response.data.programmet_name);
-                                                $('#ed_status').val(response.data.d_status);
+                                                $('#ed_status').val(response.data.pt_status);
                                                 $('#eprogrammet_id').val(programmet_id);
                                                 $('#editForm').attr('action', "{{ url('programmetypes') }}/" + programmet_id);
                                             } else {

@@ -62,6 +62,8 @@ Route::middleware(['checkUserSession', 'audit'])->group(function () {
         Route::resource('appfees', ApplicantFeeFieldController::class);
         Route::get('getappfee/{id}', [ApplicantFeeFieldController::class, 'getappfees'])
             ->name('getappfee');
+        Route::get('appfeeamt/{id}', [ApplicantFeeFieldController::class, 'getappfeeamt'])->name('appfeeamt');
+        Route::post('updateappfeeamt', [ApplicantFeeFieldController::class, 'updateappfeeamt']);
 
         Route::resource('otherfees', OtherFeeFieldController::class);
         Route::resource('schfees', SchoolFeeFieldController::class);
@@ -184,7 +186,7 @@ Route::middleware(['checkUserSession', 'audit'])->group(function () {
     Route::post('/approvecourseregistration', [StudentController::class, 'approvecoursereg'])->name('approvecourseregistration');
     Route::post('/rejectcourseregistration', [StudentController::class, 'rejectcoursereg'])->name('rejectcourseregistration');
 
-    //CLEARANCE 
+    //CLEARANCE
     Route::group(['middleware' => ['check_access:accessAdmissionBiodata']], function () {
         Route::resource('applicants', ApplicantController::class);
         Route::post('/clearapplicant', [ApplicantController::class, 'clear'])->name('clearapplicant');

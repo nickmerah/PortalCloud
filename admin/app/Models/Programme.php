@@ -16,6 +16,7 @@ class Programme extends Model
     protected $fillable = [
         'programme_name',
         'aprogramme_name',
+        'p_status',
     ];
 
     public function courses()

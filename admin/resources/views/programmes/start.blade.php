@@ -104,7 +104,17 @@
                                                         <input type="text" class="form-control" id="eaprogramme_name" name="aprogramme_name" required="required">
                                                     </div>
                                                 </div>
+                                                <label for="email_address1">Status</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <select name="d_status" id="ed_status" class="form-control" required>
+                                                            <option value="">Select Status</option>
+                                                            <option value="1">Enable</option>
+                                                            <option value="0">Disable</option>
 
+                                                        </select>
+                                                    </div>
+                                                </div>
 
                                                 <input type="hidden" class="form-control" id="eprogramme_id" name="programme_id" required="required">
                                                 <br>
@@ -152,6 +162,7 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Code</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -161,6 +172,10 @@
                                         <td class="center">{{$loop->iteration}}</td>
                                         <td>{{ $programme->programme_name }}</td>
                                         <td>{{ $programme->aprogramme_name }}</td>
+                                        <td><span style="color: {{ $programme->p_status == 1 ? 'green' : 'red' }}">
+                                                {{ $programme->p_status == 1 ? 'Enabled' : 'Disabled' }}
+                                            </span>
+                                        </td>
                                         <td>
 
                                             <button data-bs-toggle="modal" data-id="{{ $programme->programme_id }}" id="fieldEdit" class="btn btn-success edit">
@@ -194,6 +209,7 @@
                                             if (response.done) {
                                                 $('#eprogramme_name').val(response.data.programme_name);
                                                 $('#eaprogramme_name').val(response.data.aprogramme_name);
+                                                $('#ed_status').val(response.data.p_status);
                                                 $('#eprogramme_id').val(programme_id);
                                                 $('#editForm').attr('action', "{{ url('programmes') }}/" + programme_id);
                                             } else {

@@ -36,6 +36,8 @@ class PortalController extends Controller
     protected $feeCalculationService;
 
     private const SERVICE_CHARGE = 300;
+    
+    private const MAX_UNIT_TO_REGISTER = 40;
 
     public function __construct(FeeCalculationService $feeCalculationService)
     {
@@ -747,42 +749,52 @@ class PortalController extends Controller
     }
 
     public function getcourses()
-    {
+{
+    // Check fee eligibility
+    $isEligible = STransaction::isEligibleGorCourseReg($this->student->std_logid, $this->student->stdprogramme_id);
 
-        $isEligibleGorCourseReg = STransaction::isEligibleGorCourseReg($this->student->std_logid, $this->student->stdprogramme_id);
-
-        if ($isEligibleGorCourseReg->isEmpty()) {
-
-            return redirect()->route('fees')->with('error', 'You have to pay the complete fees before course registration.');
-        }
-
-        $courses = Courses::where(
-            [
-                'stdcourse' => $this->student->stdcourse,
-                'prog' => $this->student->stdprogramme_id,
-                'prog_type' => $this->student->stdprogrammetype_id,
-                'levels' => $this->student->stdlevel,
-            ]
-        )->get();
-
-        // let retrieve if saved successfully
-        $savedCourses = self::getSavedCourses();
-
-        $savedCourseCodes = $savedCourses->pluck('c_code')->toArray();
-
-        // Filter out courses that are already saved
-        $filteredCourses = $courses->reject(function ($course) use ($savedCourseCodes) {
-            return in_array($course->thecourse_code, $savedCourseCodes);
-        });
-
-        $firstSemesterCourses = $this->filterCoursesBySemester($filteredCourses, 'First Semester');
-        $secondSemesterCourses = $this->filterCoursesBySemester($filteredCourses, 'Second Semester');
-
-        return view('portal.courses', [
-            'firstSemesterCourses' => $firstSemesterCourses,
-            'secondSemesterCourses' => $secondSemesterCourses,
-        ]);
+    if ($isEligible->isEmpty()) {
+        return redirect()->route('fees')->with('error', 'You have to pay the complete fees before course registration.');
     }
+
+    $level = $this->student->stdlevel;
+    $baseConditions = [
+        'stdcourse'  => $this->student->stdcourse,
+        'prog'       => $this->student->stdprogramme_id,
+        'prog_type'  => $this->student->stdprogrammetype_id,
+    ];
+
+    // Fetch main courses
+    $courses = Courses::where(array_merge($baseConditions, ['levels' => $level]))->get();
+
+    // Determine carryover level and fetch courses
+    $carryoverCourses = collect(); // default empty collection
+    if (in_array($level, [2, 4])) {
+        $carryoverLevel = $level - 1;
+        $carryoverCourses = Courses::where(array_merge($baseConditions, ['levels' => $carryoverLevel]))->get();
+    }
+
+    // Get saved course codes
+    $savedCourseCodes = self::getSavedCourses()->pluck('c_code')->toArray();
+
+    // Filter out already saved courses
+    $filteredCourses = $courses->reject(fn($course) => in_array($course->thecourse_code, $savedCourseCodes));
+    $filteredCarryoverCourses = $carryoverCourses->reject(fn($course) => in_array($course->thecourse_code, $savedCourseCodes));
+
+    // Group by semester
+    $firstSemesterCourses = $this->filterCoursesBySemester($filteredCourses, 'First Semester');
+    $secondSemesterCourses = $this->filterCoursesBySemester($filteredCourses, 'Second Semester');
+    $firstSemesterCarryOverCourses = $this->filterCoursesBySemester($filteredCarryoverCourses, 'First Semester');
+    $secondSemesterCarryOverCourses = $this->filterCoursesBySemester($filteredCarryoverCourses, 'Second Semester');
+
+    return view('portal.courses', compact(
+        'firstSemesterCourses',
+        'secondSemesterCourses',
+        'firstSemesterCarryOverCourses',
+        'secondSemesterCarryOverCourses'
+    ));
+}
+
 
     public function previewcourse(Request $request)
     {
@@ -800,13 +812,31 @@ class PortalController extends Controller
         }
 
         $courses = Courses::whereIn('thecourse_id', $selectedCourses)->get();
+        
+        $savedCourses = self::getSavedCourses();
+        
 
         $firstSemesterCourses = $this->filterCoursesBySemester($courses, 'First Semester');
         $secondSemesterCourses = $this->filterCoursesBySemester($courses, 'Second Semester');
+        
+          $firstSemesterRegisterUnits = $savedCourses
+    ->where('csemester', 'First Semester')
+    ->pluck('c_unit')
+    ->sum();
+
+  $secondSemesterRegisterUnits = $savedCourses
+    ->where('csemester', 'Second Semester')
+    ->pluck('c_unit')
+    ->sum();
+        
+    
 
         return view('portal.previewcourses', [
             'firstSemesterCourses' => $firstSemesterCourses,
             'secondSemesterCourses' => $secondSemesterCourses,
+            'firstSemesterRegisterUnits' => $firstSemesterRegisterUnits,
+            'secondSemesterRegisterUnits' => $secondSemesterRegisterUnits,
+            'maxUnitToRegister' => self::MAX_UNIT_TO_REGISTER,
         ]);
     }
 
