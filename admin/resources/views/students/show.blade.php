@@ -53,8 +53,8 @@
                                         <div class="form-line">
                                             <input type="text"
                                                 class="form-control"
-
-                                                disabled="disabled" value="{{ stripslashes($student->matric_no) }}">
+                                                name="matric_no" required="required"
+                                                value="{{ stripslashes($student->matric_no) }}">
                                         </div>
                                     </div>
                                 </div>

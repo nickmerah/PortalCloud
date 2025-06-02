@@ -105,6 +105,7 @@ class AccountModel extends Model
         $db = \Config\Database::connect();
         $builder = $db->table('j_current_session');
         $builder->select('cs_session');
+        $builder->where('status', 'current');
         $result = $builder->get();
         $arr =  $result->getResult();
         return   $arr[0]->cs_session;
@@ -357,25 +358,25 @@ class AccountModel extends Model
         return   $result->getResult();
     }
 
-   public function getCos($progId, $progTypeId)
+    public function getCos($progId, $progTypeId)
     {
         $db = \Config\Database::connect();
         $db->query("SET SESSION sql_mode = ''");
         $builder = $db->table('dept_options');
         $builder->select('do_id, programme_option');
         $builder->where('prog_id', $progId);
-        
-         if ($progTypeId != 2) {
-        $builder->where('d_status', 1);
-         }
-      
+
+        if ($progTypeId != 2) {
+            $builder->where('d_status', 1);
+        }
+
         if ($progTypeId == 2) {
             $builder->where('prog_option', 0);
             $builder->where('d_status_pt', 1);
         }
-        
+
         $builder->orderBy('programme_option', 'ASC');
-    $result = $builder->get();
+        $result = $builder->get();
         return $result->getResult();
     }
 
@@ -388,7 +389,7 @@ class AccountModel extends Model
         $result = $builder->get();
         return  $result->getResult();
     }
-    
+
     public function checkIfCosIsDisabled($progtype, $cos, $cos_two)
     {
         $db = \Config\Database::connect();

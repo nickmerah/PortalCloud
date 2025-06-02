@@ -82,6 +82,7 @@ class StudentController extends Controller
     public function update(Request $request)
     {
         $request->validate([
+            'matric_no' => 'required|string|max:25',
             'surname' => 'required|string|max:150',
             'firstname' => 'required|string|max:150',
             'student_email' => 'required|string|email|max:250',
@@ -99,6 +100,10 @@ class StudentController extends Controller
             'stdcourse' => 'required|integer',
             'stdprogrammetype_id' => 'required|integer',
         ], [
+            'matric_no.required' => 'The Matriculation No field is required.',
+            'matric_no.string' => 'The Matriculation No must be a string.',
+            'matric_no.max' => 'The Matriculation No may not be greater than 25 characters.',
+            
             'surname.required' => 'The surname field is required.',
             'surname.string' => 'The surname must be a string.',
             'surname.max' => 'The surname may not be greater than 150 characters.',

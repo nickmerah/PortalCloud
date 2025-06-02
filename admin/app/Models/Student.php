@@ -102,6 +102,31 @@ class Student extends Model
         return $this->where('std_logid', $std_logid)->value('cs_status');
     }
 
+    public function setSurnameAttribute($value)
+    {
+        $this->attributes['surname'] = strtoupper($value);
+    }
+
+    public function setFirstnameAttribute($value)
+    {
+        $this->attributes['firstname'] = strtoupper($value);
+    }
+
+    public function setOthernamesAttribute($value)
+    {
+        $this->attributes['othernames'] = strtoupper($value);
+    }
+
+    public function setMatricNoAttribute($value)
+    {
+        $this->attributes['matric_no'] = strtoupper($value);
+    }
+
+    public function setStudentEmailAttribute($value)
+    {
+        $this->attributes['student_email'] = strtoupper($value);
+    }
+
     public function getLgaNameByLogId($std_logid)
     {
         return $this->join('lga', 'lga_id', '=', 'local_gov')

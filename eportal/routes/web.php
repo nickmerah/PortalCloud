@@ -116,6 +116,8 @@ Route::middleware('checkLoginUserSession')->group(function () {
     Route::post('/removecourse', [PortalController::class, 'removecourses']);
     Route::get('/creghistory', [PortalController::class, 'coursereghistory']);
     Route::get('/printcreg/{sess}', [PortalController::class, 'printCourseReg']);
+    
+    Route::get('/testrrr', [PortalPaymentController::class, 'testrrr'])->name('testrrr');
 });
 
 
@@ -156,3 +158,4 @@ Route::get('/send-test-email', function () {
 
     Mail::to($dmail)->send(new MailNotifier($details));
 });
+ 

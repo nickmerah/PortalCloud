@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use ZipArchive;
 use App\Models\Lga;
 use App\Models\Users;
@@ -15,13 +16,13 @@ use Illuminate\Http\Request;
 use App\Models\ProgrammeType;
 use App\Models\StateOfOrigin;
 use App\Models\AppTransaction;
+use App\Models\CurrentSession;
 use App\Models\AdmittedApplicants;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
-use DateTime;
-use Illuminate\Support\Facades\File;
 
 class ApplicantController extends Controller
 {
@@ -38,15 +39,22 @@ class ApplicantController extends Controller
             $query->where('surname', 'like', '%' . $request->surname . '%');
         }
 
-        // Filter by current session
-        $query->whereHas('currentSession', function ($query) {
-            $query->where('status', 'current');
-        });
-
         $userData = session('user_data');
         if ($userData) {
             $decryptedUserData = json_decode(Crypt::decryptString($userData), true);
         }
+
+        // Filter by previous session only for user group 1
+        if ($request->filled('sess') && $decryptedUserData['uGroup'] === UserController::ADMINISTRATOR_GROUP_ID) {
+            $query->where('appyear', 'like', '%' . $request->sess . '%');
+        } else {
+            // Default to current session
+            $query->whereHas('currentSession', function ($query) {
+                $query->where('status', 'current');
+            });
+        }
+
+
         $clearanceGroupId = UserController::CLEARANCE_GROUP_ID;
         if ($decryptedUserData['uGroup'] === $clearanceGroupId) {
             $query->where('adm_status', 1);
@@ -76,11 +84,13 @@ class ApplicantController extends Controller
             }
         }
 
-        $programmes = Programme::all();
+        $sessions = CurrentSession::select('cs_session')
+            ->where('status', '!=', 'current')
+            ->get();
 
         $applicants = $query->paginate(100);
 
-        return view('applicants.start', compact('applicants', 'programmes'));
+        return view('applicants.start', compact('applicants', 'sessions'));
     }
 
     public function show($id)

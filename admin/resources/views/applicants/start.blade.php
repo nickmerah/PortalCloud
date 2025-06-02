@@ -70,6 +70,18 @@
                                                     </div>
                                                 </div>
                                                 <br>
+                                                <label for="email_address1">Session</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <select name="sess" id="sess" class="form-control">
+                                                            <option value="">Select Session</option>
+                                                            @foreach($sessions as $session)
+                                                            <option value="{{ $session->cs_session }}">{{ $session->cs_session }}/{{ $session->cs_session + 1 }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <br>
                                                 <button type="submit" class="btn btn-info waves-effect">Search Applicant</button>
 
                                             </form>

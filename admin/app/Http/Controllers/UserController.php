@@ -12,6 +12,7 @@ use App\Models\ProgrammeType;
 
 class UserController extends Controller
 {
+    public const ADMINISTRATOR_GROUP_ID = 1;
     public const CLEARANCE_GROUP_ID = 8;
     public const COURSE_ADVISER_GROUP_ID = 10;
 
