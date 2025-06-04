@@ -50,7 +50,7 @@
                                             {{ $level }} {{ strtoupper($semester) }} - {{ $session }} / {{ $session + 1 }} SESSION
                                         </span><br>
                                         <span style="font-size:14px;">
-                                            {{ $course?->course_code }} - {{ $course?->course_title }} - {{ $course?->course_unit }}
+                                            {{ $course?->thecourse_code }} - {{ $course?->thecourse_title }} - {{ $course?->thecourse_unit }}
                                         </span>
                                     </th>
                                 </tr>
@@ -68,8 +68,8 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $matricno  }}</td>
-                                    <td> <input type="number" width="1px" step="0.01" min=0 max=40 name="cat[{{ $loop->index }}]" class="form-control" required></td>
-                                    <td> <input type="number" width="1px" step="0.01" min=0 max=60 name="exam[{{ $loop->index }}]" class="form-control" required></td>
+                                    <td> <input type="number" width="1px" step="0.01" min=0 max=40 name="cat[{{ $matricno }}]" class="form-control" required></td>
+                                    <td> <input type="number" width="1px" step="0.01" min=0 max=60 name="exam[{{ $matricno }}]" class="form-control" required></td>
                                     <td> </td>
                                     <td> </td>
                                 </tr>
@@ -81,6 +81,11 @@
                     <i class="fa fa-save"></i>
                     Save Scores
                 </button>
+                <input type="hidden" name="courses" value="{{ $course }}">
+                <input type="hidden" name="sess" value="{{ $session }}">
+                <input type="hidden" name="sem" value="{{ $semester }}">
+                <input type="hidden" name="levelid" value="{{ $levelid }}">
+                <input type="hidden" name="courseofstudy" value="{{ $courseofstudy }}">
                 </form>
             </div>
         </div>

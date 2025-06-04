@@ -96,6 +96,13 @@
                                     <label for="inputEmail"><strong>Registration End Date for Applicant (<b>MAINTAIN THIS FORMAT</b>)</strong></label>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <input type="text" maxlength="4" name="admletteryear" class="form-control" value="{{ old('admletteryear', $schoolInfo->admletteryear) }}" required="required">
+                                    <label for="appno"><strong>Admission Letter Year</strong></label>
+                                </div>
+                            </div>
                             <br>
 
 

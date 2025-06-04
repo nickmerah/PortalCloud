@@ -21,6 +21,7 @@ class SchoolInfo extends Model
         'endreg_date',
         'markuee',
         'appmarkuee',
-        'appendreg_date'
+        'appendreg_date',
+        'admletteryear'
     ];
 }

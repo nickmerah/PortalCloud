@@ -34,6 +34,8 @@ class Applicant extends Controller
 
 	private $clearancestatus;
 
+	private $admletteryear;
+
 	public const MINIMUM_OLEVEl_SUB = "5";
 
 	public const MINIMUM_JAMB_SUB = "4";
@@ -55,6 +57,7 @@ class Applicant extends Controller
 		$this->accountModel = new AccountModel();
 		$this->schoolName = $this->accountModel->getSchoolName();
 		$this->appyear = $this->accountModel->getsess();
+		$this->admletteryear = $this->accountModel->getadmletteryear();
 
 
 		$this->applicantModel = new ApplicantModel();
@@ -138,6 +141,7 @@ class Applicant extends Controller
 			'appstatus' => $this->appstatus,
 			'admstatus' => $this->admstatus,
 			'resultverifyfeestatus' => $this->resultverifyfeestatus,
+			'admletteryear' => $this->admletteryear,
 		];
 
 		return array_merge($data, $extraData);
@@ -1631,7 +1635,7 @@ class Applicant extends Controller
 			}
 
 			//check if transaction ID has already been generated
-		 /*	$genid =  $this->applicantModel->gettransid(session()->get('log_id'), 4);
+			/*	$genid =  $this->applicantModel->gettransid(session()->get('log_id'), 4);
 				if (!empty($genid)) {
 				$message = "You have already generated a Transaction, You will be redirected to make payment";
 				$redirectUrl = base_url('applicant/paymentslip/' . $genid);
@@ -1904,92 +1908,92 @@ class Applicant extends Controller
 
 
 	public function addcert()
-{
-    helper(['form', 'url']);
+	{
+		helper(['form', 'url']);
 
-    if ($this->request->getMethod() == 'POST') {
-        $documents = [
-            'jamb_nd_result' => 'Jamb_ND Result',
-            'o_level_result' => 'O Level Result',
-            'birth_certificate' => 'Birth Certificate',
-            'lga_proof' => 'Proof of LGA',
-            'attestation_letter' => 'Attestation Letter',
-            'it_letter' => 'IT Letter',
-            'nd_admission_letter_jamb_result' => 'ND Admission Letter_Jamb Result',
-        ];
+		if ($this->request->getMethod() == 'POST') {
+			$documents = [
+				'jamb_nd_result' => 'Jamb_ND Result',
+				'o_level_result' => 'O Level Result',
+				'birth_certificate' => 'Birth Certificate',
+				'lga_proof' => 'Proof of LGA',
+				'attestation_letter' => 'Attestation Letter',
+				'it_letter' => 'IT Letter',
+				'nd_admission_letter_jamb_result' => 'ND Admission Letter_Jamb Result',
+			];
 
-        $success = true;
-        $allErrors = []; // Array to collect ALL errors
+			$success = true;
+			$allErrors = []; // Array to collect ALL errors
 
-        $this->applicantModel->db->transStart();
+			$this->applicantModel->db->transStart();
 
-        foreach ($documents as $key => $documentName) {
-            if ($this->request->getFile($key)) {
-                $appno = session()->get('appno');
-                $file = $this->request->getFile($key);
-                $allowedExtensions = ['pdf'];
-                $allowedMimeTypes = ['application/pdf'];
-                $ext = $file->guessExtension();
-                $mimeType = $file->getClientMimeType();
+			foreach ($documents as $key => $documentName) {
+				if ($this->request->getFile($key)) {
+					$appno = session()->get('appno');
+					$file = $this->request->getFile($key);
+					$allowedExtensions = ['pdf'];
+					$allowedMimeTypes = ['application/pdf'];
+					$ext = $file->guessExtension();
+					$mimeType = $file->getClientMimeType();
 
-                // Check file type
-                if (!in_array($ext, $allowedExtensions) || !in_array($mimeType, $allowedMimeTypes)) {
-                    $allErrors[] = "Invalid file type for $documentName. Only PDF files are allowed.";
-                    $success = false;
-                    continue;
-                }
+					// Check file type
+					if (!in_array($ext, $allowedExtensions) || !in_array($mimeType, $allowedMimeTypes)) {
+						$allErrors[] = "Invalid file type for $documentName. Only PDF files are allowed.";
+						$success = false;
+						continue;
+					}
 
-                $timesammp = DATE("dmyHis");
-                $newName = $timesammp . '_' . strtolower(str_replace(' ', '_', $documentName)) . '.' . $ext;
+					$timesammp = DATE("dmyHis");
+					$newName = $timesammp . '_' . strtolower(str_replace(' ', '_', $documentName)) . '.' . $ext;
 
-                if ($file->isValid() && !$file->hasMoved()) {
-                    // Check file size
-                    if ($file->getSize() > 102400) {
-                        $allErrors[] = "$documentName exceeds the 100KB limit.";
-                        $success = false;
-                        continue;
-                    }
+					if ($file->isValid() && !$file->hasMoved()) {
+						// Check file size
+						if ($file->getSize() > 102400) {
+							$allErrors[] = "$documentName exceeds the 100KB limit.";
+							$success = false;
+							continue;
+						}
 
-                    // Move the file to the uploads directory
-                    if ($file->move(WRITEPATH . 'uploads/', $newName)) {
-                        $data = [
-                            'stdid' => session()->get('log_id'),
-                            'docname' => $documentName,
-                            'uploadname' => $newName,
-                        ];
+						// Move the file to the uploads directory
+						if ($file->move(WRITEPATH . 'uploads/', $newName)) {
+							$data = [
+								'stdid' => session()->get('log_id'),
+								'docname' => $documentName,
+								'uploadname' => $newName,
+							];
 
-                        // Save document to database
-                        if (!$this->applicantModel->savedocument($data)) {
-                            $allErrors[] = "Failed to save $documentName to the database.";
-                            $success = false;
-                        }
-                    } else {
-                        $allErrors[] = "Error moving the file for $documentName.";
-                        $success = false;
-                    }
-                } else {
-                    $allErrors[] = "Error uploading $documentName.";
-                    $success = false;
-                }
-            }
-        }
+							// Save document to database
+							if (!$this->applicantModel->savedocument($data)) {
+								$allErrors[] = "Failed to save $documentName to the database.";
+								$success = false;
+							}
+						} else {
+							$allErrors[] = "Error moving the file for $documentName.";
+							$success = false;
+						}
+					} else {
+						$allErrors[] = "Error uploading $documentName.";
+						$success = false;
+					}
+				}
+			}
 
-        $this->applicantModel->db->transComplete();
+			$this->applicantModel->db->transComplete();
 
-        if ($success) {
-            session()->setFlashdata('success', 'Documents uploaded successfully.');
-        } else {
-            // Combine all errors into a single message
-            $errorMessage = 'One or more documents failed to upload. Errors:<br>' . implode('<br>', $allErrors);
-            session()->setFlashdata('error', $errorMessage);
-        }
+			if ($success) {
+				session()->setFlashdata('success', 'Documents uploaded successfully.');
+			} else {
+				// Combine all errors into a single message
+				$errorMessage = 'One or more documents failed to upload. Errors:<br>' . implode('<br>', $allErrors);
+				session()->setFlashdata('error', $errorMessage);
+			}
 
-        return redirect()->to(base_url('applicant/resultupload'));
-    } else {
-        session()->setFlashdata('error', 'Error Updating Documents');
-        return redirect()->to(base_url('resultupload'))->withInput();
-    }
-}
+			return redirect()->to(base_url('applicant/resultupload'));
+		} else {
+			session()->setFlashdata('error', 'Error Updating Documents');
+			return redirect()->to(base_url('resultupload'))->withInput();
+		}
+	}
 
 	public function rem_doc()
 	{
@@ -2062,5 +2066,56 @@ class Applicant extends Controller
 		curl_close($curl);
 
 		$result = json_decode($response);
+	}
+
+	public function admletter()
+	{
+
+		$biostatus = $this->applicantModel->getbiostatus(session()->get('log_id'));
+
+		$clearancestatus = $this->applicantModel->getclearancetatus(session()->get('log_id'));
+
+
+
+		if ($clearancestatus[0]->eclearance == '0') {
+			$message = "You must be cleared before you can access your Admission Letter";
+			$redirectUrl = base_url('applicant/');
+			self::redirectWithAlert($message, $redirectUrl);
+		}
+
+		$data['stddetails'] = $this->accountModel->{$biostatus == 1 ? 'getacctdetails' : 'getacctdetail'}(session()->get('log_id'));
+
+		[$fnames, $appfees] = $this->getAppFees($data['stddetails']);
+
+
+		if ($data['stddetails'][0]->stdprogramme_id == 1 && $data['stddetails'][0]->std_programmetype == 1) {
+			$message = "Admission Letter is NOT available for ND FULL TIME Applicants";
+			$redirectUrl = base_url('applicant/');
+			self::redirectWithAlert($message, $redirectUrl);
+		}
+
+		$data['jambdetails'] =  $this->accountModel->getjambdetail($data['stddetails'][0]->jambno);
+
+		$stdphoto = $data['stddetails'][0]->std_photo;
+		$path =  base_url('writable/thumbs/' . $stdphoto);
+
+		if ($stdphoto == "avatar.jpg") {
+			$path =  base_url('public/' . $stdphoto);
+		}
+
+		$data['header'] = $this->getHeaderData([
+			'fnames' => $fnames,
+			'path' => $path,
+		]);
+
+		$data['states'] = $this->applicantModel->getstate();
+
+		$data['cosdetails'] = $this->accountModel->getStdCos($data['stddetails'][0]->student_id);
+
+
+
+
+		//	echo view('applicants/header', $datah);
+		echo view('applicants/admletta', $data);
 	}
 }

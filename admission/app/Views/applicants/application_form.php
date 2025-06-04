@@ -1,383 +1,383 @@
-<!-- Main Content -->
-<div class="main-content">
-  <section class="section">
-
-    <ul class="breadcrumb breadcrumb-style ">
-      <li class="breadcrumb-item">
-
-        <h4 class="page-title m-b-0">APPLICATION FORM</h4>
-      </li>
-      <li class="breadcrumb-item">
-        <a href="<?= base_url('applicant'); ?>">
-          <i class="fas fa-home"></i></a>
-      </li>
-      <li class="breadcrumb-item active">Dashboard</li>
-    </ul>
-
-    <div class="col-md-9 col-xl-12">
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="payslip" role="tabpanel">
-          <div id="printableArea"> <?php if (isset($stddetails)): ?>
-
-
-              <?php foreach ($stddetails as $biodetail): ?>
-                <div class="card"><br />
-                  <div align="center">
-                    <img src="<?= base_url('assets/img/logo.png'); ?>" alt="dspg" width="120" height="131">
-                    <br>
-                       <br>
-                        <h3><?= strtoupper($schoolname); ?></h3>
-                   
-                  
-
-
-                    <strong style="font-size:20px; color:#900"> <u><?= $cs_session; ?> / <?= $cs_session + 1; ?> ADMISSION APPLICATION FORM </u> </strong>
-                  </div>
-
-                  <div class="card-body">
-
-
-
-
-
-
-
-                    <h5 class="card-title mb-0"><strong>CANDIDATE'S INFORMATION</strong></h5>
-
-
-
-
-
-                    <div class="row">
-
-
-
-
-                   <table class="table table-bordered table-sm" width="100%" style="font-size:13px">
-
-                        <tbody>
-                          <tr>
-                            <td width="170"><strong>Application No</strong></td>
-                            <td colspan="2"><span class="mb-3 col-md-6">
-                                <?= $biodetail->jambno; ?>
-                              </span><span class="mb-3 col-md-12">
-
-                              </span></td>
-                            <td rowspan="4"><img alt="Photo" src="<?= $path; ?>" class="rounded-circle img-responsive mt-3" width="135" height="131" />
-
-                            </td>
-                          </tr>
-                          <tr>
-                            <td><strong>Surname</strong></td>
-                            <td colspan="2"><span class="mb-3 col-md-6">
-                                <?= $biodetail->surname; ?>
-                              </span></td>
-                          </tr>
-                          <tr>
-                            <td><strong>Firstname</strong></td>
-                            <td colspan="2"><span class="mb-3 col-md-6">
-                                <?= $biodetail->firstname; ?>
-                              </span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="mb-3">
-                                <label class="form-label" for="inputUsername7"><strong>Othernames</strong></label>
-                              </span></td>
-                            <td colspan="2"><span class="mb-3 col-md-6">
-                                <?= $biodetail->othernames; ?>
-                              </span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="mb-3">
-                                <label class="form-label" for="inputUsername2"><strong>Email</strong></label>
-                              </span></td>
-                            <td colspan="3"><span class="mb-3 col-md-6">
-                                <?= $biodetail->student_email; ?>
-                              </span></td>
-                          </tr>
-                          <tr>
-                            <td><strong>Phone Number</strong></td>
-                            <td width="289"><span class="mb-3 col-md-6">
-                                <?= $biodetail->student_mobiletel; ?>
-                              </span></td>
-                            <td width="185"><span class="mb-3"><strong>Gender</strong></span></td>
-                            <td width="321"><span class="mb-3 col-md-6"><?php echo ($biodetail->gender); ?></span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="mb-3">
-                                <strong>Date of Birth</strong></span>
-                              </span></td>
-                            <td><span class="mb-3 col-md-6">
-                                <?= date('F d, Y', strtotime($biodetail->birthdate)); ?>
-                              </span></td>
-                            <td><span class="mb-3"><strong>Marital Status</strong></span></td>
-                            <td><span class="mb-3 col-md-6"><?php echo ($biodetail->marital_status); ?></span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="mb-3">
-                                <strong>Permanent Home Address</strong>
-                              </span></td>
-                            <td colspan="3"><span class="mb-3">
-                                <?= $biodetail->student_homeaddress; ?>
-                              </span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="mb-3">
-                                <label class="form-label" for="inputAddress5"><strong>Contact Address</strong></label>
-                              </span></td>
-                            <td colspan="3"><span class="mb-3">
-                                <?= $biodetail->contact_address; ?>
-                              </span></td>
-                          </tr>
-                          <tr>
-                            <td><strong>State</strong></td>
-                            <td><span class="mb-3 col-md-6">
-                                <?= $biodetail->state_name; ?>
-                              </span></td>
-                            <td><strong>LGA</strong></td>
-                            <td><span class="mb-3 col-md-6">
-                                <?= $biodetail->lga_name; ?>
-                              </span></td>
-                          </tr>
-                          <tr>
-                            <td><strong>First Course</strong></td>
-                            <td><span class="mb-3 col-md-6">
-                                <?= $biodetail->programme_option; ?>
-                              </span></td>
-                            <td><strong>Second Course</strong></td>
-                            <td><span class="mb-3 col-md-6">
-                                <?= $biodetail->secondchoice; ?>
-                              </span></td>
-                          </tr>
-
-<tr>
-                                  <td><strong>Programme</strong></td>
-                                  <td><span class="mb-3 col-md-6">
-                                      <?= $biodetail->programme_name; ?>
-                                    </span></td>
-                                  <td><strong>Programme Type</strong></td>
-                                  <td><span class="mb-3 col-md-6">
-                                      <?= $biodetail->programmet_name; ?>
-                                    </span></td>
-                                </tr>
-                        </tbody>
-                      </table>
-
-                    <?php endforeach; ?>
-                  <?php endif; ?>
-                  <?php
-
-                  if ($stddetails[0]->stdprogramme_id == 2) {
-
-                    if (!empty($std_eduhistory)): ?>
-
-                      <hr />
-                      <h5 class="card-title mb-0"><strong>SCHOOL ATTENDED AND DATES</strong></h5>
-                      <hr>
-
-                      <table class="table table-bordered table-sm" width="100%" style="font-size:13px">
-                        <thead>
-                          <tr>
-                            <th>School Name</th>
-                            <th>Course of Study</th>
-                            <th>From</th>
-                            <th>To</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-
-
-
-
-
-
-
-                          <?php
-                          foreach ($std_eduhistory as $edu) { ?>
-                            <tr>
-                              <td><?= $edu->pname; ?></td>
-                              <td><?= $edu->programme_option; ?> </td>
-                              <td><?= $edu->fromdate; ?> </td>
-                              <td><?= $edu->todate; ?> </td>
-                            </tr>
-
-                          <?php } ?>
-
-                        </tbody>
-                      </table>
-
-
-
-                  <?php endif;
-                  } ?>
-                  <br />
-                  <h5 class="card-title mb-0">&nbsp;</h5>
-
-                  <?php if (!empty($olevels)): ?>
-
-
-                    <h5 class="card-title mb-0">&nbsp;</h5>
-                    <h5 class="card-title mb-0">&nbsp;</h5>
-                    <h5 class="card-title mb-0"><strong>O'LEVEL RESULTS</strong></h5>
-                    <hr>
-
-                    <table class="table table-bordered table-sm" width="100%" style="font-size:13px">
-
-                      <tr>
-                        <th>Exam Type</th>
-                        <th>Subject Name</th>
-                        <th>Grade</th>
-                        <th>Date Obtained</th>
-                        <th>CenterNo</th>
-                        <th>ExamNo</th>
-
-
-                        <tbody>
-
-
-
-
-
-
-
-                          <?php
-                          foreach ($olevels as $olevel) { ?>
-                            <tr>
-                              <td><?= $olevel->certname; ?></td>
-                              <td><?= $olevel->subname; ?> </td>
-                              <td><?= $olevel->grade; ?> </td>
-                              <td> <?= $olevel->emonth; ?>, <?= $olevel->eyear; ?> </td>
-                              <td><?= $olevel->centerno; ?></td>
-                              <td><?= $olevel->examno; ?></td>
-
-                            </tr>
-
-
-                          <?php  } ?>
-
-                        </tbody>
-                    </table>
-
-
-                  <?php endif; ?>
-
-
-
-
-                  <br />
-                  <h5 class="card-title mb-0">&nbsp;</h5>
-
-                  <?php if (!empty($jambs)): ?>
-
-
-                    <h5 class="card-title mb-0">&nbsp;</h5>
-                    <h5 class="card-title mb-0">&nbsp;</h5>
-                    <h5 class="card-title mb-0"><strong>UTME  RESULTS DETAILS</strong> | UTME No: <?=$jambs[0]->jambno;?></h5>
-                    <hr>
- 
-                    <table class="table table-bordered table-sm" width="100%" style="font-size:13px">
-
-                      <tr>
-                        <th>Subject</th>
-      				<th>Score</th>
-
-                        <tbody>
-
-
-
-
-
-
-
-                          <?php $utmescore =0;
-												foreach ($jambs as $jamb) { ?>
-      											<tr>
-      												<td><?= $jamb->subjectname; ?></td>
-      												<td><?= $jamb->jscore;  $utmescore += $jamb->jscore;?> </td>
-      											
-
-      											</tr>
-
-      										<?php  } ?>
-      										<tr>
-      												<td><strong>TOTAL SCORE</strong>   </td>
-      												<td><strong><?= $utmescore;?> </strong></td>
-      											
-
-      											</tr>
-
-                        </tbody>
-                    </table>
-
-
-                  <?php endif; ?>
-                  
-                  <h5 class="card-title mb-0">&nbsp;</h5>
-                  <h5 class="card-title mb-0"><strong>DECLARATION/ATTESTATION</strong></h5>
-                    <hr> I, <?= $biodetail->surname; ?> <?= $biodetail->firstname; ?> <?= $biodetail->othernames; ?> hereby declare that the information given in this form is correct. I understand that i will be held liable for any information therein. I also understand that if any information given is later found to be false, incomplete or misleading, The Delta State Polytechnic, Ogwashi-Uku reserves the right to take appropriate disciplinary measures against me.
-
-
-
-
-
-
-
-
-
-                    </div>
-
-
-
-
-                  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </div>
-          </div>
-        </div>
-
-
-
-
-      </div>
-
-      <input type="button" onClick="printDiv('printableArea')" value="Print Application Form" class='btn btn-primary'>
-
-
-    </div>
-</div>
-<script type="application/javascript">
-  function printDiv(divName) {
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents;
-
-    window.print();
-
-    document.body.innerHTML = originalContents;
-  }
+<!-- Main Content -->
+<div class="main-content">
+  <section class="section">
+
+    <ul class="breadcrumb breadcrumb-style ">
+      <li class="breadcrumb-item">
+
+        <h4 class="page-title m-b-0">APPLICATION FORM</h4>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="<?= base_url('applicant'); ?>">
+          <i class="fas fa-home"></i></a>
+      </li>
+      <li class="breadcrumb-item active">Dashboard</li>
+    </ul>
+
+    <div class="col-md-9 col-xl-12">
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="payslip" role="tabpanel">
+          <div id="printableArea"> <?php if (isset($stddetails)): ?>
+
+
+              <?php foreach ($stddetails as $biodetail): ?>
+                <div class="card"><br />
+                  <div align="center">
+                    <img src="<?= base_url('assets/img/logo.png'); ?>" alt="dspg" width="120" height="131">
+                    <br>
+                       <br>
+                        <h3><?= strtoupper($schoolname); ?></h3>
+                   
+                  
+
+
+                    <strong style="font-size:20px; color:#900"> <u><?= $cs_session; ?> / <?= $cs_session + 1; ?> ADMISSION APPLICATION FORM </u> </strong>
+                  </div>
+
+                  <div class="card-body">
+
+
+
+
+
+
+
+                    <h5 class="card-title mb-0"><strong>CANDIDATE'S INFORMATION</strong></h5>
+
+
+
+
+
+                    <div class="row">
+
+
+
+
+                   <table class="table table-bordered table-sm" width="100%" style="font-size:13px">
+
+                        <tbody>
+                          <tr>
+                            <td width="170"><strong>Application No</strong></td>
+                            <td colspan="2"><span class="mb-3 col-md-6">
+                                <?= $biodetail->jambno; ?>
+                              </span><span class="mb-3 col-md-12">
+
+                              </span></td>
+                            <td rowspan="4"><img alt="Photo" src="<?= $path; ?>" class="rounded-circle img-responsive mt-3" width="135" height="131" />
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><strong>Surname</strong></td>
+                            <td colspan="2"><span class="mb-3 col-md-6">
+                                <?= $biodetail->surname; ?>
+                              </span></td>
+                          </tr>
+                          <tr>
+                            <td><strong>Firstname</strong></td>
+                            <td colspan="2"><span class="mb-3 col-md-6">
+                                <?= $biodetail->firstname; ?>
+                              </span></td>
+                          </tr>
+                          <tr>
+                            <td><span class="mb-3">
+                                <label class="form-label" for="inputUsername7"><strong>Othernames</strong></label>
+                              </span></td>
+                            <td colspan="2"><span class="mb-3 col-md-6">
+                                <?= $biodetail->othernames; ?>
+                              </span></td>
+                          </tr>
+                          <tr>
+                            <td><span class="mb-3">
+                                <label class="form-label" for="inputUsername2"><strong>Email</strong></label>
+                              </span></td>
+                            <td colspan="3"><span class="mb-3 col-md-6">
+                                <?= $biodetail->student_email; ?>
+                              </span></td>
+                          </tr>
+                          <tr>
+                            <td><strong>Phone Number</strong></td>
+                            <td width="289"><span class="mb-3 col-md-6">
+                                <?= $biodetail->student_mobiletel; ?>
+                              </span></td>
+                            <td width="185"><span class="mb-3"><strong>Gender</strong></span></td>
+                            <td width="321"><span class="mb-3 col-md-6"><?php echo ($biodetail->gender); ?></span></td>
+                          </tr>
+                          <tr>
+                            <td><span class="mb-3">
+                                <strong>Date of Birth</strong></span>
+                              </span></td>
+                            <td><span class="mb-3 col-md-6">
+                                <?= date('F d, Y', strtotime($biodetail->birthdate)); ?>
+                              </span></td>
+                            <td><span class="mb-3"><strong>Marital Status</strong></span></td>
+                            <td><span class="mb-3 col-md-6"><?php echo ($biodetail->marital_status); ?></span></td>
+                          </tr>
+                          <tr>
+                            <td><span class="mb-3">
+                                <strong>Permanent Home Address</strong>
+                              </span></td>
+                            <td colspan="3"><span class="mb-3">
+                                <?= $biodetail->student_homeaddress; ?>
+                              </span></td>
+                          </tr>
+                          <tr>
+                            <td><span class="mb-3">
+                                <label class="form-label" for="inputAddress5"><strong>Contact Address</strong></label>
+                              </span></td>
+                            <td colspan="3"><span class="mb-3">
+                                <?= $biodetail->contact_address; ?>
+                              </span></td>
+                          </tr>
+                          <tr>
+                            <td><strong>State</strong></td>
+                            <td><span class="mb-3 col-md-6">
+                                <?= $biodetail->state_name; ?>
+                              </span></td>
+                            <td><strong>LGA</strong></td>
+                            <td><span class="mb-3 col-md-6">
+                                <?= $biodetail->lga_name; ?>
+                              </span></td>
+                          </tr>
+                          <tr>
+                            <td><strong>First Course</strong></td>
+                            <td><span class="mb-3 col-md-6">
+                                <?= $biodetail->programme_option; ?>
+                              </span></td>
+                            <td><strong>Second Course</strong></td>
+                            <td><span class="mb-3 col-md-6">
+                                <?= $biodetail->secondchoice; ?>
+                              </span></td>
+                          </tr>
+
+<tr>
+                                  <td><strong>Programme</strong></td>
+                                  <td><span class="mb-3 col-md-6">
+                                      <?= $biodetail->programme_name; ?>
+                                    </span></td>
+                                  <td><strong>Programme Type</strong></td>
+                                  <td><span class="mb-3 col-md-6">
+                                      <?= $biodetail->programmet_name; ?>
+                                    </span></td>
+                                </tr>
+                        </tbody>
+                      </table>
+
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+                  <?php
+
+                  if ($stddetails[0]->stdprogramme_id == 2) {
+
+                    if (!empty($std_eduhistory)): ?>
+
+                      <hr />
+                      <h5 class="card-title mb-0"><strong>SCHOOL ATTENDED AND DATES</strong></h5>
+                      <hr>
+
+                      <table class="table table-bordered table-sm" width="100%" style="font-size:13px">
+                        <thead>
+                          <tr>
+                            <th>School Name</th>
+                            <th>Course of Study</th>
+                            <th>From</th>
+                            <th>To</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+
+
+
+
+
+
+                          <?php
+                          foreach ($std_eduhistory as $edu) { ?>
+                            <tr>
+                              <td><?= $edu->pname; ?></td>
+                              <td><?= $edu->programme_option; ?> </td>
+                              <td><?= $edu->fromdate; ?> </td>
+                              <td><?= $edu->todate; ?> </td>
+                            </tr>
+
+                          <?php } ?>
+
+                        </tbody>
+                      </table>
+
+
+
+                  <?php endif;
+                  } ?>
+                  <br />
+                  <h5 class="card-title mb-0">&nbsp;</h5>
+
+                  <?php if (!empty($olevels)): ?>
+
+
+                    <h5 class="card-title mb-0">&nbsp;</h5>
+                    <h5 class="card-title mb-0">&nbsp;</h5>
+                    <h5 class="card-title mb-0"><strong>O'LEVEL RESULTS</strong></h5>
+                    <hr>
+
+                    <table class="table table-bordered table-sm" width="100%" style="font-size:13px">
+
+                      <tr>
+                        <th>Exam Type</th>
+                        <th>Subject Name</th>
+                        <th>Grade</th>
+                        <th>Date Obtained</th>
+                        <th>CenterNo</th>
+                        <th>ExamNo</th>
+
+
+                        <tbody>
+
+
+
+
+
+
+
+                          <?php
+                          foreach ($olevels as $olevel) { ?>
+                            <tr>
+                              <td><?= $olevel->certname; ?></td>
+                              <td><?= $olevel->subname; ?> </td>
+                              <td><?= $olevel->grade; ?> </td>
+                              <td> <?= $olevel->emonth; ?>, <?= $olevel->eyear; ?> </td>
+                              <td><?= $olevel->centerno; ?></td>
+                              <td><?= $olevel->examno; ?></td>
+
+                            </tr>
+
+
+                          <?php  } ?>
+
+                        </tbody>
+                    </table>
+
+
+                  <?php endif; ?>
+
+
+
+
+                  <br />
+                  <h5 class="card-title mb-0">&nbsp;</h5>
+
+                  <?php if (!empty($jambs)): ?>
+
+
+                    <h5 class="card-title mb-0">&nbsp;</h5>
+                    <h5 class="card-title mb-0">&nbsp;</h5>
+                    <h5 class="card-title mb-0"><strong>UTME  RESULTS DETAILS</strong> | UTME No: <?=$jambs[0]->jambno;?></h5>
+                    <hr>
+ 
+                    <table class="table table-bordered table-sm" width="100%" style="font-size:13px">
+
+                      <tr>
+                        <th>Subject</th>
+      				<th>Score</th>
+
+                        <tbody>
+
+
+
+
+
+
+
+                          <?php $utmescore =0;
+												foreach ($jambs as $jamb) { ?>
+      											<tr>
+      												<td><?= $jamb->subjectname; ?></td>
+      												<td><?= $jamb->jscore;  $utmescore += $jamb->jscore;?> </td>
+      											
+
+      											</tr>
+
+      										<?php  } ?>
+      										<tr>
+      												<td><strong>TOTAL SCORE</strong>   </td>
+      												<td><strong><?= $utmescore;?> </strong></td>
+      											
+
+      											</tr>
+
+                        </tbody>
+                    </table>
+
+
+                  <?php endif; ?>
+                  
+                  <h5 class="card-title mb-0">&nbsp;</h5>
+                  <h5 class="card-title mb-0"><strong>DECLARATION/ATTESTATION</strong></h5>
+                    <hr> I, <?= $biodetail->surname; ?> <?= $biodetail->firstname; ?> <?= $biodetail->othernames; ?> hereby declare that the information given in this form is correct. I understand that i will be held liable for any information therein. I also understand that if any information given is later found to be false, incomplete or misleading, The Delta State Polytechnic, Ogwashi-Uku reserves the right to take appropriate disciplinary measures against me.
+
+
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+      <input type="button" onClick="printDiv('printableArea')" value="Print Application Form" class='btn btn-primary'>
+
+
+    </div>
+</div>
+<script type="application/javascript">
+  function printDiv(divName) {
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+  }
 </script>

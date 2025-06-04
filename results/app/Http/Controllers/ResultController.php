@@ -12,6 +12,7 @@ use App\Imports\ResultsImport;
 use App\Models\DepartmentOptions;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 
 class ResultController extends Controller
 {
@@ -192,33 +193,99 @@ class ResultController extends Controller
         return view('manualupload', ['courses' => $courses, 'sess' => $sess[0]->cs_session, 'levels' => $levels, 'courseofstudy' => $courseofstudy]);
     }
 
-    public function enterCourseResult(Request $request)
+    public function prepareResult(Request $request)
     {
         $request->validate([
-            'courses' => 'required|integer',
-            'clevel' => 'required|integer',
-            'courseofstudy' => 'required|integer',
-            'semester' => 'required',
-            'sess' => 'required|string',
+            'sess' => 'required|numeric',
+            'clevel' => 'required|numeric',
+            'semester' => 'required|string',
+            'courses' => 'required|numeric',
+            'courseofstudy' => 'required|numeric',
         ]);
 
-        $course = Courses::find($request->courses);
+        $sem = $request->semester == 'First Semester' ? 1 : 2;
+
+        return redirect()->route('enterResult', [
+            'cid' => $request->courses,
+            'level' => $request->clevel,
+            'session' => $request->sess,
+            'semester' => $sem,
+            'cos' => $request->courseofstudy,
+        ]);
+    }
+
+    public function enterCourseResult($cid, $level, $session, $semester, $cos)
+    {
+        $sem = $semester == 1 ? 'First Semester' : 'Second Semester';
+        $course = Courses::find($cid);
         if (!$course) {
             return back()->withErrors(['courses' => 'Course not found']);
         }
 
-        $students = Student::where('stdlevel', $request->clevel)
-            ->where('stdcourse', $request->courseofstudy)
+        if ($level == '' || $session == '' || $semester == '' || $cos == '') {
+            return back()->withErrors(['level' => 'Please select a level, session, semester, and course of study']);
+        }
+
+        $students = Student::where('stdlevel', $level)
+            ->where('stdcourse', $cos)
             ->distinct()
+            ->limit(2)
             ->pluck('matric_no');
 
         return view('enter_course_result', [
             'students' => $students,
             'course' => $course,
-            'level' => (new Levels)->getLevelName($request->clevel),
-            'session' => $request->sess,
-            'semester' => $request->semester,
-            'courseofstudy' => $request->courseofstudy,
+            'level' => (new Levels)->getLevelName($level),
+            'session' => $session,
+            'semester' => $sem,
+            'courseofstudy' => $cos,
+            'levelid' => $level,
         ]);
+    }
+
+    public function saveCourseResult(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'cat' => 'required|array',
+            'cat.*' => 'required|numeric',
+            'exam' => 'required|array',
+            'exam.*' => 'required|numeric',
+            'courses' => 'required',
+            'sem' => 'required|string',
+            'sess' => 'required|numeric',
+            'levelid' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $course = json_decode($request->courses, true);
+
+        foreach ($request->cat as $matricNo => $catScore) {
+            $examScore = $request->exam[$matricNo] ?? 0; // fallback in case exam score is missing
+            $score = $catScore + $examScore;
+            Results::updateOrCreate(
+                [
+                    'matric_no' => $matricNo,
+                    'level_id' => $request->levelid,
+                    'stdcourse_id' => $course['thecourse_id'],
+                    'cyearsession' => $request->sess,
+                    'semester' => $request->sem,
+                    'cos' => $request->courseofstudy,
+                ],
+                [
+                    'std_mark' => $score,
+                    'std_rstatus' => Results::getGradeAndPoint($score)['grade'],
+                    'cat' => $catScore,
+                    'exam' => $examScore,
+                    'course_code' => $course['thecourse_code'],
+                    'course_title' => $course['thecourse_title'],
+                    'course_unit' => $course['thecourse_unit'],
+                ]
+            );
+        }
+
+
+        return redirect()->route('uploadedresult')->with('success', 'Results Saved Successfully');
     }
 }

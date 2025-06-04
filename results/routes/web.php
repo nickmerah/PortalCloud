@@ -21,5 +21,6 @@ Route::get('uploadedresult', [ResultController::class, 'uploadedresult'])->name(
 Route::get('/viewResult/{cid}/{level}/{session}/{semester}', [ResultController::class, 'viewCourseResult'])->name('view.result');
 Route::get('/deleteResult/{cid}/{level}/{session}/{semester}', [ResultController::class, 'deleteCourseResult'])->name('delete.result');
 Route::get('manualresult', [ResultController::class, 'manualupload'])->name('manualresult');
-Route::post('/enterResult', [ResultController::class, 'enterCourseResult'])->name('enterResult');
+Route::get('/prepareResult', [ResultController::class, 'prepareResult'])->name('prepareResult');
+Route::get('/enterResult/{cid}/{level}/{session}/{semester}/{cos}', [ResultController::class, 'enterCourseResult'])->name('enterResult');
 Route::post('/saveResult', [ResultController::class, 'saveCourseResult'])->name('saveResult');

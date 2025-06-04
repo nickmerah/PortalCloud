@@ -11,7 +11,7 @@
                 <div class="card-body">
 
 
-                    <form method="POST" action="{{ url('enterResult') }}">
+                    <form method="GET" action="{{ url('prepareResult') }}">
                         @csrf
                         @if(session('success'))
                         <div class="alert alert-success">

@@ -101,8 +101,12 @@
                if($resultverifyfeestatus) { ?>
              <li><a class="nav-link" href="<?= base_url('applicant/resultupload'); ?>"><i data-feather="upload"></i><span> Upload Results</span></a></li>
             <?php } ?>
-            
-            
+           <?php  if ($clearancestatus[0]->eclearance ?? null == '1') { ?>
+            <li>
+  <a class="nav-link" href="#" onclick="openAndPrintAdmissionLetter()" target="_blank">
+    <i data-feather='file'></i><span> Admission Letter</span>
+  </a>
+</li><?php } ?>
             <?php } ?>
             
             
@@ -116,5 +120,20 @@
 
           </ul>
         </aside>
-      </div>
+      </div>    
+<script>
+function openAndPrintAdmissionLetter() {
+  const url = "<?= base_url('applicant/admletter'); ?>";
+  const printWindow = window.open(url, "_blank");
+
+  printWindow.onload = function () {
+    printWindow.focus();
+    printWindow.print();
+  };
+
+  setTimeout(() => {
+    printWindow.close();
+  }, 500);
+}
+</script>
       <!-- Main Content -->

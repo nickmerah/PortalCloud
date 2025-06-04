@@ -168,9 +168,10 @@ class AccountModel extends Model
             state.state_name, 
             lga.lga_name, 
             programme.programme_name, 
-             programme.programme_id,
+            programme.programme_id,
             programme.aprogramme_name, 
             dept1.programme_option , 
+             dept1.deptcode , 
             dept2.programme_option as secondchoice,
             programme_type.programmet_name
             ');
@@ -354,6 +355,7 @@ class AccountModel extends Model
         $db = \Config\Database::connect();
         $builder = $db->table('programme');
         $builder->select('programme_id,programme_name,aprogramme_name');
+        $builder->where('p_status', 1);
         $result = $builder->get();
         return   $result->getResult();
     }
@@ -406,5 +408,31 @@ class AccountModel extends Model
 
         $result = $builder->get();
         return $result->getNumRows() > 0;
+    }
+
+    public function getStdCos($studentId)
+    {
+        $db = \Config\Database::connect();
+        $db->query("SET SESSION sql_mode = ''");
+        $builder = $db->table('stdprofile');
+        $builder->join('dept_options', 'stdprofile.stdcourse = dept_options.do_id', 'left');
+        $builder->join('departments', 'departments.departments_id = dept_options.dept_id', 'left');
+        $builder->join('faculties', 'faculties.faculties_id = departments.fac_id', 'left');
+        $builder->select('stdcourse,programme_option,deptcode,dept_id,departments_name, faculties_name');
+        $builder->where('cs_status', $studentId);
+
+        $result = $builder->get();
+        return $result->getResult();
+    }
+
+    public function getadmletteryear()
+    {
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('schoolinfo');
+        $builder->select('admletteryear');
+        $result = $builder->get();
+        $arr =  $result->getResult();
+        return   $arr[0]->admletteryear;
     }
 }

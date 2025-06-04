@@ -29,6 +29,7 @@ class SchoolInfoController extends Controller
             'markuee' => 'required|string',
             'appmarkuee' => 'required|string',
             'appendreg_date' => 'required|string',
+            'admletteryear' => 'required|integer|min:2000|max:' . (date('Y') + 1),
         ]);
 
         $schoolInfo = SchoolInfo::find($id);

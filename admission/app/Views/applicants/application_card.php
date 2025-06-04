@@ -1,180 +1,180 @@
-      <!-- Main Content -->
-      <div class="main-content">
-        <section class="section">
-
-          <ul class="breadcrumb breadcrumb-style ">
-            <li class="breadcrumb-item">
-
-              <h4 class="page-title m-b-0">Acknowledgement Card</h4>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="<?= base_url('applicant'); ?>">
-                <i class="fas fa-home"></i></a>
-            </li>
-            <li class="breadcrumb-item active">Dashboard</li>
-          </ul>
-
-          <div class="col-md-9 col-xl-12">
-            <div class="tab-content">
-              <div class="tab-pane fade show active" id="payslip" role="tabpanel">
-                <div id="printableArea">
-                  <div class="card"><br />
-                    <div align="center">
-                      <img src="<?= base_url('assets/img/logo.png'); ?>" alt="dspg" width="120" height="131">
-                      <br>
-                       <br>
-                        <h3><?= strtoupper($schoolname); ?></h3>
-                      
-
-                      <strong style="font-size:20px"> <u><?= $cs_session; ?> / <?= $cs_session + 1; ?> ADMISSION ACKNOWLEDGEMENT CARD </u> </strong>
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title mb-0"><strong>BIODATA</strong></h5>
-                      <hr>
-
-                      <?php if (isset($stddetails)): ?>
-
-
-                        <?php foreach ($stddetails as $biodetail): ?>
-
-
-
-                          <div class="row">
-
-
-
-
-                            <table class="table table-bordered table-md" cellpadding="0" cellspacing="0" style="font-size:13px">
-
-                              <tbody>
-                                <tr>
-                                  <td width="179"><strong>Application No</strong></td>
-                                  <td colspan="2"><span class="mb-3 col-md-6">
-                                      <?= $biodetail->jambno; ?>
-                                    </span><span class="mb-3 col-md-12"></span></td>
-                                  <td rowspan="4">
-                                    <img alt="Photo" src="<?= $path; ?>" class="rounded-circle img-responsive mt-3" width="135" height="131" />
-
-                                </tr>
-                                <tr>
-                                  <td><strong>Fullnames</strong></td>
-                                  <td colspan="2"><span class="mb-3 col-md-6">
-                                      <?= $biodetail->surname; ?>
-                                      <?= $biodetail->firstname; ?>
-                                      <?= $biodetail->othernames; ?>
-                                    </span></td>
-                                </tr>
-                                <tr>
-                                  <td><span class="mb-3"><strong>Email</strong></span></td>
-                                  <td colspan="2"><span class="mb-3 col-md-6">
-                                      <?= $biodetail->student_email; ?>
-                                    </span></td>
-                                </tr>
-                                <tr>
-                                  <td><strong>Phone Number</strong></td>
-                                  <td colspan="2"><span class="mb-3 col-md-6">
-                                      <?= $biodetail->student_mobiletel; ?>
-                                    </span></td>
-                                </tr>
-                                <tr>
-                                  <td><span class="mb-3"><strong>Gender</strong></span></td>
-                                  <td width="242"><span class="mb-3 col-md-6"><?php echo ($biodetail->gender); ?></span></td>
-                                  <td width="260"><span class="mb-3"><strong>Marital Status</strong></span></strong></td>
-                                  <td width="247"><span class="mb-3 col-md-6"><?php echo ($biodetail->marital_status); ?></span></td>
-                                </tr>
-                                <tr>
-                                  <td><span class="mb-3"><strong>Date of Birth</strong>
-                                    </span></td>
-                                  <td><span class="mb-3 col-md-6">
-                                      <?= date('F d, Y', strtotime($biodetail->birthdate)); ?>
-                                    </span></td>
-                                  <td><strong>LGA</strong></td>
-                                  <td><span class="mb-3 col-md-6">
-                                      <?= $biodetail->lga_name; ?>
-                                    </span></td>
-                                </tr>
-
-                                <tr>
-                                  <td><strong>State</strong></td>
-                                  <td colspan="3"><span class="mb-3 col-md-6">
-                                      <?= $biodetail->state_name; ?>
-                                    </span></td>
-                                </tr>
-                                <tr>
-                                  <td><strong>First Course</strong></td>
-                                  <td><span class="mb-3 col-md-6">
-                                      <?= $biodetail->programme_option; ?>
-                                    </span></td>
-                                  <td><strong>Second Course</strong></td>
-                                  <td><span class="mb-3 col-md-6">
-                                      <?= $biodetail->secondchoice; ?>
-                                    </span></td>
-                                </tr>
-                                 <tr>
-                                  <td><strong>Programme</strong></td>
-                                  <td><span class="mb-3 col-md-6">
-                                      <?= $biodetail->programme_name; ?>
-                                    </span></td>
-                                  <td><strong>Programme Type</strong></td>
-                                  <td><span class="mb-3 col-md-6">
-                                      <?= $biodetail->programmet_name; ?>
-                                    </span></td>
-                                </tr>
-
-
-                               <?php /* <tr>
-                                  <td><strong>Exam Date </strong></td>
-                                  <td colspan="3"><?= date('d-M-Y', strtotime($examdate)); ?></td>
-                                </tr> */?>
-                              </tbody>
-                            </table>
-
-
-
-
-                          <?php endforeach; ?>
-                        <?php endif; ?>
-
-
-
-
-
-
-
-                          </div>
-
-                          <h5 class="card-title mb-0">&nbsp;</h5>
-                          <h5 class="card-title mb-0"><strong>NOTICES</strong></h5>
-                          <hr>
-                          <div
-                            <ul style="font-size:12px">
-                            <li>Applicants are not allowed to enter the examination hall with any paper or mobile devices of any kind</li>
-                            <li>Applicants must come along with their acknowledgement card to the examination and interview venue</li>
-                            </ul>
-
-
-                          </div>
-                    </div>
-
-
-
-
-                  </div>
-
-
-                </div><input type="button" onClick="printDiv('printableArea')" value="Print Acknowledgement Card " class='btn btn-primary'>
-
-              </div>
-            </div>
-            <script type="application/javascript">
-              function printDiv(divName) {
-                var printContents = document.getElementById(divName).innerHTML;
-                var originalContents = document.body.innerHTML;
-
-                document.body.innerHTML = printContents;
-
-                window.print();
-
-                document.body.innerHTML = originalContents;
-              }
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+
+              <h4 class="page-title m-b-0">Acknowledgement Card</h4>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="<?= base_url('applicant'); ?>">
+                <i class="fas fa-home"></i></a>
+            </li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ul>
+
+          <div class="col-md-9 col-xl-12">
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="payslip" role="tabpanel">
+                <div id="printableArea">
+                  <div class="card"><br />
+                    <div align="center">
+                      <img src="<?= base_url('assets/img/logo.png'); ?>" alt="dspg" width="120" height="131">
+                      <br>
+                       <br>
+                        <h3><?= strtoupper($schoolname); ?></h3>
+                      
+
+                      <strong style="font-size:20px"> <u><?= $cs_session; ?> / <?= $cs_session + 1; ?> ADMISSION ACKNOWLEDGEMENT CARD </u> </strong>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title mb-0"><strong>BIODATA</strong></h5>
+                      <hr>
+
+                      <?php if (isset($stddetails)): ?>
+
+
+                        <?php foreach ($stddetails as $biodetail): ?>
+
+
+
+                          <div class="row">
+
+
+
+
+                            <table class="table table-bordered table-md" cellpadding="0" cellspacing="0" style="font-size:13px">
+
+                              <tbody>
+                                <tr>
+                                  <td width="179"><strong>Application No</strong></td>
+                                  <td colspan="2"><span class="mb-3 col-md-6">
+                                      <?= $biodetail->jambno; ?>
+                                    </span><span class="mb-3 col-md-12"></span></td>
+                                  <td rowspan="4">
+                                    <img alt="Photo" src="<?= $path; ?>" class="rounded-circle img-responsive mt-3" width="135" height="131" />
+
+                                </tr>
+                                <tr>
+                                  <td><strong>Fullnames</strong></td>
+                                  <td colspan="2"><span class="mb-3 col-md-6">
+                                      <?= $biodetail->surname; ?>
+                                      <?= $biodetail->firstname; ?>
+                                      <?= $biodetail->othernames; ?>
+                                    </span></td>
+                                </tr>
+                                <tr>
+                                  <td><span class="mb-3"><strong>Email</strong></span></td>
+                                  <td colspan="2"><span class="mb-3 col-md-6">
+                                      <?= $biodetail->student_email; ?>
+                                    </span></td>
+                                </tr>
+                                <tr>
+                                  <td><strong>Phone Number</strong></td>
+                                  <td colspan="2"><span class="mb-3 col-md-6">
+                                      <?= $biodetail->student_mobiletel; ?>
+                                    </span></td>
+                                </tr>
+                                <tr>
+                                  <td><span class="mb-3"><strong>Gender</strong></span></td>
+                                  <td width="242"><span class="mb-3 col-md-6"><?php echo ($biodetail->gender); ?></span></td>
+                                  <td width="260"><span class="mb-3"><strong>Marital Status</strong></span></strong></td>
+                                  <td width="247"><span class="mb-3 col-md-6"><?php echo ($biodetail->marital_status); ?></span></td>
+                                </tr>
+                                <tr>
+                                  <td><span class="mb-3"><strong>Date of Birth</strong>
+                                    </span></td>
+                                  <td><span class="mb-3 col-md-6">
+                                      <?= date('F d, Y', strtotime($biodetail->birthdate)); ?>
+                                    </span></td>
+                                  <td><strong>LGA</strong></td>
+                                  <td><span class="mb-3 col-md-6">
+                                      <?= $biodetail->lga_name; ?>
+                                    </span></td>
+                                </tr>
+
+                                <tr>
+                                  <td><strong>State</strong></td>
+                                  <td colspan="3"><span class="mb-3 col-md-6">
+                                      <?= $biodetail->state_name; ?>
+                                    </span></td>
+                                </tr>
+                                <tr>
+                                  <td><strong>First Course</strong></td>
+                                  <td><span class="mb-3 col-md-6">
+                                      <?= $biodetail->programme_option; ?>
+                                    </span></td>
+                                  <td><strong>Second Course</strong></td>
+                                  <td><span class="mb-3 col-md-6">
+                                      <?= $biodetail->secondchoice; ?>
+                                    </span></td>
+                                </tr>
+                                 <tr>
+                                  <td><strong>Programme</strong></td>
+                                  <td><span class="mb-3 col-md-6">
+                                      <?= $biodetail->programme_name; ?>
+                                    </span></td>
+                                  <td><strong>Programme Type</strong></td>
+                                  <td><span class="mb-3 col-md-6">
+                                      <?= $biodetail->programmet_name; ?>
+                                    </span></td>
+                                </tr>
+
+
+                               <?php /* <tr>
+                                  <td><strong>Exam Date </strong></td>
+                                  <td colspan="3"><?= date('d-M-Y', strtotime($examdate)); ?></td>
+                                </tr> */?>
+                              </tbody>
+                            </table>
+
+
+
+
+                          <?php endforeach; ?>
+                        <?php endif; ?>
+
+
+
+
+
+
+
+                          </div>
+
+                          <h5 class="card-title mb-0">&nbsp;</h5>
+                          <h5 class="card-title mb-0"><strong>NOTICES</strong></h5>
+                          <hr>
+                          <div
+                            <ul style="font-size:12px">
+                            <li>Applicants are not allowed to enter the examination hall with any paper or mobile devices of any kind</li>
+                            <li>Applicants must come along with their acknowledgement card to the examination and interview venue</li>
+                            </ul>
+
+
+                          </div>
+                    </div>
+
+
+
+
+                  </div>
+
+
+                </div><input type="button" onClick="printDiv('printableArea')" value="Print Acknowledgement Card " class='btn btn-primary'>
+
+              </div>
+            </div>
+            <script type="application/javascript">
+              function printDiv(divName) {
+                var printContents = document.getElementById(divName).innerHTML;
+                var originalContents = document.body.innerHTML;
+
+                document.body.innerHTML = printContents;
+
+                window.print();
+
+                document.body.innerHTML = originalContents;
+              }
             </script>

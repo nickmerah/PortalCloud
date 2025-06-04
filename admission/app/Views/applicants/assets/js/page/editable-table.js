@@ -1,4 +1,4 @@
-'use strict';
-$(function () {
-    $('#mainTable').editableTableWidget();
+'use strict';
+$(function () {
+    $('#mainTable').editableTableWidget();
 });
