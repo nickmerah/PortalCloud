@@ -120,6 +120,7 @@ class ResultController extends Controller
                 "$resulttable.semester",
                 "$resulttable.cyearsession",
                 "$resulttable.level_id",
+                "$resulttable.cos",
                 DB::raw('COUNT(*) as total_students')
             )
             ->join($coursetable, "$coursetable.thecourse_id", '=', "$resulttable.stdcourse_id")
@@ -129,7 +130,8 @@ class ResultController extends Controller
                 "$resulttable.course_title",
                 "$resulttable.semester",
                 "$resulttable.cyearsession",
-                "$resulttable.level_id"
+                "$resulttable.level_id",
+                "$resulttable.cos",
             )
             ->get();
 
@@ -153,7 +155,7 @@ class ResultController extends Controller
                 "$resulttable.exam",
                 "$resulttable.course_code",
                 "$resulttable.course_title",
-                "$resulttable.course_unit"
+                "$resulttable.course_unit",
             )
             ->join($coursetable, "$coursetable.thecourse_id", '=', "$resulttable.stdcourse_id")
             ->orderBy("$resulttable.matric_no", 'asc')
@@ -229,8 +231,16 @@ class ResultController extends Controller
         $students = Student::where('stdlevel', $level)
             ->where('stdcourse', $cos)
             ->distinct()
-            ->limit(2)
             ->pluck('matric_no');
+
+        $existingResults = Results::where('stdcourse_id', $cid)
+            ->where('level_id', $level)
+            ->where('cyearsession', $session)
+            ->where('semester', $sem)
+            ->whereIn('matric_no', $students)
+            ->get(['matric_no', 'std_mark', 'cat', 'exam', 'std_rstatus'])
+            ->keyBy('matric_no');
+
 
         return view('enter_course_result', [
             'students' => $students,
@@ -240,6 +250,7 @@ class ResultController extends Controller
             'semester' => $sem,
             'courseofstudy' => $cos,
             'levelid' => $level,
+            'existingResults' => $existingResults,
         ]);
     }
 
@@ -285,7 +296,6 @@ class ResultController extends Controller
             );
         }
 
-
-        return redirect()->route('uploadedresult')->with('success', 'Results Saved Successfully');
+        return redirect()->to(url()->previous())->with('success', 'Results Saved Successfully');
     }
 }

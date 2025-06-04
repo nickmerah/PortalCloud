@@ -65,15 +65,35 @@
                             </thead>
                             <tbody>
                                 @foreach ($students as $matricno)
+                                @php
+                                $result = $existingResults[$matricno] ?? null;
+                                @endphp
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $matricno  }}</td>
-                                    <td> <input type="number" width="1px" step="0.01" min=0 max=40 name="cat[{{ $matricno }}]" class="form-control" required></td>
-                                    <td> <input type="number" width="1px" step="0.01" min=0 max=60 name="exam[{{ $matricno }}]" class="form-control" required></td>
-                                    <td> </td>
-                                    <td> </td>
+                                    <td>{{ $matricno }}</td>
+                                    <td>
+                                        <input type="number" width="1px" step="0.01" min="0" max="40"
+                                            name="cat[{{ $matricno }}]" class="form-control"
+                                            value="{{ old('cat.' . $matricno, $result?->cat) }}" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" width="1px" step="0.01" min="0" max="60"
+                                            name="exam[{{ $matricno }}]" class="form-control"
+                                            value="{{ old('exam.' . $matricno, $result?->exam) }}" required>
+                                    </td>
+                                    <td>
+                                        @if ($result)
+                                        {{ $result->std_mark }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($result)
+                                        {{ $result->std_rstatus }}
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
                 </div> <button id="button" type="submit" class="btn btn-success"
@@ -90,7 +110,19 @@
             </div>
         </div>
     </div>
-
+    <br>
+    <div class="text-end mb-3">
+        <a class="btn btn-info"
+            href="{{ url('uploadedresult') }}"
+            onclick="return confirm('Are you sure you want to view the saved results?');">
+            View Saved Results
+        </a>
+        <a class="btn btn-primary"
+            href="{{ url('manualresult') }}"
+            onclick="return confirm('Are you sure you want to enter new results?');">
+            Enter New Results
+        </a>
+    </div>
 
 
 

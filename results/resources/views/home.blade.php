@@ -41,10 +41,6 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('delresult') }}">Delete Results</a>
-                            </li>
-
-                            <li class="nav-item">
                                 <a class="nav-link" href="{{ url('resultsummary') }}"> Result Summary</a>
                             </li>
 
