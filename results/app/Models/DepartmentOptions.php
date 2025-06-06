@@ -16,6 +16,11 @@ class DepartmentOptions extends Model
 
     public function programme()
     {
-        return $this->belongsTo(Programmes::class, 'programme_id');
+        return $this->belongsTo(Programmes::class, 'prog_id', 'programme_id');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'dept_id', 'departments_id');
     }
 }

@@ -117,7 +117,12 @@
               </table>
             </div>
           </form>
-          <div align="center"><a href="{{ route('uploadedresult') }}"> Check Uploaded Results</a></div>
+
+          <div class="text-center">
+            <a href="{{ asset('result.xls') }}" download>Download Result Template</a>
+
+            | <a href="{{ route('uploadedresult') }}"> Check Uploaded Results</a>
+          </div>
         </div>
       </div>
     </div>

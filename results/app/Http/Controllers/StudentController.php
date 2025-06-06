@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Levels;
-use App\Models\Student;
+use App\Models\Students;
 use App\Models\Programmes;
 use Illuminate\Http\Request;
 use App\Models\ProgrammeType;
@@ -18,7 +18,7 @@ class StudentController extends Controller
 
     public function index()
     {
-        $students = Student::with(['programme', 'programmeType', 'departmentOption', 'level'])->paginate(50);
+        $students = Students::with(['programme', 'programmeType', 'departmentOption', 'level'])->paginate(50);
         $programmes = Programmes::all();
         $programmeTypes = ProgrammeType::all();
         $levels = Levels::all();
@@ -49,7 +49,7 @@ class StudentController extends Controller
                 $surname = trim($row[$surnameIndex]);
                 $firstname = trim($row[$firstnameIndex]);
                 $othernames = trim($row[$othernamesIndex]);
-                Student::updateOrCreate(
+                Students::updateOrCreate(
                     ['matric_no' => $matno],
                     [
                         'surname' => $surname,
@@ -73,7 +73,7 @@ class StudentController extends Controller
 
     public function destroy($id)
     {
-        $student = Student::findOrFail($id);
+        $student = Students::findOrFail($id);
         $student->delete();
 
         return redirect()->route('students.index')->with('success', 'Student deleted successfully.');

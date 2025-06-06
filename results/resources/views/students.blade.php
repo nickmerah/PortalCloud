@@ -196,6 +196,10 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Upload</button>
                 </div>
+                <div class="text-center">
+                    <a href="{{ asset('students.csv') }}" download>Download Template</a>
+
+                </div>
             </div>
         </form>
     </div>

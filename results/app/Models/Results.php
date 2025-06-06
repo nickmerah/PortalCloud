@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\ResultController;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Imports\ResultsImport;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Results extends Model
 {
@@ -41,64 +40,14 @@ class Results extends Model
 		return $this->belongsTo(Levels::class, 'level_id');
 	}
 
-	public static function getMark($cyearsession, $matric_no, $level_id, $stdcourse_id)
+	public static function getMarkAndGrade($cyearsession, $matric_no, $level_id, $stdcourse_id)
 	{
-
 		return self::where('cyearsession', $cyearsession)
 			->where('matric_no', $matric_no)
 			->where('level_id', $level_id)
 			->where('stdcourse_id', $stdcourse_id)
-			->value('std_mark');
-	}
-
-	public static function getRemark($courses, $matric_no, $level_id)
-	{
-		$failedCoursesPerSession = [];
-
-		//get failed course per session
-		foreach ($courses as $course) {
-			$mark = self::getMark(
-				$course->cyearsession,
-				$matric_no,
-				$level_id,
-				$course->course_id
-			);
-
-			if ($mark < ResultsImport::PASS_MARK) {
-				$failedCoursesPerSession[] = [
-					'title' => strtoupper($course->coursetitle),
-					'category' => $course->course_category,
-				];
-			}
-		}
-
-
-
-		$failedCoreCourses = array_filter($failedCoursesPerSession, function ($course) {
-			return $course['category'] === 'core';
-		});
-
-		$failedPerSessionCount = count($failedCoreCourses);
-
-		// get 200 level remarks
-		if ($level_id >= 2) {
-
-			if ($failedPerSessionCount >= 1) {
-				return "REPEAT LEVEL";
-			}
-
-			if ($failedPerSessionCount > 2) {
-				return "ADVISED TO WITHDRAW";
-			}
-
-			if ($failedPerSessionCount > 0) {
-				$ctitles = array_column($failedCoursesPerSession, 'title');
-				return "TO RESIT: " . implode(' AND ', $ctitles);
-			}
-
-			return "PASS";
-		}
-		return "N/A";
+			->select('std_mark', 'std_rstatus', 'course_unit')
+			->first();
 	}
 
 	public static function getGradeAndPoint($score)
