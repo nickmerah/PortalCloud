@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Levels;
-use App\Models\Courses;
-use App\Models\Results;
-use App\Models\Students;
-use App\Models\Sessions;
-use Illuminate\Http\Request;
 use App\Imports\ResultsImport;
+use App\Models\Courses;
 use App\Models\DepartmentOptions;
+use App\Models\Levels;
+use App\Models\Results;
+use App\Models\Sessions;
+use App\Models\Students;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ResultController extends Controller
 {
@@ -26,8 +26,8 @@ class ResultController extends Controller
     public function resultupload()
     {
         $courses = Courses::select('thecourse_code', 'thecourse_id')->orderBy('thecourse_code', 'asc')->get();
-        $sess =  Sessions::select('cs_session')->get();
-        $levels =  Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
+        $sess = Sessions::select('cs_session')->get();
+        $levels = Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
         $courseofstudy = DepartmentOptions::select('do_id', 'programme_option', 'prog_id')
             ->orderBy('programme_option', 'asc')
             ->get();
@@ -87,11 +87,38 @@ class ResultController extends Controller
         }
     }
 
+    private static function registerOrUpdateCourseRegLog(array $course, $request)
+    {
+        $dataToInsert = [
+            'course_id' => $course['thecourse_id'],
+            'coursecode' => $course['thecourse_code'],
+            'coursetitle' => $course['thecourse_title'],
+            'courseunit' => $course['thecourse_unit'],
+            'clevel_id' => $request->levelid,
+            'csemester' => $request->sem,
+            'cyearsession' => $request->sess,
+            'course_category' => 'core',
+            'cdate_reg' => date('d-M-Y h:i:s'),
+            'status' => 1,
+        ];
+
+        DB::table('course_reg_log')->updateOrInsert(
+            [
+                'course_id' => $course['thecourse_id'],
+                'coursecode' => $course['thecourse_code'],
+                'clevel_id' => $request->levelid,
+                'csemester' => $request->sem,
+                'cyearsession' => $request->sess,
+            ],
+            $dataToInsert
+        );
+    }
+
     public function uploadedresult()
     {
         $resulttable = (new Results)->getTable();
         $coursetable = (new Courses)->getTable();
-        $sess =  Sessions::select('cs_session')->get();
+        $sess = Sessions::select('cs_session')->get();
         $results = Results::where('cyearsession', $sess[0]->cs_session)
             ->select(
                 "$resulttable.stdcourse_id",
@@ -166,8 +193,8 @@ class ResultController extends Controller
     public function manualupload()
     {
         $courses = Courses::select('thecourse_code', 'thecourse_id')->orderBy('thecourse_code', 'asc')->get();
-        $sess =  Sessions::select('cs_session')->get();
-        $levels =  Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
+        $sess = Sessions::select('cs_session')->get();
+        $levels = Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
         $courseofstudy = DepartmentOptions::select('do_id', 'programme_option', 'prog_id')
             ->orderBy('programme_option', 'asc')
             ->get();
@@ -283,8 +310,8 @@ class ResultController extends Controller
 
     public function resultssummary()
     {
-        $sess =  Sessions::select('cs_session')->get();
-        $levels =  Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
+        $sess = Sessions::select('cs_session')->get();
+        $levels = Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
         $courseofstudy = DepartmentOptions::select('do_id', 'programme_option', 'prog_id')
             ->orderBy('programme_option', 'asc')
             ->get();
@@ -353,7 +380,29 @@ class ResultController extends Controller
 
         $colspan = count($courses) + 8;
 
-        $view = ($mode === 'print') ?  'printsummary_result' : 'viewsummary_result';
+        $view = ($mode === 'print') ? 'printsummary_result' : 'viewsummary_result';
+
+        $showResults = $this->showResults($courses, $results);
+
+        $gpas = $results->pluck('gpa');
+        $statuses = $results->pluck('status');
+
+        $countGreaterthanTwoPoint = $gpas->filter(fn($value) => $value >= 2.0)->count();
+        $countLessthanOnePointFive = $gpas->filter(fn($value) => $value < 1.5)->count();
+        $countBetweenOnePointFiveAndOnePointSevenFour = $gpas->filter(fn($value) => $value >= 1.5 && $value < 1.74)->count();
+        $countBetweenOnePointSevenFiveAndOnePointNineNine = $gpas->filter(fn($value) => $value >= 1.75 && $value < 1.99)->count();
+        $countPass = $statuses->filter(fn($value) => $value === 'Pass')->count();
+
+        $gpaStats = [
+            'maxGpa' => $gpas->max(),
+            'minGpa' => $gpas->min(),
+            'countGreaterthanTwoPoint' => $countGreaterthanTwoPoint,
+            'countLessthanOnePointFive' => $countLessthanOnePointFive,
+            'countBetweenOnePointFiveAndOnePointSevenFour' => $countBetweenOnePointFiveAndOnePointSevenFour,
+            'countBetweenOnePointSevenFiveAndOnePointNineNine' => $countBetweenOnePointSevenFiveAndOnePointNineNine,
+            'countPass' => $countPass,
+            'totalStudents' => $results->count(),
+        ];
 
         return view($view, [
             'results' => $results,
@@ -363,40 +412,15 @@ class ResultController extends Controller
             'courseofstudy' => $courseofstudy,
             'courses' => $courses,
             'colspan' => $colspan,
+            'gradeLetters' => Results::getGradeLetters(),
+            'courseGradeCounts' => $showResults,
+            'gradeScale' => Results::$gradeScale,
+            'gpaStats' => $gpaStats,
             'success' => 'Results Fetched Successfully'
         ]);
     }
 
-
-
-    private static function registerOrUpdateCourseRegLog(array $course, $request)
-    {
-        $dataToInsert = [
-            'course_id'       => $course['thecourse_id'],
-            'coursecode'      => $course['thecourse_code'],
-            'coursetitle'     => $course['thecourse_title'],
-            'courseunit'      => $course['thecourse_unit'],
-            'clevel_id'       => $request->levelid,
-            'csemester'       => $request->sem,
-            'cyearsession'    => $request->sess,
-            'course_category' => 'core',
-            'cdate_reg'       => date('d-M-Y h:i:s'),
-            'status'          => 1,
-        ];
-
-        DB::table('course_reg_log')->updateOrInsert(
-            [
-                'course_id'    => $course['thecourse_id'],
-                'coursecode'   => $course['thecourse_code'],
-                'clevel_id'    => $request->levelid,
-                'csemester'    => $request->sem,
-                'cyearsession' => $request->sess,
-            ],
-            $dataToInsert
-        );
-    }
-
-    private function computeResultsWithMarks($results, $courses, $session)
+    private function computeResultsWithMarks(mixed $results, mixed $courses, int $session)
     {
         return $results->transform(function ($result) use ($courses, $session) {
             $marks = [];
@@ -409,7 +433,7 @@ class ResultController extends Controller
                 $marks[$course->course_id] = $data;
 
                 if ($data) {
-                    $unit = (int) $course->courseunit;
+                    $unit = (int)$course->courseunit;
                     $totalUnit += $unit;
 
                     $gp = Results::getGradeAndPoint($data->std_mark ?? 0);
@@ -421,7 +445,7 @@ class ResultController extends Controller
                 }
             }
 
-            $gpa = $totalUnit > 0 ? round($tgp / $totalUnit, 2) : 0;
+            $gpa = $totalUnit > 0 ? number_format($tgp / $totalUnit, 2) : 0;
             $status = $countFail === 0 ? 'Pass' : $countFail . 'F';
 
             $result->course_marks = $marks;
@@ -431,6 +455,30 @@ class ResultController extends Controller
             $result->status = $status;
 
             return $result;
+        });
+    }
+
+    private function showResults(mixed $courses, mixed $results)
+    {
+        $grades = Results::getGradeLetters();
+        return $courses->mapWithKeys(function ($course) use ($results, $grades) {
+            $statusCounts = array_fill_keys($grades, 0);
+            $studentCount = 0;
+
+            $results->each(function ($result) use ($course, &$statusCounts, &$studentCount) {
+                if (isset($result->course_marks[$course->course_id])) {
+                    $status = $result->course_marks[$course->course_id]->std_rstatus;
+                    if (array_key_exists($status, $statusCounts)) {
+                        $statusCounts[$status]++;
+                    }
+                    $studentCount++;
+                }
+            });
+
+            return [$course->course_id => [
+                'student_count' => $studentCount,
+                'grades' => $statusCounts,
+            ]];
         });
     }
 }

@@ -20,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('schoolname', 'DELTA STATE POLYTECHNIC, OGWASHI-UKU');
+        View::composer('*', function ($view) {
+            $view->with([
+                'schoolname' => 'DELTA STATE POLYTECHNIC, OGWASHI-UKU',
+                'pageTitle'  => 'DELTA STATE POLYTECHNIC, OGWASHI-UKU .:: Result',
+            ]);
+        });
     }
 }
