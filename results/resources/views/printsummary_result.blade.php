@@ -89,6 +89,16 @@
                 width: 100%;
             }
         }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
     </style>
 </head>
 
@@ -105,197 +115,246 @@
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 
-<table class="table table-bordered table-hover" style="font-size:12px; line-height:1;" id="dataTables-example">
-    <thead>
-    <tr style="font-size:12px;">
-        <th></th>
-        <th><strong>FULLNAME</strong></th>
-        <th><strong>
-                <div class="text-center"
-                     style="line-height: 1;">{!! str_replace(' ', '<br>', 'MATRICULATION NUMBER') !!}</div>
-            </strong></th>
-        @foreach ($courses as $course)
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" style="font-size:12px; line-height:1;" id="dataTables-example">
+        <thead>
+        <tr style="font-size:12px;">
+            <th></th>
+            <th><strong>FULLNAME</strong></th>
             <th><strong>
                     <div class="text-center"
-                         style="line-height: 1;">{!! str_replace(' ', '<br>', $course->coursecode) !!}</div>
+                         style="line-height: 1;">{!! str_replace(' ', '<br>', 'MATRICULATION NUMBER') !!}</div>
                 </strong></th>
-        @endforeach
-        <th><strong>TCU</strong></th>
-        <th><strong>TPS</strong></th>
-        <th><strong>GPA</strong></th>
-        <th><strong>
-                <div style="line-height: 1;">{!! str_replace(' ', '<br>', 'SEM PERF') !!}</div>
-            </strong></th>
-        <th><strong>REMARK</strong></th>
-    </tr>
-    <tr style="font-size:12px;">
-        <th></th>
-        <th></th>
-        <th></th>
-        @foreach ($courses as $course)
-            <th>
-                <div class="text-center">{{ $course->courseunit }}</div>
-            </th>
-        @endforeach
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach ($results as $result)
-        <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>{{ $result->fullnames ?? 'N/A' }}</td>
-            <td class="text-center">{{ $result->matric_no }}</td>
             @foreach ($courses as $course)
-                @php $data = $result->course_marks[$course->course_id] ?? null; @endphp
-                <td class="text-center">
-                    {{ (int)($data->std_mark ?? 0) }}{{ $data->std_rstatus ?? '' }}
-                </td>
+                <th><strong>
+                        <div class="text-center"
+                             style="line-height: 1;">{!! str_replace(' ', '<br>', $course->coursecode) !!}</div>
+                    </strong></th>
             @endforeach
-            <td>{{ $result->total_unit }}</td>
-            <td>{{ $result->tgp }}</td>
-            <td>{{ $result->gpa }}</td>
-            <td>{{ $result->status }}</td>
-            <td>{{ $result->status }}</td>
+            <th><strong>TCU</strong></th>
+            <th><strong>TPS</strong></th>
+            <th><strong>GPA</strong></th>
+            @if ($semester == 'Second Semester')
+                <th><strong>PREV TCU</strong></th>
+                <th><strong>PREV TPS</strong></th>
+                <th><strong>PREV GPA</strong></th>
+                <th><strong>CGPA</strong></th>
+            @endif
+            <th><strong>
+                    <div style="line-height: 1;">{!! str_replace(' ', '<br>', 'SEM PERF') !!}</div>
+                </strong></th>
+            @if ($semester == 'Second Semester')
+                <th><strong>
+                        <div style="line-height: 1;">{!! str_replace(' ', '<br>', 'PREV PERF') !!}</div>
+                    </strong></th>
+            @endif
+            <th><strong>REMARK</strong></th>
         </tr>
-    @endforeach
-    </tbody>
-</table>
+        <tr style="font-size:12px;">
+            <th></th>
+            <th></th>
+            <th></th>
+            @foreach ($courses as $course)
+                <th>
+                    <div class="text-center">{{ $course->courseunit }}</div>
+                </th>
+            @endforeach
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach ($results as $result)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $result->fullnames ?? 'N/A' }}</td>
+                <td class="text-center">{{ $result->matric_no }}</td>
+                @foreach ($courses as $course)
+                    @php $data = $result->course_marks[$course->course_id] ?? null; @endphp
+                    <td class="text-center">
+                        {{ (int)($data->std_mark ?? 0) }}{{ $data->std_rstatus ?? '' }}
+                    </td>
+                @endforeach
+                <td>{{ $result->total_unit }}</td>
+                <td>{{ $result->tgp }}</td>
+                <td>{{ $result->gpa }}</td>
+                @if ($semester == 'Second Semester')
+                    @php
+                        $firstSemSummary = collect($summmaryResultsFirstsem)->firstWhere('matric_no', $result->matric_no);
+                    @endphp
+                    <td>{{ $firstSemSummary['total_unit'] }}</td>
+                    <td>{{ $firstSemSummary['tgp'] }}</td>
+                    <td> {{ $firstSemSummary['gpa'] }}</td>
+                    <td>
+                        @php
+                            $cgpa = number_format(($firstSemSummary['tgp'] + $result->tgp) / ($firstSemSummary['total_unit'] + $result->total_unit),2);
+                             $allGpa[] = $cgpa;
+                        @endphp
+                        {{ $cgpa }}
 
+                    </td>
+                @endif
+                <td>{{ $result->status }}</td>
+                @if ($semester == 'Second Semester')
+                    <td> {{ $firstSemSummary['status'] }}</td>
+                @endif
+                <td>{{ $result->status }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+</div>
 <!-- Summary Section -->
 <div class="page-break summary-section">
-
-    <table style="width: 100%;">
-        <tr>
-            <td style="width: 80px; vertical-align: top;">
-                <img src="https://portal.mydspg.edu.ng/eportal/public/images/logo.png" width="120"
-                     height="140" alt="Logo">
-            </td>
-            <td style="text-align: left; padding-left: 10px; font-family: Tahoma, Geneva, sans-serif;">
-                <strong style="font-size: 16px;">{{ $schoolname }}</strong><br>
-                <span style="font-size:12px;"><strong>SCHOOL:</strong> {{ $courseofstudy[0]->department->faculty->faculties_name }}</span><br>
-                <span
-                    style="font-size:12px;"><strong>DEPARTMENT:</strong> {{ $courseofstudy[0]->programme_option }}</span><br>
-                <span
-                    style="font-size:12px;"><strong>EXAMINATION:</strong> {{ strtoupper($semester) }} RESULT</span><br>
-                <span style="font-size:12px;"><strong>PROGRAMME:</strong> {{ $courseofstudy[0]->programme->programme_name }} | LEVEL: {{ $level }}</span><br>
-                <span
-                    style="font-size:12px;"><strong>SESSION:</strong> {{ $session }}/{{ $session + 1 }}</span>
-            </td>
-        </tr>
-    </table>
-    <div style="margin-top: 20px">
-        <table class="text-center table table-bordered table-hover" style="font-size:12px; line-height:1; "
-               id="dataTables-example">
-            <thead>
-            <tr style="font-size:12px;">
-                <th><strong>S/N</strong></th>
-                <th><strong>Course Code</strong></th>
-                <th><strong>Course Title</strong></th>
-                <th><strong>Course Unit</strong></th>
-                @foreach ($gradeLetters as $grade)
-                    <th><strong>{{ $grade }}</strong></th>
-                @endforeach
-                <th><strong>TOTAL</strong></th>
-                <th><strong>%PASS</strong></th>
-                <th><strong>%FAIL</strong></th>
+    <div class="table-responsive">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 80px; vertical-align: top;">
+                    <img src="https://portal.mydspg.edu.ng/eportal/public/images/logo.png" width="120"
+                         height="140" alt="Logo">
+                </td>
+                <td style="text-align: left; padding-left: 10px; font-family: Tahoma, Geneva, sans-serif;">
+                    <strong style="font-size: 16px;">{{ $schoolname }}</strong><br>
+                    <span style="font-size:12px;"><strong>SCHOOL:</strong> {{ $courseofstudy[0]->department->faculty->faculties_name }}</span><br>
+                    <span
+                        style="font-size:12px;"><strong>DEPARTMENT:</strong> {{ $courseofstudy[0]->programme_option }}</span><br>
+                    <span
+                        style="font-size:12px;"><strong>EXAMINATION:</strong> {{ strtoupper($semester) }} RESULT</span><br>
+                    <span style="font-size:12px;"><strong>PROGRAMME:</strong> {{ $courseofstudy[0]->programme->programme_name }} | LEVEL: {{ $level }}</span><br>
+                    <span
+                        style="font-size:12px;"><strong>SESSION:</strong> {{ $session }}/{{ $session + 1 }}</span>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            @foreach ($courses as $course)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $course->coursecode }}</td>
-                    <td>{{ $course->coursetitle }}</td>
-                    <td>{{ $course->courseunit }}</td>
-                    @foreach ($gradeLetters as $grade)
-                        <td>{{ $courseGradeCounts[$course->course_id]['grades']["$grade"] }}</td>
-                    @endforeach
-                    <td>{{ $courseGradeCounts[$course->course_id]['student_count'] }}</td>
-                    <td>@php
-                            $failures = $courseGradeCounts[$course->course_id]['grades']['F'] ?? 0;
-                        echo $percentagePass = $courseGradeCounts[$course->course_id]['student_count'] > 0 ? round((($courseGradeCounts[$course->course_id]['student_count'] - $failures) / $courseGradeCounts[$course->course_id]['student_count']) * 100, 2) : 0;
-                        $percentageFail = $courseGradeCounts[$course->course_id]['student_count'] > 0 ? (100 - $percentagePass) : 0;
-                        @endphp</td>
-                    <td>{{ $percentageFail }}</td>
-                </tr>
-            @endforeach
-            </tbody>
         </table>
+    </div>
+    <div style="margin-top: 20px">
+        <div class="table-responsive">
+            <table class="text-center table table-bordered table-hover" style="font-size:12px; line-height:1; "
+                   id="dataTables-example">
+                <thead>
+                <tr style="font-size:12px;">
+                    <th><strong>S/N</strong></th>
+                    <th><strong>Course Code</strong></th>
+                    <th><strong>Course Title</strong></th>
+                    <th><strong>Course Unit</strong></th>
+                    @foreach ($gradeLetters as $grade)
+                        <th><strong>{{ $grade }}</strong></th>
+                    @endforeach
+                    <th><strong>TOTAL</strong></th>
+                    <th><strong>%PASS</strong></th>
+                    <th><strong>%FAIL</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($courses as $course)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $course->coursecode }}</td>
+                        <td>{{ $course->coursetitle }}</td>
+                        <td>{{ $course->courseunit }}</td>
+                        @foreach ($gradeLetters as $grade)
+                            <td>{{ $courseGradeCounts[$course->course_id]['grades']["$grade"] }}</td>
+                        @endforeach
+                        <td>{{ $courseGradeCounts[$course->course_id]['student_count'] }}</td>
+                        <td>@php
+                                $failures = $courseGradeCounts[$course->course_id]['grades']['F'] ?? 0;
+                            echo $percentagePass = $courseGradeCounts[$course->course_id]['student_count'] > 0 ? round((($courseGradeCounts[$course->course_id]['student_count'] - $failures) / $courseGradeCounts[$course->course_id]['student_count']) * 100) : 0;
+                            $percentageFail = $courseGradeCounts[$course->course_id]['student_count'] > 0 ? (100 - $percentagePass) : 0;
+                            @endphp
+
+                        </td>
+                        <td>{{ $percentageFail }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div style="margin-top: 20px" class="gpa-stats-container">
-        <table class="text-left table table-bordered table-hover" class="gpa-stats-table"
-               style="font-size:12px; line-height:1; width: 50%; ">
-            <tbody>
-            <tr>
-                <td>Total Number OF Students That Sat For the Exams</td>
-                <td>{{ $gpaStats['totalStudents'] }}</td>
-            </tr>
-            <tr>
-                <td>HIGHEST GPA</td>
-                <td>{{ $gpaStats['maxGpa'] }}</td>
-            </tr>
-            <tr>
-                <td>LOWEST GPA</td>
-                <td>{{ $gpaStats['minGpa'] }}</td>
-            </tr>
-            <tr>
-                <td>Number of Students With GPA Less Than 1.5</td>
-                <td>{{ $gpaStats['countLessthanOnePointFive'] }}</td>
-            </tr>
-            <tr>
-                <td>Number of Students With GPA Between 1.5 - 1.74</td>
-                <td>{{ $gpaStats['countBetweenOnePointFiveAndOnePointSevenFour'] }}</td>
-            </tr>
-            <tr>
-                <td>Number of Students With GPA Between 1.75 - 1.99</td>
-                <td>{{ $gpaStats['countBetweenOnePointSevenFiveAndOnePointNineNine'] }}</td>
-            </tr>
-            <tr>
-                <td>Number of Students With GPA 2.00 above</td>
-                <td>{{ $gpaStats['countGreaterthanTwoPoint'] }}</td>
-            </tr>
-            <tr>
-                <td>Number of Students With pass</td>
-                <td>{{ $gpaStats['countPass'] }}</td>
-            </tr>
-            <tr>
-                <td>Number of Students With carryover</td>
-                <td>{{ $gpaStats['totalStudents'] - $gpaStats['countPass'] }}</td>
-            </tr>
-            <tr>
-                <td>Number of Students With Malpractice Cases</td>
-                <td>0</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <table class="text-left table table-bordered table-hover" class="gpa-stats-table"
-               style="font-size:12px; line-height:1; width: 30%; ">
-            <thead>
-            <tr style="font-size:12px;">
-                <th><strong>GRADE</strong></th>
-                <th><strong>RANGE</strong></th>
-                <th><strong>POINTS</strong></th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach ($gradeScale as $scale)
+        <div class="table-responsive">
+            <table class="text-left table table-bordered table-hover" class="gpa-stats-table"
+                   style="font-size:12px; line-height:1; width: 50%; ">
+                <tbody>
                 <tr>
-                    <td>{{ $scale['grade'] }}</td>
-                    <td>{{ $scale['min'] }}-{{ $scale['max'] }}</td>
-                    <td>{{ $scale['point'] }}</td>
+                    <td>Total Number OF Students That Sat For the Exams</td>
+                    <td>{{ $gpaStats['totalStudents'] }}</td>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                @if ($semester == 'Second Semester')
+                    <tr>
+                        <td>HIGHEST CGPA</td>
+                        <td>{{ max($allGpa) }}</td>
+                    </tr>
+                    <tr>
+                        <td>LOWEST CGPA</td>
+                        <td>{{ min($allGpa) }}</td>
+                    </tr>
+                @else
+                    <tr>
+                        <td>HIGHEST GPA</td>
+                        <td>{{ $gpaStats['maxGpa'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>LOWEST GPA</td>
+                        <td>{{ $gpaStats['minGpa'] }}</td>
+                    </tr>
+                @endif
+                <tr>
+                    <td>Number of Students With GPA Less Than 1.5</td>
+                    <td>{{ $gpaStats['countLessthanOnePointFive'] }}</td>
+                </tr>
+                <tr>
+                    <td>Number of Students With GPA Between 1.5 - 1.74</td>
+                    <td>{{ $gpaStats['countBetweenOnePointFiveAndOnePointSevenFour'] }}</td>
+                </tr>
+                <tr>
+                    <td>Number of Students With GPA Between 1.75 - 1.99</td>
+                    <td>{{ $gpaStats['countBetweenOnePointSevenFiveAndOnePointNineNine'] }}</td>
+                </tr>
+                <tr>
+                    <td>Number of Students With GPA 2.00 above</td>
+                    <td>{{ $gpaStats['countGreaterthanTwoPoint'] }}</td>
+                </tr>
+                <tr>
+                    <td>Number of Students With pass</td>
+                    <td>{{ $gpaStats['countPass'] }}</td>
+                </tr>
+                <tr>
+                    <td>Number of Students With carryover</td>
+                    <td>{{ $gpaStats['totalStudents'] - $gpaStats['countPass'] }}</td>
+                </tr>
+                <tr>
+                    <td>Number of Students With Malpractice Cases</td>
+                    <td>0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="text-left table table-bordered table-hover" class="gpa-stats-table"
+                   style="font-size:12px; line-height:1; width: 30%; ">
+                <thead>
+                <tr style="font-size:12px;">
+                    <th><strong>GRADE</strong></th>
+                    <th><strong>RANGE</strong></th>
+                    <th><strong>POINTS</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($gradeScale as $scale)
+                    <tr>
+                        <td>{{ $scale['grade'] }}</td>
+                        <td>{{ $scale['min'] }}-{{ $scale['max'] }}</td>
+                        <td>{{ $scale['point'] }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-
 </div>
 
 <!-- Signature Footer -->

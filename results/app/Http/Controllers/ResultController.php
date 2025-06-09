@@ -98,6 +98,7 @@ class ResultController extends Controller
             'csemester' => $request->sem,
             'cyearsession' => $request->sess,
             'course_category' => 'core',
+            'cos' => $request->courseofstudy,
             'cdate_reg' => date('d-M-Y h:i:s'),
             'status' => 1,
         ];
@@ -341,6 +342,65 @@ class ResultController extends Controller
     public function viewResultSummary($level, $session, $semester, $cos, $mode = 'view')
     {
         $sem = $semester == 1 ? 'First Semester' : 'Second Semester';
+
+        list($courseofstudy, $results, $courselogs) = $this->getResultsData($cos, $session, $level, $sem);
+
+        $courses = $courselogs->sortBy('coursecode')->values();
+
+        if ($courses->isEmpty()) {
+            return redirect("resultsummary")->withErrors("Oops! Result for {$level}00 Level, {$session}/" . ($session + 1) . " Session for {$sem} examination is not uploaded");
+        }
+
+        $results = $this->computeResultsWithMarks($results, $courses, $session);
+
+        if ($semester == 2) {
+            list($courseofstudy, $resultFirstsem, $courselogsFirstsem) = $this->getResultsData($cos, $session, $level, 'First Semester');
+            $coursesFirstSem = $courselogsFirstsem->sortBy('coursecode')->values();
+            $resultsFirstsem = $this->computeResultsWithMarks($resultFirstsem, $coursesFirstSem, $session);
+            $summmaryResultsFirstsem = $resultsFirstsem->map(function ($result) {
+                return [
+                    'matric_no' => $result->matric_no,
+                    'fullnames' => $result->fullnames,
+                    'total_unit' => $result->total_unit,
+                    'tgp' => number_format($result->tgp, 2),
+                    'gpa' => number_format($result->gpa, 2),
+                    'status' => $result->status,
+                ];
+            });
+        }
+
+        $view = ($mode === 'print') ? 'printsummary_result' : 'viewsummary_result';
+
+        $showResults = $this->showResults($courses, $results);
+
+        $gpaStats = $this->getGpaStats($results);
+
+        return view($view, [
+            'results' => $results,
+            'level' => (new Levels)->getLevelName($level),
+            'session' => $session,
+            'semester' => $sem,
+            'courseofstudy' => $courseofstudy,
+            'courses' => $courses,
+            'colspan' => count($courses) + 8,
+            'gradeLetters' => Results::getGradeLetters(),
+            'courseGradeCounts' => $showResults,
+            'gradeScale' => Results::$gradeScale,
+            'gpaStats' => $gpaStats,
+            'summmaryResultsFirstsem' => $summmaryResultsFirstsem ?? null,
+            'success' => 'Results Fetched Successfully'
+        ]);
+    }
+
+    /**
+     * @param $cos
+     * @param $session
+     * @param $level
+     * @param string $sem
+     * @return array
+     */
+    public function getResultsData($cos, $session, $level, string $sem): array
+    {
         $resulttable = (new Results)->getTable();
         $studenttable = (new Students)->getTable();
 
@@ -367,57 +427,11 @@ class ResultController extends Controller
         $courselogs = DB::table('course_reg_log')
             ->where('clevel_id', $level)
             ->where('cyearsession', $session)
+            ->where('csemester', $sem)
+            ->where('cos', $cos)
             ->select('coursecode', 'coursetitle', 'courseunit', 'course_id', 'clevel_id', 'cyearsession')
             ->get();
-
-        $courses = $courselogs->sortBy('course_id')->values();
-
-        if ($courses->isEmpty()) {
-            return redirect("resultsummary")->withErrors("Oops! Result for {$level}00 Level, {$session}/" . ($session + 1) . " Session for {$sem} examination is not uploaded");
-        }
-
-        $results = $this->computeResultsWithMarks($results, $courses, $session);
-
-        $colspan = count($courses) + 8;
-
-        $view = ($mode === 'print') ? 'printsummary_result' : 'viewsummary_result';
-
-        $showResults = $this->showResults($courses, $results);
-
-        $gpas = $results->pluck('gpa');
-        $statuses = $results->pluck('status');
-
-        $countGreaterthanTwoPoint = $gpas->filter(fn($value) => $value >= 2.0)->count();
-        $countLessthanOnePointFive = $gpas->filter(fn($value) => $value < 1.5)->count();
-        $countBetweenOnePointFiveAndOnePointSevenFour = $gpas->filter(fn($value) => $value >= 1.5 && $value < 1.74)->count();
-        $countBetweenOnePointSevenFiveAndOnePointNineNine = $gpas->filter(fn($value) => $value >= 1.75 && $value < 1.99)->count();
-        $countPass = $statuses->filter(fn($value) => $value === 'Pass')->count();
-
-        $gpaStats = [
-            'maxGpa' => $gpas->max(),
-            'minGpa' => $gpas->min(),
-            'countGreaterthanTwoPoint' => $countGreaterthanTwoPoint,
-            'countLessthanOnePointFive' => $countLessthanOnePointFive,
-            'countBetweenOnePointFiveAndOnePointSevenFour' => $countBetweenOnePointFiveAndOnePointSevenFour,
-            'countBetweenOnePointSevenFiveAndOnePointNineNine' => $countBetweenOnePointSevenFiveAndOnePointNineNine,
-            'countPass' => $countPass,
-            'totalStudents' => $results->count(),
-        ];
-
-        return view($view, [
-            'results' => $results,
-            'level' => (new Levels)->getLevelName($level),
-            'session' => $session,
-            'semester' => $sem,
-            'courseofstudy' => $courseofstudy,
-            'courses' => $courses,
-            'colspan' => $colspan,
-            'gradeLetters' => Results::getGradeLetters(),
-            'courseGradeCounts' => $showResults,
-            'gradeScale' => Results::$gradeScale,
-            'gpaStats' => $gpaStats,
-            'success' => 'Results Fetched Successfully'
-        ]);
+        return array($courseofstudy, $results, $courselogs);
     }
 
     private function computeResultsWithMarks(mixed $results, mixed $courses, int $session)
@@ -450,7 +464,7 @@ class ResultController extends Controller
 
             $result->course_marks = $marks;
             $result->total_unit = $totalUnit;
-            $result->tgp = $tgp;
+            $result->tgp = number_format($tgp, 2);
             $result->gpa = $gpa;
             $result->status = $status;
 
@@ -480,5 +494,33 @@ class ResultController extends Controller
                 'grades' => $statusCounts,
             ]];
         });
+    }
+
+    /**
+     * @param mixed $results
+     * @return array
+     */
+    public function getGpaStats(mixed $results): array
+    {
+        $gpas = $results->pluck('gpa');
+        $statuses = $results->pluck('status');
+
+        $countGreaterthanTwoPoint = $gpas->filter(fn($value) => $value >= 2.0)->count();
+        $countLessthanOnePointFive = $gpas->filter(fn($value) => $value < 1.5)->count();
+        $countBetweenOnePointFiveAndOnePointSevenFour = $gpas->filter(fn($value) => $value >= 1.5 && $value < 1.74)->count();
+        $countBetweenOnePointSevenFiveAndOnePointNineNine = $gpas->filter(fn($value) => $value >= 1.75 && $value < 1.99)->count();
+        $countPass = $statuses->filter(fn($value) => $value === 'Pass')->count();
+
+        $gpaStats = [
+            'maxGpa' => $gpas->max(),
+            'minGpa' => $gpas->min(),
+            'countGreaterthanTwoPoint' => $countGreaterthanTwoPoint,
+            'countLessthanOnePointFive' => $countLessthanOnePointFive,
+            'countBetweenOnePointFiveAndOnePointSevenFour' => $countBetweenOnePointFiveAndOnePointSevenFour,
+            'countBetweenOnePointSevenFiveAndOnePointNineNine' => $countBetweenOnePointSevenFiveAndOnePointNineNine,
+            'countPass' => $countPass,
+            'totalStudents' => $results->count(),
+        ];
+        return $gpaStats;
     }
 }
