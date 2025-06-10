@@ -75,7 +75,7 @@ class ResultController extends Controller
         ]);
 
         $data = $request->input();
-        $cc = Courses::where('thecourse_id', $data['courses'])->select('thecourse_code', 'thecourse_title', 'thecourse_unit', 'semester', 'levels')->get();
+        $cc = Courses::where('thecourse_id', $data['courses'])->select('thecourse_id', 'thecourse_code', 'thecourse_title', 'thecourse_unit', 'semester', 'levels')->get();
 
         self::registerOrUpdateCourseRegLog($cc, $request);
 
@@ -87,15 +87,16 @@ class ResultController extends Controller
         }
     }
 
-    private static function registerOrUpdateCourseRegLog(array $course, $request)
+    private static function registerOrUpdateCourseRegLog(mixed $course, $request)
     {
+
         $dataToInsert = [
-            'course_id' => $course['thecourse_id'],
-            'coursecode' => $course['thecourse_code'],
-            'coursetitle' => $course['thecourse_title'],
-            'courseunit' => $course['thecourse_unit'],
-            'clevel_id' => $request->levelid,
-            'csemester' => $request->sem,
+            'course_id' => $course[0]['thecourse_id'],
+            'coursecode' => $course[0]['thecourse_code'],
+            'coursetitle' => $course[0]['thecourse_title'],
+            'courseunit' => $course[0]['thecourse_unit'],
+            'clevel_id' => $request->clevel,
+            'csemester' => $request->semester,
             'cyearsession' => $request->sess,
             'course_category' => 'core',
             'cos' => $request->courseofstudy,
@@ -105,10 +106,10 @@ class ResultController extends Controller
 
         DB::table('course_reg_log')->updateOrInsert(
             [
-                'course_id' => $course['thecourse_id'],
-                'coursecode' => $course['thecourse_code'],
-                'clevel_id' => $request->levelid,
-                'csemester' => $request->sem,
+                'course_id' => $course[0]['thecourse_id'],
+                'coursecode' => $course[0]['thecourse_code'],
+                'clevel_id' => $request->clevel,
+                'csemester' => $request->semester,
                 'cyearsession' => $request->sess,
             ],
             $dataToInsert
@@ -203,7 +204,7 @@ class ResultController extends Controller
             ->where("semester", $sem)
             ->delete();
 
-        return redirect()->route('uploadedresult')->with('success', 'Results Deleted Successfully');
+        return redirect()->route('courseresult')->with('success', 'Results Deleted Successfully');
     }
 
     public function manualupload()
