@@ -62,7 +62,7 @@
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
-                                <a class="dropdown-item" href="{{ url('students.index') }}">
+                                <a class="dropdown-item" href="{{ url('students') }}">
                                     {{ __('Student Management') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ url('uploadresult') }}">
@@ -74,9 +74,6 @@
                                 </a>
                                 <a class="dropdown-item" href="{{ url('courseresult') }}">
                                     {{ __('Course Results') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ url('delresult') }}">
-                                    {{ __('Delete Results') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ url('resultsummary') }}">
                                     {{ __('Result Summary') }}
