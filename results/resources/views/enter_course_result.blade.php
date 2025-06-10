@@ -81,7 +81,7 @@
                                                    value="{{ old('cat.' . $matricno, $result?->cat) }}" required>
                                         </td>
                                         <td>
-                                            <input type="number" width="1px" step="0.01" min="0" max="100"
+                                            <input type="number" width="1px" step="0.01" min="0" max="60"
                                                    name="exam[{{ $matricno }}]" class="form-control"
                                                    value="{{ old('exam.' . $matricno, $result?->exam) }}" required>
                                         </td>

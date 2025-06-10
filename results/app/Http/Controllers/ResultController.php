@@ -115,8 +115,15 @@ class ResultController extends Controller
         );
     }
 
-    public function uploadedresult()
+    public function uploadedresult(Request $request)
     {
+        $request->validate([
+            'sess' => 'required|numeric',
+            'clevel' => 'required|numeric',
+            'semester' => 'required|string',
+            'courseofstudy' => 'required|numeric',
+        ]);
+
         $resulttable = (new Results)->getTable();
         $coursetable = (new Courses)->getTable();
         $sess = Sessions::select('cs_session')->get();
@@ -132,6 +139,10 @@ class ResultController extends Controller
                 DB::raw('COUNT(*) as total_students')
             )
             ->join($coursetable, "$coursetable.thecourse_id", '=', "$resulttable.stdcourse_id")
+            ->where("$resulttable.level_id", $request->clevel)
+            ->where("$resulttable.cyearsession", $request->sess)
+            ->where("$resulttable.semester", $request->semester)
+            ->where("$resulttable.cos", $request->courseofstudy)
             ->groupBy(
                 "$resulttable.stdcourse_id",
                 "$resulttable.course_code",
@@ -142,6 +153,10 @@ class ResultController extends Controller
                 "$resulttable.cos",
             )
             ->get();
+
+        if ($results->isEmpty()) {
+            return redirect()->route('courseresult')->withErrors("Oops! No Course results found for {$request->clevel}00 Level, {$request->sess}/" . ($request->sess + 1) . " Session for {$request->semester}");
+        }
 
         return view('uploadedresults', ['results' => $results])->with('success', 'Results Fetched Successfully');
     }
@@ -320,6 +335,17 @@ class ResultController extends Controller
         return view('resultssummary', ['sess' => $sess[0]->cs_session, 'levels' => $levels, 'courseofstudy' => $courseofstudy]);
     }
 
+    public function courseresult()
+    {
+        $sess = Sessions::select('cs_session')->get();
+        $levels = Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
+        $courseofstudy = DepartmentOptions::select('do_id', 'programme_option', 'prog_id')
+            ->orderBy('programme_option', 'asc')
+            ->get();
+
+        return view('courseresult', ['sess' => $sess[0]->cs_session, 'levels' => $levels, 'courseofstudy' => $courseofstudy]);
+    }
+
     public function viewResult(Request $request)
     {
         $request->validate([
@@ -353,27 +379,17 @@ class ResultController extends Controller
 
         $results = $this->computeResultsWithMarks($results, $courses, $session);
 
-        if ($semester == 2) {
-            list($courseofstudy, $resultFirstsem, $courselogsFirstsem) = $this->getResultsData($cos, $session, $level, 'First Semester');
-            $coursesFirstSem = $courselogsFirstsem->sortBy('coursecode')->values();
-            $resultsFirstsem = $this->computeResultsWithMarks($resultFirstsem, $coursesFirstSem, $session);
-            $summmaryResultsFirstsem = $resultsFirstsem->map(function ($result) {
-                return [
-                    'matric_no' => $result->matric_no,
-                    'fullnames' => $result->fullnames,
-                    'total_unit' => $result->total_unit,
-                    'tgp' => number_format($result->tgp, 2),
-                    'gpa' => number_format($result->gpa, 2),
-                    'status' => $result->status,
-                ];
-            });
-        }
+        list($summmaryResultsFirstsem, $courseofstudy) = $this->getFirstSemesterResultsSummary($semester, $cos, $session, $level, $courseofstudy);
+
+        $results = $this->getSessionalResults($results, $courses, $semester, $summmaryResultsFirstsem);
 
         $view = ($mode === 'print') ? 'printsummary_result' : 'viewsummary_result';
 
         $showResults = $this->showResults($courses, $results);
 
         $gpaStats = $this->getGpaStats($results);
+
+        $cgpaStats = $this->getCgpaStats($results);
 
         return view($view, [
             'results' => $results,
@@ -387,10 +403,11 @@ class ResultController extends Controller
             'courseGradeCounts' => $showResults,
             'gradeScale' => Results::$gradeScale,
             'gpaStats' => $gpaStats,
-            'summmaryResultsFirstsem' => $summmaryResultsFirstsem ?? null,
+            'cgpaStats' => $cgpaStats,
             'success' => 'Results Fetched Successfully'
         ]);
     }
+
 
     /**
      * @param $cos
@@ -472,6 +489,79 @@ class ResultController extends Controller
         });
     }
 
+    /**
+     * @param $semester
+     * @param $cos
+     * @param $session
+     * @param $level
+     * @param mixed $courseofstudy
+     * @return array
+     */
+    public function getFirstSemesterResultsSummary($semester, $cos, $session, $level, mixed $courseofstudy): array
+    {
+        $summmaryResultsFirstsem = null;
+
+        if ($semester == 2) {
+            list($courseofstudy, $resultFirstsem, $courselogsFirstsem) = $this->getResultsData($cos, $session, $level, 'First Semester');
+            $coursesFirstSem = $courselogsFirstsem->sortBy('coursecode')->values();
+            $resultsFirstsem = $this->computeResultsWithMarks($resultFirstsem, $coursesFirstSem, $session);
+            $summmaryResultsFirstsem = $resultsFirstsem->map(function ($result) {
+                return [
+                    'matric_no' => $result->matric_no,
+                    'fullnames' => $result->fullnames,
+                    'total_unit' => $result->total_unit,
+                    'tgp' => number_format($result->tgp, 2),
+                    'gpa' => number_format($result->gpa, 2),
+                    'status' => $result->status,
+                ];
+            });
+        }
+        return array($summmaryResultsFirstsem, $courseofstudy);
+    }
+
+    /**
+     * @param mixed $results
+     * @param $courses
+     * @param $semester
+     * @param mixed $summmaryResultsFirstsem
+     * @return mixed
+     */
+    public function getSessionalResults(mixed $results, $courses, $semester, mixed $summmaryResultsFirstsem): mixed
+    {
+        $results = $results->map(function ($result) use ($courses, $semester, $summmaryResultsFirstsem) {
+            // Prepare course marks
+            $result->display_marks = collect($courses)->mapWithKeys(function ($course) use ($result) {
+                $data = $result->course_marks[$course->course_id] ?? null;
+                $mark = (int)($data->std_mark ?? 0);
+                $grade = $data->std_rstatus ?? '';
+                return [$course->course_id => "$mark$grade"];
+            });
+
+            // Second Semester logic
+            if ($semester == 2 && $summmaryResultsFirstsem) {
+                $firstSem = collect($summmaryResultsFirstsem)->firstWhere('matric_no', $result->matric_no);
+                if ($firstSem) {
+                    $prev_tcu = $firstSem['total_unit'];
+                    $prev_tps = $firstSem['tgp'];
+                    $prev_gpa = $firstSem['gpa'];
+
+                    $result->prev_tcu = $prev_tcu;
+                    $result->prev_tps = $prev_tps;
+                    $result->prev_gpa = $prev_gpa;
+
+                    $result->cgpa = number_format(
+                        ($prev_tps + $result->tgp) / ($prev_tcu + $result->total_unit),
+                        2
+                    );
+                    $result->prev_status = $firstSem['status'];
+                }
+            }
+
+            return $result;
+        });
+        return $results;
+    }
+
     private function showResults(mixed $courses, mixed $results)
     {
         $grades = Results::getGradeLetters();
@@ -522,5 +612,19 @@ class ResultController extends Controller
             'totalStudents' => $results->count(),
         ];
         return $gpaStats;
+    }
+
+    /**
+     * @param mixed $results
+     * @return array
+     */
+    public function getCgpaStats(mixed $results): array
+    {
+        $cgpas = $results->pluck('cgpa');
+        $cgpaStats = [
+            'maxCgpa' => $cgpas->max(),
+            'minCgpa' => $cgpas->min(),
+        ];
+        return $cgpaStats;
     }
 }

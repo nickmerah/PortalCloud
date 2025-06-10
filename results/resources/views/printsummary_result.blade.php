@@ -182,24 +182,14 @@
                 <td>{{ $result->tgp }}</td>
                 <td>{{ $result->gpa }}</td>
                 @if ($semester == 'Second Semester')
-                    @php
-                        $firstSemSummary = collect($summmaryResultsFirstsem)->firstWhere('matric_no', $result->matric_no);
-                    @endphp
-                    <td>{{ $firstSemSummary['total_unit'] }}</td>
-                    <td>{{ $firstSemSummary['tgp'] }}</td>
-                    <td> {{ $firstSemSummary['gpa'] }}</td>
-                    <td>
-                        @php
-                            $cgpa = number_format(($firstSemSummary['tgp'] + $result->tgp) / ($firstSemSummary['total_unit'] + $result->total_unit),2);
-                             $allGpa[] = $cgpa;
-                        @endphp
-                        {{ $cgpa }}
-
-                    </td>
+                    <td>{{ $result->prev_tcu }}</td>
+                    <td>{{ $result->prev_tps }}</td>
+                    <td>{{ $result->prev_gpa }}</td>
+                    <td>{{ $result->cgpa }}</td>
                 @endif
                 <td>{{ $result->status }}</td>
                 @if ($semester == 'Second Semester')
-                    <td> {{ $firstSemSummary['status'] }}</td>
+                    <td>{{ $result->prev_status }}</td>
                 @endif
                 <td>{{ $result->status }}</td>
             </tr>
@@ -277,7 +267,7 @@
     <div style="margin-top: 20px" class="gpa-stats-container">
         <div class="table-responsive">
             <table class="text-left table table-bordered table-hover" class="gpa-stats-table"
-                   style="font-size:12px; line-height:1; width: 50%; ">
+                   style="font-size:12px; line-height:1; width: 80%; ">
                 <tbody>
                 <tr>
                     <td>Total Number OF Students That Sat For the Exams</td>
@@ -286,11 +276,11 @@
                 @if ($semester == 'Second Semester')
                     <tr>
                         <td>HIGHEST CGPA</td>
-                        <td>{{ max($allGpa) }}</td>
+                        <td>{{ $cgpaStats['maxCgpa'] }}</td>
                     </tr>
                     <tr>
                         <td>LOWEST CGPA</td>
-                        <td>{{ min($allGpa) }}</td>
+                        <td>{{ $cgpaStats['minCgpa'] }}</td>
                     </tr>
                 @else
                     <tr>
@@ -335,7 +325,7 @@
         </div>
         <div class="table-responsive">
             <table class="text-left table table-bordered table-hover" class="gpa-stats-table"
-                   style="font-size:12px; line-height:1; width: 30%; ">
+                   style="font-size:12px; line-height:1; width: 40%; ">
                 <thead>
                 <tr style="font-size:12px;">
                     <th><strong>GRADE</strong></th>

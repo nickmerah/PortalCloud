@@ -6,9 +6,12 @@
 
             <div class="col-md-8"><br>
                 <div class="card">
-                    <div class="card-header">{{ __('Upload Result Sheet') }}</div>
+                    <div class="card-header">{{ __('View Course Results') }}</div>
+
                     <div class="card-body">
-                        <form method="POST" enctype="multipart/form-data" action="{{ url('importResult') }}">
+
+
+                        <form method="POST" action="{{ url('uploadedresult') }}">
                             @csrf
                             @if(session('success'))
                                 <div class="alert alert-success">
@@ -28,8 +31,8 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                     <tr>
-                                        <th colspan="2">Instruction: Browse to select the excel sheet, select a session,
-                                            level, semester, course of study and import. Excel Files must be in .xls
+                                        <th colspan="2">Instruction: Browse to select session, level, semester, course
+                                            of study and view results.
                                         </th>
                                     </tr>
                                     </thead>
@@ -81,27 +84,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Course</strong></td>
-                                        <td>
-
-                                            <select name="courses" id="courses" class="form-control" required disabled>
-                                                <option value=""> Select Course Code</option>
-                                            </select>
-
-                                        </td>
-                                    </tr>
-                                    <td><span class="fieldarea"><strong>Location of the Excel File</strong></span></td>
-                                    <td><input id="uploadImage" type="file" accept=".xls" name="file"
-                                               placeholder="Select Excel file" required class="form-control"/>
-                                        File must be saved in .xls extension
-                                    </td>
-                                    </tr>
-
-                                    <tr>
                                         <td>&nbsp;</td>
                                         <td>
-                                            <button id="button" type="submit" class="btn btn-success">Upload Excel
-                                                Sheet </i>
+                                            <button id="button" type="submit" class="btn btn-success">View Course
+                                                Result </i>
                                             </button>
                                         </td>
                                     </tr>
@@ -110,11 +96,6 @@
                             </div>
                         </form>
 
-                        <div class="text-center">
-                            <a href="{{ asset('result.xls') }}" download>Download Result Template</a>
-
-                            | <a href="{{ route('courseresult') }}"> Check Uploaded Results</a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -148,32 +129,6 @@
                 $('#courseofstudy').empty().append('<option value=""> Select Course of Study </option>');
             }
 
-        });
-
-        $('#courseofstudy').change(function () {
-            $('#courses').prop('disabled', false);
-            let levelId = $('#clevel').val();
-            let semester = $('#semester').val();
-            let cosId = $(this).val();
-            if (levelId && semester && cosId) {
-                $.ajax({
-                    url: '{{ url("/get-courses") }}',
-                    type: 'GET',
-                    data: {
-                        level_id: levelId,
-                        semester: semester,
-                        cos_id: cosId
-                    },
-                    success: function (data) {
-                        $('#courses').empty().append('<option value=""> Select Course Code </option>');
-                        $.each(data, function (key, course) {
-                            $('#courses').append('<option value="' + course.thecourse_id + '">' + course.thecourse_code + '</option>');
-                        });
-                    }
-                });
-            } else {
-                $('#courses').empty().append('<option value=""> Select Course Code </option>');
-            }
         });
     </script>
 @endsection
