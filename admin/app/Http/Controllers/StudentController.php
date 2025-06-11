@@ -3,31 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\CourseRegistration;
-use App\Models\Lga;
-use App\Models\Level;
-use App\Models\Users;
-use App\Models\Faculty;
-use App\Models\Student;
-use App\Models\Programme;
+use App\Models\CTransaction;
 use App\Models\Department;
 use App\Models\DeptOption;
-use App\Models\CTransaction;
-use App\Models\RTransaction;
-use Illuminate\Http\Request;
+use App\Models\Faculty;
+use App\Models\Level;
+use App\Models\Lga;
+use App\Models\Programme;
 use App\Models\ProgrammeType;
+use App\Models\RTransaction;
 use App\Models\StateOfOrigin;
 use App\Models\StdCurrentSession;
 use App\Models\StdTransaction;
-use Illuminate\Support\Facades\DB;
+use App\Models\Student;
+use App\Models\Users;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use ZipArchive;
 use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class StudentController extends Controller
 {
     protected $baseUrl = 'https://portal.mydspg.edu.ng/eportal/storage/app/public/passport/';
-
 
     public function index(Request $request)
     {
@@ -38,6 +37,22 @@ class StudentController extends Controller
         }
         if ($request->filled('surname')) {
             $query->where('surname', 'like', '%' . $request->surname . '%');
+        }
+
+        if ($request->filled('prog_id')) {
+            $query->where('stdprogramme_id', $request->prog_id);
+        }
+
+        if ($request->filled('progtype_id')) {
+            $query->where('stdprogrammetype_id', $request->progtype_id);
+        }
+
+        if ($request->filled('courseofstudy')) {
+            $query->where('stdcourse', $request->courseofstudy);
+        }
+
+        if ($request->filled('level_id')) {
+            $query->where('stdlevel', $request->level_id);
         }
 
         $programmes = Programme::all();
@@ -79,116 +94,6 @@ class StudentController extends Controller
         ));
     }
 
-    public function update(Request $request)
-    {
-        $request->validate([
-            'matric_no' => 'required|string|max:25',
-            'surname' => 'required|string|max:150',
-            'firstname' => 'required|string|max:150',
-            'student_email' => 'required|string|email|max:250',
-            'student_mobiletel' => 'required|string|max:25',
-            'contact_address' => 'required|string|max:255',
-            'next_of_kin' => 'required|string|max:150',
-            'nok_address' => 'required|string|max:250',
-            'nok_tel' => 'required|string|max:25',
-            'gender' => 'required|string|max:6',
-            'birthdate' => 'required|date',
-            'stdlevel' => 'required|integer',
-            'marital_status' => 'required|string|max:10',
-            'local_gov' => 'required|integer',
-            'state_of_origin' => 'required|integer',
-            'stdcourse' => 'required|integer',
-            'stdprogrammetype_id' => 'required|integer',
-        ], [
-            'matric_no.required' => 'The Matriculation No field is required.',
-            'matric_no.string' => 'The Matriculation No must be a string.',
-            'matric_no.max' => 'The Matriculation No may not be greater than 25 characters.',
-            
-            'surname.required' => 'The surname field is required.',
-            'surname.string' => 'The surname must be a string.',
-            'surname.max' => 'The surname may not be greater than 150 characters.',
-
-            'firstname.required' => 'The firstname field is required.',
-            'firstname.string' => 'The firstname must be a string.',
-            'firstname.max' => 'The firstname may not be greater than 150 characters.',
-
-            'stdprogrammetype_id.required' => 'The programme type field is required.',
-            'stdprogrammetype_id.integer' => 'The programme type must be an integer.',
-
-            'stdcourse.required' => 'The course of study field is required.',
-            'stdcourse.integer' => 'The course of study must be an integer.',
-
-            'student_email.required' => 'The email field is required.',
-            'student_email.string' => 'The email must be a string.',
-            'student_email.email' => 'The email must be a valid email address.',
-            'student_email.max' => 'The email may not be greater than 250 characters.',
-
-            'student_mobiletel.required' => 'The mobile telephone field is required.',
-            'student_mobiletel.string' => 'The mobile telephone must be a string.',
-            'student_mobiletel.max' => 'The mobile telephone may not be greater than 25 characters.',
-
-            'contact_address.required' => 'The contact address field is required.',
-            'contact_address.string' => 'The contact address must be a string.',
-            'contact_address.max' => 'The contact address may not be greater than 255 characters.',
-
-            'next_of_kin.required' => 'The next of kin field is required.',
-            'next_of_kin.string' => 'The next of kin must be a string.',
-            'next_of_kin.max' => 'The next of kin may not be greater than 150 characters.',
-
-            'nok_address.required' => 'The next of kin address field is required.',
-            'nok_address.string' => 'The next of kin address must be a string.',
-            'nok_address.max' => 'The next of kin address may not be greater than 250 characters.',
-
-            'nok_tel.required' => 'The next of kin telephone field is required.',
-            'nok_tel.string' => 'The next of kin telephone must be a string.',
-            'nok_tel.max' => 'The next of kin telephone may not be greater than 25 characters.',
-
-            'gender.required' => 'The gender field is required.',
-            'gender.string' => 'The gender must be a string.',
-            'gender.max' => 'The gender may not be greater than 6 characters.',
-
-            'birthdate.required' => 'The birthdate field is required.',
-            'birthdate.date' => 'The birthdate must be a valid date.',
-
-            'stdlevel.required' => 'The level field is required.',
-            'stdlevel.integer' => 'The level must be an integer.',
-
-            'marital_status.required' => 'The marital status field is required.',
-            'marital_status.string' => 'The marital status must be a string.',
-            'marital_status.max' => 'The marital status may not be greater than 10 characters.',
-
-            'local_gov.required' => 'The local government field is required.',
-            'local_gov.integer' => 'The local government must be an integer.',
-
-            'state_of_origin.required' => 'The state of origin field is required.',
-            'state_of_origin.integer' => 'The state of origin must be an integer.',
-        ]);
-
-
-        $student = Student::find($request->stdid);
-
-        if (is_null($student)) {
-            return redirect()->route('students.index')
-                ->with('error', 'Record not found');
-        }
-
-        if ($request->stdcourse && $request->stdcourse != $student->stdcourse) {
-            $stdcourseDetails = DeptOption::select('dept_options.dept_id', 'departments.fac_id')
-                ->join('departments', 'departments.departments_id', '=', 'dept_options.dept_id')
-                ->where('dept_options.do_id', $request->stdcourse)
-                ->first();
-
-            if ($stdcourseDetails) {
-                $student->stddepartment_id = $stdcourseDetails->dept_id;
-                $student->stdfaculty_id = $stdcourseDetails->fac_id;
-            }
-        }
-        $student->fill($request->all());
-        $student->update();
-
-        return redirect()->intended('students/' . $request->stdid);
-    }
-
     public function getLgas($id)
     {
 
@@ -217,17 +122,15 @@ class StudentController extends Controller
 
     public function getExclusions()
     {
-        $exclusions =  DB::table('exclusion')->get();
+        $exclusions = DB::table('exclusion')->get();
         return view('students.exclusions', compact('exclusions'));
     }
 
-
     public function getPromotionList()
     {
-        $stdpromote_list =  DB::table('stdpromote_list')->get();
+        $stdpromote_list = DB::table('stdpromote_list')->get();
         return view('students.promote_list', compact('stdpromote_list'));
     }
-
 
     public function excludeFees(Request $request)
     {
@@ -245,7 +148,7 @@ class StudentController extends Controller
             }
             while (($row = fgetcsv($handle)) !== false) {
                 $matno = trim(strtoupper($row[$matnoIndex]));
-                $amount = (int) trim($row[$amountIndex]);
+                $amount = (int)trim($row[$amountIndex]);
                 DB::table('exclusion')->updateOrInsert(
                     ['matno' => $matno],
                     [
@@ -358,7 +261,6 @@ class StudentController extends Controller
 
             'stdlevel.required' => 'The level field is required.',
             'stdlevel.integer' => 'The level must be an integer.',
-
 
 
             'local_gov.required' => 'The local government field is required.',
@@ -522,7 +424,7 @@ class StudentController extends Controller
             }
             while (($row = fgetcsv($handle)) !== false) {
                 $matno = trim(strtoupper($row[$matnoIndex]));
-                $level = (int) trim($row[$levelIndex]);
+                $level = (int)trim($row[$levelIndex]);
                 DB::table('stdpromote_list')->updateOrInsert(
                     ['matno' => $matno],
                     [
@@ -567,13 +469,13 @@ class StudentController extends Controller
             if ($userData) {
                 // Get assigned departments
                 $assignedDepts = explode(',', $userData->u_cos ?? '');
-                
+
                 $assignedLevels = explode(',', $userData->u_level ?? '');
 
                 // Apply filters to the main query
                 $query->whereIn('stddepartment_id', $assignedDepts)
-                       ->whereIn('stdlevel', $assignedLevels);
-                    
+                    ->whereIn('stdlevel', $assignedLevels);
+
             } else {
                 throw new \Exception("User data not found for the given criteria.");
             }
@@ -594,7 +496,7 @@ class StudentController extends Controller
                 ->with('error', 'Record not found');
         }
 
-        // check if student is assigned to the course adviser 
+        // check if student is assigned to the course adviser
         $userData = session('user_data');
         if ($userData) {
             $decryptedUserData = json_decode(Crypt::decryptString($userData), true);
@@ -661,6 +563,116 @@ class StudentController extends Controller
         return redirect()->back()->with('success', 'Courses for the student approved successfully.');
     }
 
+    public function update(Request $request)
+    {
+        $request->validate([
+            'matric_no' => 'required|string|max:25',
+            'surname' => 'required|string|max:150',
+            'firstname' => 'required|string|max:150',
+            'student_email' => 'required|string|email|max:250',
+            'student_mobiletel' => 'required|string|max:25',
+            'contact_address' => 'required|string|max:255',
+            'next_of_kin' => 'required|string|max:150',
+            'nok_address' => 'required|string|max:250',
+            'nok_tel' => 'required|string|max:25',
+            'gender' => 'required|string|max:6',
+            'birthdate' => 'required|date',
+            'stdlevel' => 'required|integer',
+            'marital_status' => 'required|string|max:10',
+            'local_gov' => 'required|integer',
+            'state_of_origin' => 'required|integer',
+            'stdcourse' => 'required|integer',
+            'stdprogrammetype_id' => 'required|integer',
+        ], [
+            'matric_no.required' => 'The Matriculation No field is required.',
+            'matric_no.string' => 'The Matriculation No must be a string.',
+            'matric_no.max' => 'The Matriculation No may not be greater than 25 characters.',
+
+            'surname.required' => 'The surname field is required.',
+            'surname.string' => 'The surname must be a string.',
+            'surname.max' => 'The surname may not be greater than 150 characters.',
+
+            'firstname.required' => 'The firstname field is required.',
+            'firstname.string' => 'The firstname must be a string.',
+            'firstname.max' => 'The firstname may not be greater than 150 characters.',
+
+            'stdprogrammetype_id.required' => 'The programme type field is required.',
+            'stdprogrammetype_id.integer' => 'The programme type must be an integer.',
+
+            'stdcourse.required' => 'The course of study field is required.',
+            'stdcourse.integer' => 'The course of study must be an integer.',
+
+            'student_email.required' => 'The email field is required.',
+            'student_email.string' => 'The email must be a string.',
+            'student_email.email' => 'The email must be a valid email address.',
+            'student_email.max' => 'The email may not be greater than 250 characters.',
+
+            'student_mobiletel.required' => 'The mobile telephone field is required.',
+            'student_mobiletel.string' => 'The mobile telephone must be a string.',
+            'student_mobiletel.max' => 'The mobile telephone may not be greater than 25 characters.',
+
+            'contact_address.required' => 'The contact address field is required.',
+            'contact_address.string' => 'The contact address must be a string.',
+            'contact_address.max' => 'The contact address may not be greater than 255 characters.',
+
+            'next_of_kin.required' => 'The next of kin field is required.',
+            'next_of_kin.string' => 'The next of kin must be a string.',
+            'next_of_kin.max' => 'The next of kin may not be greater than 150 characters.',
+
+            'nok_address.required' => 'The next of kin address field is required.',
+            'nok_address.string' => 'The next of kin address must be a string.',
+            'nok_address.max' => 'The next of kin address may not be greater than 250 characters.',
+
+            'nok_tel.required' => 'The next of kin telephone field is required.',
+            'nok_tel.string' => 'The next of kin telephone must be a string.',
+            'nok_tel.max' => 'The next of kin telephone may not be greater than 25 characters.',
+
+            'gender.required' => 'The gender field is required.',
+            'gender.string' => 'The gender must be a string.',
+            'gender.max' => 'The gender may not be greater than 6 characters.',
+
+            'birthdate.required' => 'The birthdate field is required.',
+            'birthdate.date' => 'The birthdate must be a valid date.',
+
+            'stdlevel.required' => 'The level field is required.',
+            'stdlevel.integer' => 'The level must be an integer.',
+
+            'marital_status.required' => 'The marital status field is required.',
+            'marital_status.string' => 'The marital status must be a string.',
+            'marital_status.max' => 'The marital status may not be greater than 10 characters.',
+
+            'local_gov.required' => 'The local government field is required.',
+            'local_gov.integer' => 'The local government must be an integer.',
+
+            'state_of_origin.required' => 'The state of origin field is required.',
+            'state_of_origin.integer' => 'The state of origin must be an integer.',
+        ]);
+
+
+        $student = Student::find($request->stdid);
+
+        if (is_null($student)) {
+            return redirect()->route('students.index')
+                ->with('error', 'Record not found');
+        }
+
+        if ($request->stdcourse && $request->stdcourse != $student->stdcourse) {
+            $stdcourseDetails = DeptOption::select('dept_options.dept_id', 'departments.fac_id')
+                ->join('departments', 'departments.departments_id', '=', 'dept_options.dept_id')
+                ->where('dept_options.do_id', $request->stdcourse)
+                ->first();
+
+            if ($stdcourseDetails) {
+                $student->stddepartment_id = $stdcourseDetails->dept_id;
+                $student->stdfaculty_id = $stdcourseDetails->fac_id;
+            }
+        }
+        $student->fill($request->all());
+        $student->update();
+
+        return redirect()->intended('students/' . $request->stdid);
+    }
+
     public function rejectcoursereg(Request $request)
     {
 
@@ -699,7 +711,7 @@ class StudentController extends Controller
 
     public function getMatricNoList()
     {
-        $stdmatno_list =  DB::table('matcode')->get();
+        $stdmatno_list = DB::table('matcode')->get();
         return view('students.matno_list', compact('stdmatno_list'));
     }
 

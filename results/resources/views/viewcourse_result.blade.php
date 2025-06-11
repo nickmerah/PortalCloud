@@ -80,7 +80,7 @@
                     info: false,
                     buttons: [{
                         extend: 'copyHtml5',
-                        title: 'DELTA STATE POLYTECHNIC, OGWASHI-UKU',
+                        title: {{ $schoolname }},
                         messageTop: 'COURSE RESULT\n' +
                             levelSessionText + '\n' +
                             courseTitleText,
@@ -90,7 +90,7 @@
                     },
                         {
                             extend: 'csvHtml5',
-                            title: 'DELTA STATE POLYTECHNIC, OGWASHI-UKU',
+                            title: {{ $schoolname }},
                             messageTop: 'COURSE RESULT\n' +
                                 levelSessionText + '\n' +
                                 courseTitleText,
@@ -101,7 +101,7 @@
                     ],
                     buttons: [{
                         extend: 'excelHtml5',
-                        title: 'DELTA STATE POLYTECHNIC, OGWASHI-UKU',
+                        title: {{ $schoolname }},
                         messageTop: 'COURSE RESULT\n' +
                             levelSessionText + '\n' +
                             courseTitleText,
@@ -112,8 +112,8 @@
                             customize: function (doc) {
                                 doc.content.splice(0, 0, {
                                     text: [
-                                        "DELTA STATE POLYTECHNIC, OGWASHI-UKU\n",
-                                        "COURSE RESULT\n",
+                                        {{ $schoolname }},
+                                        "\nCOURSE RESULT\n",
                                         levelSessionText + "\n",
                                         courseTitleText
                                     ],
