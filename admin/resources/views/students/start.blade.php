@@ -282,7 +282,7 @@
                             <div class="body">
                                 <div class="table-responsive">
 
-                                    <table class="table table-hover js-basic-example contact_list"
+                                    <table class="table table-hover "
                                            style="font-size:12px">
                                         <thead>
                                         <tr>
@@ -364,7 +364,48 @@
                                         </tfoot>
                                     </table>
                                     <div>
-                                        {{ $students->appends(request()->query())->links('vendor.pagination.minimal') }}
+                                        <ul class="pagination">
+                                            {{-- Previous Page Link --}}
+                                            @if (!$students->onFirstPage())
+                                                <li><a href="{{ $students->previousPageUrl() }}">Previous</a></li>
+                                            @endif
+
+                                            {{-- Page Numbers with sliding window --}}
+                                            @php
+                                                $start = max(1, $students->currentPage() - 2);
+                                                $end = min($students->lastPage(), $students->currentPage() + 8);
+                                            @endphp
+
+                                            @if ($start > 1)
+                                                <li><a href="{{ $students->url(1) }}">1</a></li>
+                                                @if ($start > 2)
+                                                    <li><span>…</span></li>
+                                                @endif
+                                            @endif
+
+                                            @for ($page = $start; $page <= $end; $page++)
+                                                @if ($page == $students->currentPage())
+                                                    <li><strong>{{ $page }}</strong></li>
+                                                @else
+                                                    <li><a href="{{ $students->url($page) }}">{{ $page }}</a></li>
+                                                @endif
+                                            @endfor
+
+                                            @if ($end < $students->lastPage())
+                                                @if ($end < $students->lastPage() - 1)
+                                                    <li><span>…</span></li>
+                                                @endif
+                                                <li>
+                                                    <a href="{{ $students->url($students->lastPage()) }}">{{ $students->lastPage() }}</a>
+                                                </li>
+                                            @endif
+
+                                            {{-- Next Page Link --}}
+                                            @if ($students->hasMorePages())
+                                                <li><a href="{{ $students->nextPageUrl() }}">Next</a></li>
+                                            @endif
+                                        </ul>
+
                                     </div>
                                 </div>
                             </div>

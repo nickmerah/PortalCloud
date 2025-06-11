@@ -32,34 +32,30 @@ class StudentController extends Controller
     {
         $query = Student::with('programme');
 
-        if ($request->filled('matric_no')) {
-            $query->where('matric_no', 'like', '%' . $request->matric_no . '%');
-        }
-        if ($request->filled('surname')) {
-            $query->where('surname', 'like', '%' . $request->surname . '%');
-        }
+        $likeFilters = ['matric_no', 'surname'];
+        $filterKeys = [
+            'matric_no' => 'matric_no',
+            'surname' => 'surname',
+            'prog_id' => 'stdprogramme_id',
+            'progtype_id' => 'stdprogrammetype_id',
+            'courseofstudy' => 'stdcourse',
+            'level_id' => 'stdlevel',
+        ];
 
-        if ($request->filled('prog_id')) {
-            $query->where('stdprogramme_id', $request->prog_id);
-        }
-
-        if ($request->filled('progtype_id')) {
-            $query->where('stdprogrammetype_id', $request->progtype_id);
-        }
-
-        if ($request->filled('courseofstudy')) {
-            $query->where('stdcourse', $request->courseofstudy);
-        }
-
-        if ($request->filled('level_id')) {
-            $query->where('stdlevel', $request->level_id);
+        foreach ($filterKeys as $key => $column) {
+            if ($request->filled($key)) {
+                $value = $request->$key;
+                $operator = in_array($key, $likeFilters) ? 'like' : '=';
+                $value = $operator === 'like' ? "%$value%" : $value;
+                $query->where($column, $operator, $value);
+            }
         }
 
         $programmes = Programme::all();
         $programmeTypes = ProgrammeType::all();
         $levels = Level::all();
 
-        $students = $query->paginate(50);
+        $students = $query->paginate(100);
 
         return view('students.start', compact('students', 'programmes', 'programmeTypes', 'levels'));
     }

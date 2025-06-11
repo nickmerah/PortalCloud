@@ -24,7 +24,18 @@
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
                     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
                     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-
+                    <script>
+                        // Disable Enter key globally
+                        document.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
+                                event.preventDefault();
+                            }
+                        });
+                        // Disable right-click globally
+                        document.addEventListener('contextmenu', function (event) {
+                            event.preventDefault();
+                        });
+                    </script>
                     <div class="dataTable_wrapper">
                         <form method="POST" action="{{ url('saveResult') }}" enctype="multipart/form-data">
                             @csrf
@@ -108,8 +119,8 @@
                     </button>
                     <input type="hidden" name="courses" value="{{ $course }}">
                     <input type="hidden" name="sess" value="{{ $session }}">
-                    <input type="hidden" name="sem" value="{{ $semester }}">
-                    <input type="hidden" name="levelid" value="{{ $levelid }}">
+                    <input type="hidden" name="semester" value="{{ $semester }}">
+                    <input type="hidden" name="clevel" value="{{ $levelid }}">
                     <input type="hidden" name="courseofstudy" value="{{ $courseofstudy }}">
                     </form>
                 </div>
@@ -118,7 +129,7 @@
         <br>
         <div class="text-end mb-3">
             <a class="btn btn-info"
-               href="{{ url('uploadedresult') }}"
+               href="{{ url('courseresult') }}"
                onclick="return confirm('Are you sure you want to view the saved results?');">
                 View Saved Results
             </a>

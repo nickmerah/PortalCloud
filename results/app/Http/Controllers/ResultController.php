@@ -89,12 +89,13 @@ class ResultController extends Controller
 
     private static function registerOrUpdateCourseRegLog(mixed $course, $request)
     {
+        $courseData = self::normalizeCourse($course);
 
         $dataToInsert = [
-            'course_id' => $course[0]['thecourse_id'],
-            'coursecode' => $course[0]['thecourse_code'],
-            'coursetitle' => $course[0]['thecourse_title'],
-            'courseunit' => $course[0]['thecourse_unit'],
+            'course_id' => $courseData['thecourse_id'],
+            'coursecode' => $courseData['thecourse_code'],
+            'coursetitle' => $courseData['thecourse_title'],
+            'courseunit' => $courseData['thecourse_unit'],
             'clevel_id' => $request->clevel,
             'csemester' => $request->semester,
             'cyearsession' => $request->sess,
@@ -106,14 +107,19 @@ class ResultController extends Controller
 
         DB::table('course_reg_log')->updateOrInsert(
             [
-                'course_id' => $course[0]['thecourse_id'],
-                'coursecode' => $course[0]['thecourse_code'],
+                'course_id' => $courseData['thecourse_id'],
+                'coursecode' => $courseData['thecourse_code'],
                 'clevel_id' => $request->clevel,
                 'csemester' => $request->semester,
                 'cyearsession' => $request->sess,
             ],
             $dataToInsert
         );
+    }
+
+    protected static function normalizeCourse(mixed $course): mixed
+    {
+        return $course[0] ?? $course;
     }
 
     public function uploadedresult(Request $request)
@@ -286,9 +292,9 @@ class ResultController extends Controller
             'exam' => 'required|array',
             'exam.*' => 'required|numeric',
             'courses' => 'required',
-            'sem' => 'required|string',
+            'semester' => 'required|string',
             'sess' => 'required|numeric',
-            'levelid' => 'required|integer',
+            'clevel' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -304,10 +310,10 @@ class ResultController extends Controller
             Results::updateOrCreate(
                 [
                     'matric_no' => $matricNo,
-                    'level_id' => $request->levelid,
+                    'level_id' => $request->clevel,
                     'stdcourse_id' => $course['thecourse_id'],
                     'cyearsession' => $request->sess,
-                    'semester' => $request->sem,
+                    'semester' => $request->semester,
                     'cos' => $request->courseofstudy,
                 ],
                 [
@@ -408,7 +414,6 @@ class ResultController extends Controller
             'success' => 'Results Fetched Successfully'
         ]);
     }
-
 
     /**
      * @param $cos
