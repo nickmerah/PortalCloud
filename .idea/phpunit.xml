@@ -3,13 +3,13 @@
   <component name="PHPUnit">
     <option name="directories">
       <list>
-        <option value="$PROJECT_DIR$/results/tests/Unit" />
-        <option value="$PROJECT_DIR$/results/tests/Feature" />
         <option value="$PROJECT_DIR$/admin/tests/Unit" />
         <option value="$PROJECT_DIR$/admin/tests/Feature" />
+        <option value="$PROJECT_DIR$/admission/tests" />
+        <option value="$PROJECT_DIR$/results/tests/Unit" />
+        <option value="$PROJECT_DIR$/results/tests/Feature" />
         <option value="$PROJECT_DIR$/eportal/tests/Unit" />
         <option value="$PROJECT_DIR$/eportal/tests/Feature" />
-        <option value="$PROJECT_DIR$/admission/tests" />
       </list>
     </option>
   </component>

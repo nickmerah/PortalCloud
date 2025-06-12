@@ -17,7 +17,7 @@ class ApplicantModel extends Model
         $builder->where('trans_custom1', 'Paid');
         $builder->where('fee_id', 1);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return (!empty($arr) && $arr[0]->trans_custom1 == 'Paid') ? 1 : 0;
     }
 
@@ -32,7 +32,7 @@ class ApplicantModel extends Model
         $builder->where('trans_custom1', 'Paid');
         $builder->where('fee_id', 2);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return (!empty($arr) && $arr[0]->trans_custom1 == 'Paid') ? 1 : 0;
     }
 
@@ -46,7 +46,7 @@ class ApplicantModel extends Model
         $builder->where('trans_custom1', 'Paid');
         $builder->where('fee_id', 4);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return (!empty($arr) && $arr[0]->trans_custom1 == 'Paid') ? 1 : 0;
     }
 
@@ -71,7 +71,7 @@ class ApplicantModel extends Model
         $builder->where('prog_id', $progid);
         $builder->where('f_p_time', $progtype);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->amount : 0;
     }
 
@@ -86,7 +86,7 @@ class ApplicantModel extends Model
         $builder->where('f_p_time', $progtype);
         $builder->where('stdstatus', $stdstatus);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->amount : 0;
     }
 
@@ -98,7 +98,7 @@ class ApplicantModel extends Model
         $builder->select('amount');
         $builder->where('item_id', 4);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->amount : 0;
     }
 
@@ -110,7 +110,7 @@ class ApplicantModel extends Model
         $builder->select('of_amount');
         $builder->where('of_id', 1);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->of_amount : 0;
     }
 
@@ -124,9 +124,10 @@ class ApplicantModel extends Model
         $builder->where('prog_id', $progid);
         $builder->where('f_p_time', $progtype);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->amount : 0;
     }
+
     public function getcsfeestatus($appid)
     {
 
@@ -137,7 +138,7 @@ class ApplicantModel extends Model
         $builder->where('trans_custom1', 'Paid');
         $builder->where('fee_name', 'Change of Course Fee');
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return (!empty($arr) && $arr[0]->trans_custom1 == 'Paid') ? 1 : 0;
     }
 
@@ -184,7 +185,6 @@ class ApplicantModel extends Model
         $builder->where('std_logid', $std_id);
         return $builder->update($data);
     }
-
 
 
     public function getprogramme()
@@ -247,7 +247,7 @@ class ApplicantModel extends Model
         $builder->join('programme', 'programme.programme_id=dept_options.prog_id');
         $builder->where('do_id', $cid);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->cos : null;
     }
 
@@ -259,6 +259,7 @@ class ApplicantModel extends Model
         $result = $builder->get();
         return $result->getResult();
     }
+
     public function save_school($data)
     {
 
@@ -268,7 +269,7 @@ class ApplicantModel extends Model
 
         $build = $db->table('jprofile');
         $build->where('std_logid', $data['std_id']);
-        return  $build->update(['std_custome5' => 1]);
+        return $build->update(['std_custome5' => 1]);
     }
 
     public function update_school($data, $std_id)
@@ -299,7 +300,6 @@ class ApplicantModel extends Model
         $builder->where('std_logid', $std_id);
         return $builder->update($data);
     }
-
 
 
     public function getsubjects()
@@ -372,9 +372,8 @@ class ApplicantModel extends Model
 
         $build = $db->table('jprofile');
         $build->where('std_logid', $data['std_id']);
-        return  $build->update(['std_custome7' => 1]);
+        return $build->update(['std_custome7' => 1]);
     }
-
 
 
     public function getschool()
@@ -496,7 +495,7 @@ class ApplicantModel extends Model
         $builder->select('std_custome9');
         $builder->where('std_logid', $std_id);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->std_custome9 : 0;
     }
 
@@ -507,7 +506,7 @@ class ApplicantModel extends Model
         $builder->select('adm_status');
         $builder->where('std_logid', $std_id);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->adm_status : 0;
     }
 
@@ -518,7 +517,7 @@ class ApplicantModel extends Model
         $builder->select('eclearance');
         $builder->where('std_logid', $std_id);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->eclearance : 0;
     }
 
@@ -529,7 +528,7 @@ class ApplicantModel extends Model
         $builder->select('biodata');
         $builder->where('std_logid', $std_id);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->biodata : 0;
     }
 
@@ -570,7 +569,7 @@ class ApplicantModel extends Model
         $builder->select('faculties_name');
         $builder->where('faculties_id', $cid);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->faculties_name : null;
     }
 
@@ -583,7 +582,7 @@ class ApplicantModel extends Model
         $builder->join('dept_options', 'dept_options.prog_id=programme.programme_id');
         $builder->where('dept_options.do_id', $cid);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->programme_name : null;
     }
 
@@ -614,7 +613,7 @@ class ApplicantModel extends Model
         $builder->where('paychannel', 'Remita');
         $builder->where('fee_id', $id);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
 
         return !empty($arr) ? $arr[0]->trans_no : null;
     }
@@ -629,9 +628,9 @@ class ApplicantModel extends Model
         $builder->where('paychannel', 'Remita');
         // $builder->where('rrr', '!=', 'NA');
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
 
-        return !empty($arr) ? $arr  : [];
+        return !empty($arr) ? $arr : [];
     }
 
     public function getctransid($sid)
@@ -644,7 +643,7 @@ class ApplicantModel extends Model
         $builder->where('paychannel', 'Remita');
         $builder->where('fee_id', 6);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
 
         return !empty($arr) ? $arr[0]->trans_no : null;
     }
@@ -658,7 +657,7 @@ class ApplicantModel extends Model
         $builder->where('paychannel', 'Remita');
         $builder->where('rrr', $rrr);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->rrr : null;
     }
 
@@ -670,6 +669,7 @@ class ApplicantModel extends Model
         $builder->where('trans_no', $trans_id);
         return $builder->update($data);
     }
+
     public function get_examdate($cid)
     {
         $db = \Config\Database::connect();
@@ -677,7 +677,7 @@ class ApplicantModel extends Model
         $builder->select('exam_date');
         $builder->where('do_id', $cid);
         $result = $builder->get();
-        $arr =  $result->getResult();
+        $arr = $result->getResult();
         return !empty($arr) ? $arr[0]->exam_date : null;
     }
 
@@ -703,5 +703,38 @@ class ApplicantModel extends Model
         $builder = $db->table('jcertificates');
         $builder->where('stdid', $sid);
         return $builder->delete();
+    }
+
+    public function insertJsonData($jsonData, $requestType)
+    {
+        if (!is_string($jsonData) || empty($jsonData)) {
+            return false;
+        }
+
+        try {
+            // Check if the JSON data contains HTML tags
+            if ($this->containsHtmlTags($jsonData)) {
+                $jsonData = '503 Service Unavailable';
+            }
+
+            $db = \Config\Database::connect();
+            $builder = $db->table('remitalogs');
+
+            // Insert the data and capture the result
+            $inserted = $builder->insert([
+                'json_data' => $jsonData,
+                'requesttype' => $requestType,
+            ]);
+
+            return $inserted;
+        } catch (\Exception $e) {
+            log_message('error', 'Error inserting JSON data: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function containsHtmlTags($string)
+    {
+        return preg_match('/<[^>]*>/', $string) === 1;
     }
 }
