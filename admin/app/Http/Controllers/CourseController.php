@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Level;
 use App\Models\Course;
-use App\Models\Programme;
 use App\Models\DeptOption;
-use Illuminate\Http\Request;
+use App\Models\Level;
+use App\Models\Programme;
 use App\Models\ProgrammeType;
+use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
@@ -98,7 +98,7 @@ class CourseController extends Controller
         Course::where('thecourse_id', $id)->update([
             'thecourse_title' => strtoupper($request->ctitle),
             'thecourse_code' => strtoupper($request->ccode),
-            'thecourse_unit' => (int) $request->cunit,
+            'thecourse_unit' => (int)$request->cunit,
             'prog' => $request->programme_id,
             'prog_type' => $request->programmet_id,
             'levels' => $request->level_id,
@@ -111,9 +111,15 @@ class CourseController extends Controller
     public function addCourse(Request $request)
     {
         $request->validate([
-            'csv_file' => 'required|file|mimes:csv|max:2048',
+            'csv_file' => 'required|file|mimes:csv,txt|max:2048',
         ]);
-        if ($request->file('csv_file')->isValid()) {
+
+        $csv = $request->file('csv_file');
+        if ($csv && $csv->getClientOriginalExtension() !== 'csv') {
+            return back()->withErrors(['csv_file' => 'Invalid file extension.']);
+        }
+        
+        if ($csv->isValid()) {
             $file = $request->file('csv_file');
             $handle = fopen($file->getRealPath(), 'r');
             $headers = fgetcsv($handle);
@@ -137,7 +143,7 @@ class CourseController extends Controller
                     ],
                     [
                         'thecourse_title' => strtoupper($ctitle),
-                        'thecourse_unit' => (int) $cunit,
+                        'thecourse_unit' => (int)$cunit,
                         'prog' => $request->programme_id,
                         'prog_type' => $request->programmet_id,
                         'csession' => date('Y'),

@@ -213,7 +213,7 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="formModal">Enable Passport Upload</h5>
+                                                <h5 class="modal-title" id="formModal">Passport Upload</h5>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                         aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -283,7 +283,7 @@
                                 <div class="table-responsive">
 
                                     <table class="table table-hover "
-                                           style="font-size:12px">
+                                           style="font-size:12px" id="dataTables-example">
                                         <thead>
                                         <tr>
                                             <th class="center">#</th>
@@ -436,6 +436,16 @@
                 $('#courseofstudy').empty().append('<option value=""> Select Course of Study </option>');
             }
 
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').DataTable({
+                dom: 'Bfrtip',
+                paging: false,
+                info: false,
+            });
         });
     </script>
 @endsection

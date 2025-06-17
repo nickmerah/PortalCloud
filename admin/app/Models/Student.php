@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     protected $table = 'stdprofile';
     protected $primaryKey = 'std_id';
-    public $timestamps = false;
-
     protected $fillable = [
         'std_logid',
         'matric_no',
@@ -65,6 +64,16 @@ class Student extends Model
     public function level()
     {
         return $this->belongsTo(Level::class, 'stdlevel', 'level_id');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'stddepartment_id', 'departments_id');
+    }
+
+    public function faculty()
+    {
+        return $this->belongsTo(Faculty::class, 'stdfaculty_id', 'faculties_id');
     }
 
     public function stdcourseOption(): BelongsTo
