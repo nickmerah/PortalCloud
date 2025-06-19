@@ -2,63 +2,82 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OFee;
-use App\Models\Hostel;
-use App\Models\Courses;
 use App\Models\CourseReg;
+use App\Models\Courses;
+use App\Models\Hostel;
 use App\Models\HostelRoom;
+use App\Models\HostelRoomAllocation;
+use App\Models\OFee;
 use App\Models\SchoolInfo;
 use App\Models\StdSession;
 use App\Models\STransaction;
 use App\Models\StudentLogin;
-use App\Services\FeeService;
-use Illuminate\Http\Request;
 use App\Models\StudentProfile;
-use Illuminate\Support\Facades\DB;
-use App\Traits\ValidatesPortalUser;
-use App\Models\HostelRoomAllocation;
 use App\Services\FeeCalculationService;
+use App\Services\FeeService;
+use App\Traits\ValidatesPortalUser;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PortalController extends Controller
 {
     use ValidatesPortalUser;
 
-    protected $schoolInfo;
-
-    protected $student;
-
-    protected $currentSessionSem;
-
-    protected $currentSession;
-
-    protected $currentSemester;
-
-    protected $feeCalculationService;
-
     private const SERVICE_CHARGE = 300;
-
     private const MAX_UNIT_TO_REGISTER = 40;
+    protected $schoolInfo;
+    protected $student;
+    protected $currentSessionSem;
+    protected $currentSession;
+    protected $currentSemester;
+    protected $feeCalculationService;
 
     public function __construct(FeeCalculationService $feeCalculationService)
     {
         $this->schoolInfo = SchoolInfo::first();
         $this->feeCalculationService = $feeCalculationService;
+
         $this->middleware(function ($request, $next) {
-            $response = $this->validatePortalUser();
-            if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            if ($response = $this->validatePortalUser()) {
                 return $response;
             }
 
-            $this->student = $this->student;
+            if ($response = $this->ensureStudentIsProfiled()) {
+                return $response;
+            }
+
             $this->currentSession = $this->currentSessionSem['cs_session'];
             $this->currentSemester = $this->currentSessionSem['cs_sem'];
 
-            view()->share('student', $this->student);
-            view()->share('currentSession', $this->currentSession);
-            view()->share('schoolName', $this->schoolInfo->schoolname);
+            view()->share([
+                'student' => $this->student,
+                'currentSession' => $this->currentSession,
+                'schoolName' => $this->schoolInfo->schoolname,
+            ]);
 
             return $next($request);
         });
+    }
+
+    private function ensureStudentIsProfiled()
+    {
+        $currentPath = request()->path();
+
+        if (in_array($currentPath, ['profile', 'passport'])) {
+            return null;
+        }
+
+        $photoPath = storage_path('app/public/passport/' . $this->student->std_photo);
+
+        if (!file_exists($photoPath)) {
+            return redirect('/passport')->with('error', 'Upload Passport to Continue');
+        }
+
+        if ($this->student->hometown == "") {
+            return redirect('/profile')->with('error', 'Your Home Town is missing in your profile, Kindly Update it.');
+        }
+
+        return null;
     }
 
     public function home()
@@ -90,6 +109,7 @@ class PortalController extends Controller
             'student_homeaddress' => 'required|string',
             'std_genotype' => 'required|string',
             'std_bloodgrp' => 'required|string',
+            'hometown' => 'required|string',
             'student_email' => 'required|email',
             'student_mobiletel' => 'required|string',
             'next_of_kin' => 'required|string',
@@ -100,15 +120,17 @@ class PortalController extends Controller
 
         $sanitizedData = [
             'marital_status' => strip_tags($validatedData['marital_status']),
-            'contact_address' => strip_tags($validatedData['contact_address']),
-            'student_homeaddress' => strip_tags($validatedData['student_homeaddress']),
+            'contact_address' => strtoupper(strip_tags($validatedData['contact_address'])),
+            'student_homeaddress' => strtoupper(strip_tags($validatedData['student_homeaddress'])),
             'std_genotype' => $validatedData['std_genotype'],
             'std_bloodgrp' => $validatedData['std_bloodgrp'],
-            'student_email' => $validatedData['student_email'],
-            'student_mobiletel' => $validatedData['student_mobiletel'],
-            'next_of_kin' => strtolower($validatedData['next_of_kin']),
-            'nok_tel' => strtolower($validatedData['nok_tel']),
-            'nok_address' => strtolower($validatedData['nok_address']),
+            'nationality' => 'NIGERIA',
+            'hometown' => strtoupper(strip_tags($validatedData['hometown'])),
+            'student_email' => strtolower(strip_tags($validatedData['student_email'])),
+            'student_mobiletel' => strip_tags($validatedData['student_mobiletel']),
+            'next_of_kin' => strtoupper(strip_tags($validatedData['next_of_kin'])),
+            'nok_tel' => strip_tags($validatedData['nok_tel']),
+            'nok_address' => strtoupper(strip_tags($validatedData['nok_address'])),
         ];
 
         $studentProfile = StudentProfile::findOrFail($this->student->std_id);
@@ -182,8 +204,8 @@ class PortalController extends Controller
             'schoolName' => $this->schoolInfo->schoolname,
             'student' => $this->student,
             'ofees' => $ofees,
-            'bindingamount' =>  $calculation['totalBindingFee'] ?? 0,
-            'libraryBindingCopies' =>  $libraryBindingCopies ?? 0,
+            'bindingamount' => $calculation['totalBindingFee'] ?? 0,
+            'libraryBindingCopies' => $libraryBindingCopies ?? 0,
             'totalAmount' => $calculation['totalAmount'],
             'grandTotal' => $grandTotal
         ]);
@@ -203,18 +225,9 @@ class PortalController extends Controller
 
     public function fee()
     {
-        // check student has passport
-        $photoPath = storage_path('app/public/passport/' . $this->student->std_photo);
-        if (!file_exists($photoPath)) {
-            return redirect('/passport')->with('error', 'Upload Passport to Continue');
-            exit;
-        }
-
         if ($this->student->state_of_origin == 0) {
             return redirect('/profile')->with('error', 'Your State of Origin is missing in your profile, contact Admin to Update it.');
-            exit;
         }
-
 
         $feeService = new FeeService($this->student);
         $fees = $feeService->getStudentFees();
@@ -248,12 +261,6 @@ class PortalController extends Controller
 
     public function printReceipt(int $transno)
     {
-        // check student has passport
-        $photoPath = storage_path('app/public/passport/' . $this->student->std_photo);
-        if (!file_exists($photoPath)) {
-            return redirect('/passport')->with('error', 'Upload Passport to Continue');
-            exit;
-        }
 
         $trans = STransaction::getPaidTransaction($transno)->toArray();
 
@@ -284,6 +291,163 @@ class PortalController extends Controller
             'trans' => $trans,
             'studentId' => $studentId,
         ]);
+    }
+
+    private function isNewStudent(array $trans): bool
+    {
+        $checkNew = DB::table('jprofile')
+            ->where("app_no", $this->student->matric_no)
+            ->exists();
+
+        return $trans[0]['fee_id'] == 1
+            && $trans[0]['fee_type'] == 'fees'
+            && $checkNew
+            && ($this->student->matset == "" || $this->student->matset == "0");
+    }
+
+    private function generateMatricNo(): ?string
+    {
+        $matNo = DB::table('matcode')
+            ->where([
+                "doid" => $this->student->stdcourse,
+                "progtype" => $this->student->stdprogrammetype_id
+            ])
+            ->pluck('matno')
+            ->first();
+
+        //$matNo = "WED/ND/23/00131";
+
+        if (!$matNo) {
+            //return false;
+            // lets try to add the first entry in the matcode table
+
+            $matNo = $this->addStartingMatricNumber();
+        }
+
+        // Check if matric number already exists
+        $checkMat = StudentProfile::where("matric_no", $matNo)->exists();
+
+        if ($checkMat) {
+            return $this->incrementMatricNo($matNo);
+        }
+
+        return $matNo;
+    }
+
+    private function addStartingMatricNumber(): string|bool
+    {
+        $matNo = DB::table('dept_options')
+            ->where([
+                "do_id" => $this->student->stdcourse,
+                "prog_id" => $this->student->stdprogramme_id
+            ])
+            ->pluck('deptcode')
+            ->first();
+
+        $prefix = self::getValueAfterND($matNo);
+        $progAbbrev = $this->student->programme->aprogramme_name;
+        $sess = substr(StdSession::getStdCurrentSession()['cs_session'], -2);
+        $counter = str_pad(($this->student->stdprogrammetype_id == 1) ? 1 : 10001, 5, '0', STR_PAD_LEFT);
+
+        $formedMatNo = "{$prefix}/{$progAbbrev}/{$sess}/{$counter}";
+
+        $exists = DB::table('matcode')
+            ->where('matno', $formedMatNo)
+            ->exists();
+
+        if (!$exists) {
+            DB::table('matcode')->insert([
+                'coscode' => "{$progAbbrev}{$prefix}",
+                'matno' => $formedMatNo,
+                'doid' => $this->student->stdcourse,
+                'progtype' => $this->student->stdprogrammetype_id,
+                'status' => 0,
+
+            ]);
+
+            return $formedMatNo;
+        }
+
+        return false;
+    }
+
+    function getValueAfterND($input)
+    {
+        return preg_replace('/^(HND|ND)/', '', $input);
+    }
+
+    private function incrementMatricNo(string $matNo): string
+    {
+        // Validate the format
+        if (!preg_match('/^[A-Z]{3}\/[A-Z]{2,3}\/\d{2}\/\d+$/', $matNo)) {
+            return '';
+        }
+
+        // Extract the prefix and increment the number
+        //  echo $qprefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
+        $prefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
+
+        $parts = explode('/', $matNo);
+        $parts[2] = (int)$parts[2] - 1; // Convert to integer, subtract 1
+        $qprefix = implode('/', array_slice($parts, 0, 3)) . '/';
+
+        // Get the last record in the db where matric_no starts with the prefix
+        $lastPrefixMatNo = StudentProfile::where('matric_no', 'like', $prefix . '%')
+            ->where('stdprogramme_id', $this->student->stdprogramme_id)
+            ->where('stdprogrammetype_id', $this->student->stdprogrammetype_id)
+            ->orderByRaw('CAST(SUBSTRING_INDEX(matric_no, "/", -1) AS UNSIGNED) DESC')
+            ->first();
+
+        // Get the last record in the db where matric_no starts with the qprefix
+        $lastQPrefixMatNo = StudentProfile::where('matric_no', 'like', $qprefix . '%')
+            ->where('stdprogramme_id', $this->student->stdprogramme_id)
+            ->where('stdprogrammetype_id', $this->student->stdprogrammetype_id)
+            ->where('is_repeating', 1)
+            ->orderByRaw('CAST(SUBSTRING_INDEX(matric_no, "/", -1) AS UNSIGNED) DESC')
+            ->first();
+
+
+        $lastPDigits = explode('/', $lastPrefixMatNo->matric_no)[3];
+        $lastQDigits = $lastQPrefixMatNo?->matric_no ? explode('/', $lastQPrefixMatNo->matric_no)[3] ?? 0 : 0;
+
+        $nextDigit = max($lastPDigits, $lastQDigits);
+
+        $nextDigits = str_pad((int)$nextDigit + 1, strlen($nextDigit), '0', STR_PAD_LEFT);
+
+        return $prefix . $nextDigits;
+    }
+
+    private function getStudentId(): ?string
+    {
+
+        if (empty($this->student)) {
+            return null;
+        }
+
+        $studentId = $this->student->cs_status;
+
+        if (empty($studentId)) {
+            $studentId = DB::table('stdaccess')
+                ->where("matno", $this->student->matric_no)
+                ->value('stdno');
+        }
+
+        // sometimes the studentID isn't updated for new students, so we check again
+        if (empty($studentId) and $this->student->matset != 0) {
+            $studentId = DB::table('jprofile')
+                ->where("app_no", $this->student->matset)
+                ->value('student_id');
+        }
+
+        if ($this->student->cs_status == 0) {
+            // attempt to update it on the student table
+
+            $this->student->cs_status = substr($studentId, 0, 10);
+            $this->student->save();
+        }
+
+
+        return $studentId;
     }
 
     public function previewfee()
@@ -395,6 +559,17 @@ class PortalController extends Controller
         ]);
     }
 
+    public function getPaidHostel()
+    {
+        return STransaction::where([
+            'log_id' => $this->student->std_logid,
+            'pay_status' => 'Paid',
+            'fee_type' => 'ofees'
+        ])
+            ->whereIn('fee_id', [6, 7])
+            ->get();
+    }
+
     public function roomAvailability()
     {
         //check if hostel is paid
@@ -426,7 +601,7 @@ class PortalController extends Controller
             $roomid = $matchingRoom['roomid'];
 
             $hostels = Hostel::where(['gender' => $this->student->gender, 'hid' => $paidHostel[0]->policy])
-                ->with(['rooms' => function ($query)  use ($roomid) {
+                ->with(['rooms' => function ($query) use ($roomid) {
                     $query->where('roomid', $roomid)->whereDoesntHave('allocations', function ($subquery) {
                         $subquery->select('room_id')
                             ->from('hostelroom_allocations')
@@ -441,6 +616,31 @@ class PortalController extends Controller
             'hostels' => $hostels,
 
         ]);
+    }
+
+    public function getAllBookedIdsWithRoomIds()
+    {
+        return HostelRoom::pluck('booked', 'roomid')
+            ->filter(function ($value) {
+                return !empty($value); // Ensure the value isn't empty
+            })
+            ->map(function ($value, $key) {
+                $value = trim($value, '"'); // Trim any unnecessary quotes
+                $decoded = json_decode($value);
+
+                // Fetch the hostelid for the given roomid
+                $hostelid = HostelRoom::where('roomid', $key)->value('hostelid');
+
+                return [
+                    'roomid' => $key,
+                    'hostelid' => $hostelid,
+                    'booked' => $decoded,
+                ];
+            })
+            ->filter(function ($value) {
+                return !empty($value['booked']); // Ensure booked values are not empty
+            })
+            ->values(); // Re-index the array to ensure proper collection indexing
     }
 
     public function allocateRoom($roomId)
@@ -533,17 +733,6 @@ class PortalController extends Controller
         ]);
     }
 
-    public function getPaidHostel()
-    {
-        return STransaction::where([
-            'log_id' => $this->student->std_logid,
-            'pay_status' => 'Paid',
-            'fee_type' => 'ofees'
-        ])
-            ->whereIn('fee_id', [6, 7])
-            ->get();
-    }
-
     public function printHostelReservation()
     {
         $myreservation = HostelRoomAllocation::with(['room.hostel'])
@@ -553,31 +742,6 @@ class PortalController extends Controller
         return view('portal.hostelreservation', [
             'myreservation' => $myreservation,
         ]);
-    }
-
-    public function getAllBookedIdsWithRoomIds()
-    {
-        return HostelRoom::pluck('booked', 'roomid')
-            ->filter(function ($value) {
-                return !empty($value); // Ensure the value isn't empty
-            })
-            ->map(function ($value, $key) {
-                $value = trim($value, '"'); // Trim any unnecessary quotes
-                $decoded = json_decode($value);
-
-                // Fetch the hostelid for the given roomid
-                $hostelid = HostelRoom::where('roomid', $key)->value('hostelid');
-
-                return [
-                    'roomid' => $key,
-                    'hostelid' => $hostelid,
-                    'booked' => $decoded,
-                ];
-            })
-            ->filter(function ($value) {
-                return !empty($value['booked']); // Ensure booked values are not empty
-            })
-            ->values(); // Re-index the array to ensure proper collection indexing
     }
 
     public function bpfee()
@@ -610,7 +774,7 @@ class PortalController extends Controller
 
         $feeService = new FeeService($this->student);
         $fees = $feeService->getStudentPreviousFees()->toArray();
-        $pfees  = $feeService->getStudentPreviousFeesToPay($fees, $psess);
+        $pfees = $feeService->getStudentPreviousFeesToPay($fees, $psess);
 
         if (empty($pfees)) {
             return redirect('/bpfee')->with('error', 'Fees already Paid Selected Session, Proceed to print your receipt.');
@@ -620,132 +784,6 @@ class PortalController extends Controller
             'fees' => $pfees,
             'psess' => $psess,
         ]);
-    }
-
-    private function isNewStudent(array $trans): bool
-    {
-        $checkNew = DB::table('jprofile')
-            ->where("app_no", $this->student->matric_no)
-            ->exists();
-
-        return $trans[0]['fee_id'] == 1
-            && $trans[0]['fee_type'] == 'fees'
-            && $checkNew
-            && ($this->student->matset == "" || $this->student->matset == "0");
-    }
-
-    private function generateMatricNo(): ?string
-    {
-        $matNo = DB::table('matcode')
-            ->where([
-                "doid" => $this->student->stdcourse,
-                "progtype" => $this->student->stdprogrammetype_id
-            ])
-            ->pluck('matno')
-            ->first();
-
-        //$matNo = "WED/ND/23/00131";
-
-        if (!$matNo) {
-            //return false;
-            // lets try to add the first entry in the matcode table
-
-            $matNo = $this->addStartingMatricNumber();
-        }
-
-        // Check if matric number already exists
-        $checkMat = StudentProfile::where("matric_no", $matNo)->exists();
-
-        if ($checkMat) {
-            return $this->incrementMatricNo($matNo);
-        }
-
-        return $matNo;
-    }
-
-    private function incrementMatricNo(string $matNo): string
-    {
-        // Validate the format
-        if (!preg_match('/^[A-Z]{3}\/[A-Z]{2,3}\/\d{2}\/\d+$/', $matNo)) {
-            return '';
-        }
-
-        // Extract the prefix and increment the number
-        //  echo $qprefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
-        $prefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
-
-        $parts = explode('/', $matNo);
-        $parts[2] = (int)$parts[2] - 1; // Convert to integer, subtract 1
-        $qprefix = implode('/', array_slice($parts, 0, 3)) . '/';
-
-        // Get the last record in the db where matric_no starts with the prefix
-        $lastPrefixMatNo = StudentProfile::where('matric_no', 'like', $prefix . '%')
-            ->where('stdprogramme_id', $this->student->stdprogramme_id)
-            ->where('stdprogrammetype_id', $this->student->stdprogrammetype_id)
-            ->orderByRaw('CAST(SUBSTRING_INDEX(matric_no, "/", -1) AS UNSIGNED) DESC')
-            ->first();
-
-        // Get the last record in the db where matric_no starts with the qprefix
-        $lastQPrefixMatNo = StudentProfile::where('matric_no', 'like', $qprefix . '%')
-            ->where('stdprogramme_id', $this->student->stdprogramme_id)
-            ->where('stdprogrammetype_id', $this->student->stdprogrammetype_id)
-            ->where('is_repeating', 1)
-            ->orderByRaw('CAST(SUBSTRING_INDEX(matric_no, "/", -1) AS UNSIGNED) DESC')
-            ->first();
-
-
-
-
-        $lastPDigits = explode('/', $lastPrefixMatNo->matric_no)[3];
-        $lastQDigits = $lastQPrefixMatNo?->matric_no ? explode('/', $lastQPrefixMatNo->matric_no)[3] ?? 0 : 0;
-
-        $nextDigit = max($lastPDigits, $lastQDigits);
-
-        $nextDigits = str_pad((int)$nextDigit + 1, strlen($nextDigit), '0', STR_PAD_LEFT);
-
-        return $prefix . $nextDigits;
-    }
-
-    private function addStartingMatricNumber(): string|bool
-    {
-        $matNo = DB::table('dept_options')
-            ->where([
-                "do_id" => $this->student->stdcourse,
-                "prog_id" => $this->student->stdprogramme_id
-            ])
-            ->pluck('deptcode')
-            ->first();
-
-        $prefix = self::getValueAfterND($matNo);
-        $progAbbrev = $this->student->programme->aprogramme_name;
-        $sess = substr(StdSession::getStdCurrentSession()['cs_session'], -2);
-        $counter = str_pad(($this->student->stdprogrammetype_id == 1) ? 1 : 10001, 5, '0', STR_PAD_LEFT);
-
-        $formedMatNo = "{$prefix}/{$progAbbrev}/{$sess}/{$counter}";
-
-        $exists = DB::table('matcode')
-            ->where('matno', $formedMatNo)
-            ->exists();
-
-        if (!$exists) {
-            DB::table('matcode')->insert([
-                'coscode'     => "{$progAbbrev}{$prefix}",
-                'matno'    => $formedMatNo,
-                'doid'     => $this->student->stdcourse,
-                'progtype' => $this->student->stdprogrammetype_id,
-                'status' => 0,
-
-            ]);
-
-            return $formedMatNo;
-        }
-
-        return false;
-    }
-
-    function getValueAfterND($input)
-    {
-        return preg_replace('/^(HND|ND)/', '', $input);
     }
 
     public function getcourses()
@@ -759,9 +797,9 @@ class PortalController extends Controller
 
         $level = $this->student->stdlevel;
         $baseConditions = [
-            'stdcourse'  => $this->student->stdcourse,
-            'prog'       => $this->student->stdprogramme_id,
-            'prog_type'  => $this->student->stdprogrammetype_id,
+            'stdcourse' => $this->student->stdcourse,
+            'prog' => $this->student->stdprogramme_id,
+            'prog_type' => $this->student->stdprogrammetype_id,
         ];
 
         // Fetch main courses
@@ -795,6 +833,22 @@ class PortalController extends Controller
         ));
     }
 
+    private function getSavedCourses()
+    {
+        $sessSem = StdSession::getStdCurrentSession();
+
+        return CourseReg::where([
+            'log_id' => $this->student->std_logid,
+            'cyearsession' => $sessSem['cs_session'],
+        ])->get();
+    }
+
+    protected function filterCoursesBySemester($courses, $semester, $semColumn = "semester")
+    {
+        return $courses->filter(function ($course) use ($semester, $semColumn) {
+            return $course->$semColumn === $semester;
+        });
+    }
 
     public function previewcourse(Request $request)
     {
@@ -828,7 +882,6 @@ class PortalController extends Controller
             ->where('csemester', 'Second Semester')
             ->pluck('c_unit')
             ->sum();
-
 
 
         return view('portal.previewcourses', [
@@ -925,23 +978,6 @@ class PortalController extends Controller
         return redirect('/viewcourse')->with('success', 'Selected courses deleted successfully');
     }
 
-    private function getSavedCourses()
-    {
-        $sessSem = StdSession::getStdCurrentSession();
-
-        return   CourseReg::where([
-            'log_id' => $this->student->std_logid,
-            'cyearsession' => $sessSem['cs_session'],
-        ])->get();
-    }
-
-    protected function filterCoursesBySemester($courses, $semester, $semColumn = "semester")
-    {
-        return $courses->filter(function ($course) use ($semester, $semColumn) {
-            return $course->$semColumn === $semester;
-        });
-    }
-
     public function coursereghistory()
     {
         $data = CourseReg::getCourseRegistrations($this->student->std_logid);
@@ -982,39 +1018,5 @@ class PortalController extends Controller
             'student' => $this->student,
             'courseAdviser' => $courseAdviser
         ]);
-    }
-
-    private function getStudentId(): ?string
-    {
-
-        if (empty($this->student)) {
-            return null;
-        }
-
-        $studentId = $this->student->cs_status;
-
-        if (empty($studentId)) {
-            $studentId = DB::table('stdaccess')
-                ->where("matno", $this->student->matric_no)
-                ->value('stdno');
-        }
-
-        // sometimes the studentID isn't updated for new students, so we check again
-        if (empty($studentId) and $this->student->matset != 0) {
-            $studentId = DB::table('jprofile')
-                ->where("app_no", $this->student->matset)
-                ->value('student_id');
-        }
-
-        if ($this->student->cs_status == 0) {
-            // attempt to update it on the student table 
-
-            $this->student->cs_status = substr($studentId, 0, 10);
-            $this->student->save();
-        }
-
-
-
-        return $studentId;
     }
 }

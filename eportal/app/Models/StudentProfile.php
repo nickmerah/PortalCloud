@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\HostelRoomAllocation;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class StudentProfile extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     protected $table = 'stdprofile';
     protected $primaryKey = 'std_id';
-
     protected $fillable = [
         'std_logid',
         'matric_no',
@@ -33,7 +32,7 @@ class StudentProfile extends Model
         'student_mobiletel',
         'std_genotype',
         'std_bloodgrp',
-        'std_pc',
+        'hometown',
         'next_of_kin',
         'nok_address',
         'nok_tel',
@@ -51,8 +50,6 @@ class StudentProfile extends Model
         'promote_status',
         'is_repeating',
     ];
-
-    public $timestamps = false;
 
     public function programme()
     {

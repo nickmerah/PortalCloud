@@ -33,7 +33,7 @@ class Student extends Model
         'student_mobiletel',
         'std_genotype',
         'std_bloodgrp',
-        'std_pc',
+        'hometown',
         'next_of_kin',
         'nok_address',
         'nok_tel',
@@ -133,7 +133,7 @@ class Student extends Model
 
     public function setStudentEmailAttribute($value)
     {
-        $this->attributes['student_email'] = strtoupper($value);
+        $this->attributes['student_email'] = strtolower($value);
     }
 
     public function getLgaNameByLogId($std_logid)

@@ -575,6 +575,7 @@ class StudentController extends Controller
             'birthdate' => 'required|date',
             'stdlevel' => 'required|integer',
             'marital_status' => 'required|string|max:10',
+            'hometown' => 'required|string|max:150',
             'local_gov' => 'required|integer',
             'state_of_origin' => 'required|integer',
             'stdcourse' => 'required|integer',
@@ -637,6 +638,10 @@ class StudentController extends Controller
             'marital_status.string' => 'The marital status must be a string.',
             'marital_status.max' => 'The marital status may not be greater than 10 characters.',
 
+            'hometown.required' => 'The home town field is required.',
+            'hometown.string' => 'The home town must be a string.',
+            'hometown.max' => 'The home town may not be greater than 10 characters.',
+
             'local_gov.required' => 'The local government field is required.',
             'local_gov.integer' => 'The local government must be an integer.',
 
@@ -663,7 +668,11 @@ class StudentController extends Controller
                 $student->stdfaculty_id = $stdcourseDetails->fac_id;
             }
         }
-        $student->fill($request->all());
+        $data = collect($request->all())->map(function ($value) {
+            return is_string($value) ? strtoupper($value) : $value;
+        })->toArray();
+        
+        $student->fill($data);
         $student->update();
 
         return redirect()->intended('students/' . $request->stdid);
