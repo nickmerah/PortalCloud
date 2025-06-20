@@ -130,7 +130,7 @@
 
         <div class="form-group">
             <label for="next_of_kin"><strong>Next of Kin Name</strong></label>
-            <input type="tel" class="form-control @error('next_of_kin') is-invalid @enderror" name="next_of_kin"
+            <input type="text" class="form-control @error('next_of_kin') is-invalid @enderror" name="next_of_kin"
                    value="{{ old('next_of_kin', $student->next_of_kin) }}" required>
             @error('next_of_kin')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -157,7 +157,7 @@
 
         <div class="form-group">
             <label for="hometown"><strong>Home Town / Village </strong></label>
-            <input type="tel" class="form-control @error('hometown') is-invalid @enderror" name="hometown"
+            <input type="text" class="form-control @error('hometown') is-invalid @enderror" name="hometown"
                    value="{{ old('hometown', $student->hometown) }}" required>
             @error('hometown')
             <div class="invalid-feedback">{{ $message }}</div>

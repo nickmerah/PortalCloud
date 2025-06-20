@@ -61,9 +61,9 @@ class PortalController extends Controller
 
     private function ensureStudentIsProfiled()
     {
-        $currentPath = request()->path();
+        $excludedPaths = ['updateprofile', 'passport', 'updatepassport', 'profile'];
 
-        if (in_array($currentPath, ['profile', 'passport'])) {
+        if (in_array(request()->path(), $excludedPaths)) {
             return null;
         }
 
