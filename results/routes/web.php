@@ -27,3 +27,4 @@ Route::get('resultsummary', [ResultController::class, 'resultssummary'])->name('
 Route::get('viewResult', [ResultController::class, 'viewResult'])->name('viewResult');
 Route::get('resultSummary/{level}/{session}/{semester}/{cos}/{mode?}', [ResultController::class, 'viewResultSummary'])->name('resultSummary');
 Route::get('courseresult', [ResultController::class, 'courseresult'])->name('courseresult');
+Route::get('uploadfailedresult', [ResultController::class, 'failedresultupload'])->name('uploadfailedresult');

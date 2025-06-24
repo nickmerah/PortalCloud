@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">{{ __('Dashboard') }}</div>
 
@@ -30,6 +30,10 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('uploadresult') }}">Upload Result Sheet</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('uploadfailedresult') }}">Upload Failed Result</a>
                                 </li>
 
                                 <li class="nav-item">

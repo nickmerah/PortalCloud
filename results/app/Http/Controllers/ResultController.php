@@ -267,10 +267,13 @@ class ResultController extends Controller
             ->where('level_id', $level)
             ->where('cyearsession', $session)
             ->where('semester', $sem)
-            ->whereIn('matric_no', $students)
+            //  ->whereIn('matric_no', $students)
             ->get(['matric_no', 'std_mark', 'cat', 'exam', 'std_rstatus'])
             ->keyBy('matric_no');
 
+        if ($students->isEmpty()) {
+            $students = $existingResults->keys();
+        }
 
         return view('enter_course_result', [
             'students' => $students,
@@ -333,24 +336,25 @@ class ResultController extends Controller
 
     public function resultssummary()
     {
-        $sess = Sessions::select('cs_session')->get();
+        $sess = Sessions::select('cs_session')->orderBy('cs_session', 'desc')->get();
         $levels = Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
         $courseofstudy = DepartmentOptions::select('do_id', 'programme_option', 'prog_id')
             ->orderBy('programme_option', 'asc')
             ->get();
 
-        return view('resultssummary', ['sess' => $sess[0]->cs_session, 'levels' => $levels, 'courseofstudy' => $courseofstudy]);
+        return view('resultssummary', ['sessions' => $sess, 'levels' => $levels, 'courseofstudy' => $courseofstudy]);
     }
 
     public function courseresult()
     {
-        $sess = Sessions::select('cs_session')->get();
+        $sess = Sessions::select('cs_session')->orderBy('cs_session', 'desc')->get();
         $levels = Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
         $courseofstudy = DepartmentOptions::select('do_id', 'programme_option', 'prog_id')
             ->orderBy('programme_option', 'asc')
             ->get();
 
-        return view('courseresult', ['sess' => $sess[0]->cs_session, 'levels' => $levels, 'courseofstudy' => $courseofstudy]);
+
+        return view('courseresult', ['sessions' => $sess, 'levels' => $levels, 'courseofstudy' => $courseofstudy]);
     }
 
     public function viewResult(Request $request)
@@ -632,5 +636,17 @@ class ResultController extends Controller
             'minCgpa' => $cgpas->min(),
         ];
         return $cgpaStats;
+    }
+
+    public function failedresultupload()
+    {
+        $courses = Courses::select('thecourse_code', 'thecourse_id')->orderBy('thecourse_code', 'asc')->get();
+        $sess = Sessions::select('cs_session')->get();
+        $levels = Levels::select('level_id', 'level_name')->orderBy('level_id', 'asc')->get();
+        $courseofstudy = DepartmentOptions::select('do_id', 'programme_option', 'prog_id')
+            ->orderBy('programme_option', 'asc')
+            ->get();
+
+        return view('uploadfailedresults', ['courses' => $courses, 'sess' => $sess[0]->cs_session, 'levels' => $levels, 'courseofstudy' => $courseofstudy]);
     }
 }

@@ -175,7 +175,7 @@
                 @foreach ($courses as $course)
                     @php $data = $result->course_marks[$course->course_id] ?? null; @endphp
                     <td class="text-center">
-                        {{ (int)($data->std_mark ?? 0) }}{{ $data->std_rstatus ?? '' }}
+                        {{  $data?->std_mark ?? '' }}{{ $data?->std_rstatus ?? '' }}
                     </td>
                 @endforeach
                 <td>{{ $result->total_unit }}</td>

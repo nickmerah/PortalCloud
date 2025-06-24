@@ -6,12 +6,9 @@
 
             <div class="col-md-8"><br>
                 <div class="card">
-                    <div class="card-header">{{ __('View Course Results') }}</div>
-
+                    <div class="card-header">{{ __('Upload Failed Result') }}</div>
                     <div class="card-body">
-
-
-                        <form method="POST" action="{{ url('uploadedresult') }}">
+                        <form method="POST" enctype="multipart/form-data" action="{{ url('importResult') }}">
                             @csrf
                             @if(session('success'))
                                 <div class="alert alert-success">
@@ -31,8 +28,8 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                     <tr>
-                                        <th colspan="2">Instruction: Browse to select session, level, semester, course
-                                            of study and view results.
+                                        <th colspan="2">Instruction: Browse to select the excel sheet, select a session,
+                                            level, semester, course of study and import. Excel Files must be in .xls
                                         </th>
                                     </tr>
                                     </thead>
@@ -41,18 +38,31 @@
                                     <tr>
                                         <td><strong>Current Session</strong></td>
                                         <td><select name="sess" id="sess" class="form-control" required="required">
-                                                @foreach ($sessions as $sess)
-                                                    <option value="{{ $sess->cs_session }}">{{ $sess->cs_session }}
-                                                        / {{ $sess->cs_session + 1   }}</option>
-                                                @endforeach
+
+                                                <option value="{{ $sess }}">{{ $sess }} / {{ $sess + 1 }}</option>
+
                                             </select></td>
                                     </tr>
+
                                     <tr>
-                                        <td><strong>Level</strong></td>
+                                        <td><strong>Student Level</strong></td>
                                         <td>
 
                                             <select name="clevel" id="clevel" class="form-control" required>
                                                 <option value=""> Select Level</option>
+                                                @foreach ($levels as $clevel)
+                                                    <option
+                                                        value="{{ $clevel->level_id}}"> {{ $clevel->level_name}} </option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Result Level</strong></td>
+                                        <td>
+
+                                            <select name="rlevel" id="rlevel" class="form-control" required>
+                                                <option value=""> Select Result Level</option>
                                                 @foreach ($levels as $clevel)
                                                     <option
                                                         value="{{ $clevel->level_id}}"> {{ $clevel->level_name}} </option>
@@ -85,10 +95,27 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td><strong>Course</strong></td>
+                                        <td>
+
+                                            <select name="courses" id="courses" class="form-control" required disabled>
+                                                <option value=""> Select Course Code</option>
+                                            </select>
+
+                                        </td>
+                                    </tr>
+                                    <td><span class="fieldarea"><strong>Location of the Excel File</strong></span></td>
+                                    <td><input id="uploadImage" type="file" accept=".xls" name="file"
+                                               placeholder="Select Excel file" required class="form-control"/>
+                                        File must be saved in .xls extension
+                                    </td>
+                                    </tr>
+
+                                    <tr>
                                         <td>&nbsp;</td>
                                         <td>
-                                            <button id="button" type="submit" class="btn btn-success">View Course
-                                                Result </i>
+                                            <button id="button" type="submit" class="btn btn-success">Upload Excel
+                                                Sheet </i>
                                             </button>
                                         </td>
                                     </tr>
@@ -97,6 +124,11 @@
                             </div>
                         </form>
 
+                        <div class="text-center">
+                            <a href="{{ asset('result.xls') }}" download>Download Result Template</a>
+
+                            | <a href="{{ route('courseresult') }}"> Check Uploaded Results</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -105,13 +137,13 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $('#clevel').change(function () {
+        $('#rlevel').change(function () {
             $('#semester').prop('disabled', false);
         });
 
         $('#semester').change(function () {
             $('#courseofstudy').prop('disabled', false);
-            let levelId = $('#clevel').val();
+            let levelId = $('#rlevel').val();
             if (levelId) {
                 $.ajax({
                     url: '{{ url("/get-cos") }}',
@@ -130,6 +162,32 @@
                 $('#courseofstudy').empty().append('<option value=""> Select Course of Study </option>');
             }
 
+        });
+
+        $('#courseofstudy').change(function () {
+            $('#courses').prop('disabled', false);
+            let levelId = $('#rlevel').val();
+            let semester = $('#semester').val();
+            let cosId = $(this).val();
+            if (levelId && semester && cosId) {
+                $.ajax({
+                    url: '{{ url("/get-courses") }}',
+                    type: 'GET',
+                    data: {
+                        level_id: levelId,
+                        semester: semester,
+                        cos_id: cosId
+                    },
+                    success: function (data) {
+                        $('#courses').empty().append('<option value=""> Select Course Code </option>');
+                        $.each(data, function (key, course) {
+                            $('#courses').append('<option value="' + course.thecourse_id + '">' + course.thecourse_code + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#courses').empty().append('<option value=""> Select Course Code </option>');
+            }
         });
     </script>
 @endsection
