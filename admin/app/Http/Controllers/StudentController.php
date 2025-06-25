@@ -671,7 +671,7 @@ class StudentController extends Controller
         $data = collect($request->all())->map(function ($value) {
             return is_string($value) ? strtoupper($value) : $value;
         })->toArray();
-        
+
         $student->fill($data);
         $student->update();
 
@@ -853,6 +853,10 @@ class StudentController extends Controller
         )->orderBy('matric_no', 'asc')
             ->orderBy('stdcourse', 'asc')
             ->get();
-        return view('students.std_list', compact('std_lists', 'prog_id', 'progtype_id', 'level_id'));
+
+        if ($request->list_status) {
+            return view('students.std_list', compact('std_lists', 'prog_id', 'progtype_id', 'level_id'));
+        }
+        return view('students.std_full_list', compact('std_lists', 'prog_id', 'progtype_id', 'level_id'));
     }
 }

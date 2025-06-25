@@ -191,6 +191,14 @@
                                                             </select>
                                                         </div>
                                                     </div>
+
+                                                    <label for="email_address1">List Status</label>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="list_status" value="1"/>
+                                                            <span>With Passports</span>
+                                                        </label>
+                                                    </div>
                                                     <br>
                                                     <button type="submit" class="btn btn-info waves-effect">Get Student
                                                         List
