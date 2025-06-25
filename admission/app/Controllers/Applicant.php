@@ -139,7 +139,9 @@ class Applicant extends Controller
             'fnames' => $fnames,
         ]);
 
+
         $data['paystatus'] = $this->applicantModel->gettrans_details(session()->get('log_id'));
+
 
         echo view('applicants/header', $datah);
         echo view('applicants/appfees', $data);
@@ -229,7 +231,6 @@ class Applicant extends Controller
                     ]
                 ];
             }
-
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -256,10 +257,9 @@ class Applicant extends Controller
                 $response = json_decode($jsonData, true);
 
                 $this->applicantModel->insertJsonData(json_encode($postFields), "Request");
-                $this->applicantModel->insertJsonData(stripslashes($response), "Response");
+                $this->applicantModel->insertJsonData(stripslashes(json_encode($jsonData)), "Response");
             }
-            
-            curl_close($curl);
+            curl_close($curl);;
 
             $statuscode = $response['statuscode'];
 
@@ -551,6 +551,8 @@ class Applicant extends Controller
                 'nok_email' => 'required',
                 'state' => 'required',
                 'lga' => 'required',
+                'nok_rel' => 'required',
+                'hometown' => 'required',
             ];
 
             $dob = $this->request->getPost('dob');
@@ -642,6 +644,8 @@ class Applicant extends Controller
                     'nok_email' => $this->request->getPost('nok_email'),
                     'state_of_origin' => $this->request->getPost('state'),
                     'local_gov' => $this->request->getPost('lga'),
+                    'nok_rel' => $this->request->getPost('nok_rel'),
+                    'hometown' => $this->request->getPost('hometown'),
                     'birthdate' => $birthday,
                     'biodata' => 1,
                     'std_custome7' => 1,

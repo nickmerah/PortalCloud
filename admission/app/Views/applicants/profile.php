@@ -1,446 +1,1 @@
-      <!-- Main Content -->
-      <div class="main-content">
-        <section class="section">
-
-          <ul class="breadcrumb breadcrumb-style ">
-            <li class="breadcrumb-item">
-
-              <h4 class="page-title m-b-0">My Profile</h4>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="<?= base_url('applicant'); ?>">
-                <i class="fas fa-home"></i></a>
-            </li>
-            <li class="breadcrumb-item active">Dashboard</li>
-          </ul>
-
-          <div class="row">
-            <div class="col-12 col-md-6 col-lg-12">
-              <div class="card">
-                <div class="card-header">
-                  <h4>Biodata</h4>
-                </div>
-                <div class="card-body">
-                  <?php
-                 
-                  
-                  if (isset($stddetails)) :
-
-                  ?>
-                    <?php if (session()->getFlashdata('error')) : ?>
-                      <div class="alert alert-danger">
-                        <?= session()->getFlashdata('error') ?>
-                      </div>
-                    <?php endif; ?>
-                    <form id="update_profile" name="update_profile" action="<?= base_url('applicant/update_profile') ?>" method="post" enctype="multipart/form-data">
-                      <?= csrf_field()  ?>
-
-                      <?php foreach ($stddetails as $biodetail) : ?>
-
-                        <div class="row">
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputFirstName"><strong>Application Number</strong></label>
-                            <input type="text" class="form-control" name="app_no" value="<?= $biodetail->app_no; ?>" readonly>
-                          </div>
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputLastName"><strong>Surname</strong></label>
-                            <input type="text" class="form-control" name="surname" value="<?= $biodetail->surname; ?>" readonly>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputFirstName"><strong>Firstname</strong></label>
-                            <input type="text" class="form-control" name="firstname" value="<?= $biodetail->firstname; ?>" readonly>
-                          </div>
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputLastName"><strong>Othername</strong></label>
-                            <input type="text" class="form-control" name="othernames" value="<?= $biodetail->othernames; ?>" placeholder="Other name" autocomplete="off">
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputFirstName"><strong>Email</strong></label>
-                            <input type="text" class="form-control" name="student_email" value="<?= $biodetail->student_email; ?>" autocomplete="off" readonly>
-                          </div>
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputLastName"><strong>GSM</strong></label>
-                            <input type="text" class="form-control" name="student_mobiletel" value="<?= $biodetail->student_mobiletel; ?>" autocomplete="off" readonly>
-                          </div>
-                        </div>
-                        <?php /** jamb */  if ($biodetail->isjamb == 1) { ?>
-                          <div class="row">
-                            <div class="mb-3 col-md-12">
-                              <label class="form-label" for="inputCity"><strong> Course of Study</strong></label>
-                              <select id="sprog" class="form-control">
-                                <option value="<?= $jambdetails[0]->course; ?>"><?= $jambdetails[0]->course; ?></option>
-
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="mb-3 col-md-12">
-                              <label class="form-label" for="inputCity"><strong> Programme</strong></label>
-                              <select id="sprog" class="form-control">
-                                <option value="<?= $jambdetails[0]->programme_id; ?>"><?= $jambdetails[0]->programme_name; ?></option>
-
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="mb-3 col-md-12">
-                              <label class="form-label" for="inputCity"><strong> Programme Type</strong></label>
-                              <select id="sprog" class="form-control">
-                                <option value="<?= $jambdetails[0]->programmet_id; ?>"><?= $jambdetails[0]->programmet_name; ?></option>
-
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputFirstName"><strong>Gender</strong></label>
-                              <select name="gender" class="form-control">
-
-                                <option value="<?= $jambdetails[0]->gender; ?>"><?= $jambdetails[0]->gender; ?></option>
-
-
-                              </select>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputLastName"><strong>Marital Status</strong></label>
-                              <select name="marital_status" class="form-control" required>
-                                <option value="<?php echo empty($biodetail->marital_status) ? "" : "$biodetail->marital_status"; ?>"><?php echo empty($biodetail->marital_status) ? "Select Marital Status" : "$biodetail->marital_status"; ?></option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="Divorced">Divorced</option>
-                                <option value="Widowed">Widowed</option>
-
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputCity"><strong>State</strong></label>
-                              <select name="cstate" id="sel_state" class="form-control" required>
-
-                                <option value="<?= $jambdetails[0]->state; ?>"><?= $jambdetails[0]->state; ?></option>
-
-                              </select>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputState"><strong>LGA</strong></label>
-                              <select name="clga" id="sel_lga" class="form-control" required>
-                                <option value="<?= $jambdetails[0]->lga; ?>"><?= $jambdetails[0]->lga; ?></option>
-
-                              </select>
-                            </div>
-
-                          </div>
-                        <?php /**end of jamb */
-                        } else {
-                          //start of others
-                        ?>
-
-                          <div class="row">
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputCity"><strong> Course of Study</strong></label>
-                              <select id="sprog" class="form-control">
-                                <option value="<?= $biodetail->stdcourse; ?>"><?= $biodetail->programme_option; ?></option>
-
-                              </select>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputFirstName"><strong>Gender</strong></label>
-                              <select name="gender" class="form-control" required>
-
-                                <option value="<?php echo empty($biodetail->gender) ? "" : "$biodetail->gender"; ?>"><?php echo empty($biodetail->gender) ? "Select Gender" : "$biodetail->gender"; ?></option>
-                                <option value="Male" <?= old('gender', $biodetail->gender) == "Male" ? 'selected' : '' ?>>Male</option>
-                                <option value="Female" <?= old('gender', $biodetail->gender) == "Female" ? 'selected' : '' ?>>Female</option>
-
-
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputCity"><strong> Programme</strong></label>
-                              <select id="sprog" class="form-control">
-                                <option value="<?= $biodetail->programme_id; ?>"><?= $biodetail->programme_name; ?></option>
-
-                              </select>
-                            </div>
-
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputLastName"><strong>Marital Status</strong></label>
-                              <select name="marital_status" class="form-control" required>
-                                <option value="<?php echo empty($biodetail->marital_status) ? "" : "$biodetail->marital_status"; ?>"><?php echo empty($biodetail->marital_status) ? "Select Marital Status" : "$biodetail->marital_status"; ?></option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="Divorced">Divorced</option>
-                                <option value="Widowed">Widowed</option>
-
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputCity"><strong>State</strong></label>
-                              <select name="state" id="sel_state" class="form-control" required>
-                                <option value="<?php echo empty($biodetail->state_of_origin) ? "" : "$biodetail->state_of_origin"; ?>"><?php echo empty($biodetail->state_of_origin) ? "Select  State" : $biodetail->state_name; ?></option>
-                                <?php foreach ($states as $state) : ?>
-                                  <option value="<?php echo $state->state_id; ?>"><?php echo $state->state_name; ?></option>
-                                <?php endforeach; ?>
-                              </select>
-
-
-                            </div>
-                            <div class="mb-3 col-md-6">
-                              <label class="form-label" for="inputCity"><strong>LGA</strong></label>
-                              <select name="lga" id="sel_lga" class="form-control" required>
-                                <option value="<?php echo empty($biodetail->local_gov) ? "" : "$biodetail->local_gov"; ?>"><?php echo empty($biodetail->local_gov) ? "Select  LGA" : $biodetail->lga_name; ?></option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <script>
-                            document.getElementById('sel_state').addEventListener('change', function() {
-                              var stateId = this.value;
-                              var lgaSelect = document.getElementById('sel_lga');
-
-                              if (stateId) {
-                                fetch("<?= base_url('/applicant/getLGA'); ?>", {
-                                    method: 'POST',
-                                    headers: {
-                                      'Content-Type': 'application/x-www-form-urlencoded'
-                                    },
-                                    body: new URLSearchParams('state_id=' + stateId)
-                                  })
-                                  .then(response => response.json())
-                                  .then(data => {
-                                    lgaSelect.innerHTML = '<option value="">Select LGA</option>'; // Reset LGA options
-                                    data.forEach(lga => {
-                                      var option = document.createElement('option');
-                                      option.value = lga.lga_id;
-                                      option.text = lga.lga_name;
-                                      lgaSelect.add(option);
-                                    });
-                                  })
-                                  .catch(error => console.error('Error fetching LGAs:', error));
-                              } else {
-                                lgaSelect.innerHTML = '<option value="">Select LGA</option>'; // Reset LGA options
-                              }
-                            });
-                          </script>
-                        <?php
-
-
-                          /**end of others */
-                        } ?>
-                        <div class="row">
-
-                          <?php if ($biodetail->birthdate == '0000-00-00') {  ?>
-
-                            <div class="mb-3 col-md-4">
-                              <label class="form-label" for="inputZip"><strong>Day of Birth</strong></label>
-                              <select name="dob" class="form-control" required>
-                                <option value="">Select Day</option>
-                                <?php
-                                for ($mday = 1; $mday <= 31; $mday++) {
-                                ?>
-                                  <option value="<?php if (strlen($mday) == 1) {
-                                                    $mday = "0$mday";
-                                                  }
-                                                  echo $mday ?>"><?php echo $mday ?></option>
-                                <?php
-                                }
-                                ?>
-
-                              </select>
-                            </div>
-                            <div class="mb-3 col-md-4">
-                              <label class="form-label" for="inputZip"><strong>Month of Birth</strong></label>
-                              <select name="mob" class="form-control" required>
-
-                                <option value="">Select Month</option>
-                                <option value='01'>Jan</option>
-                                <option value='02'>Feb</option>
-                                <option value='03'>Mar</option>
-                                <option value='04'>Apr</option>
-                                <option value='05'>May</option>
-                                <option value='06'>Jun</option>
-                                <option value='07'>Jul</option>
-                                <option value='08'>Aug</option>
-                                <option value='09'>Sep</option>
-                                <option value='10'>Oct</option>
-                                <option value='11'>Nov</option>
-                                <option value='12'>Dec</option>
-
-                              </select>
-                            </div>
-                            <div class="mb-3 col-md-4">
-                              <label class="form-label" for="inputZip"><strong>Year of Birth</strong></label>
-                              <select name="yob" class="form-control" required>
-                                <option value="">Select Year</option> <?php
-                                                                      $tillyear = 1970;
-                                                                      for ($year = date('Y'); $year >= $tillyear; $year--) {
-                                                                      ?>
-                                  <option value="<?php echo $year ?>"><?php echo $year ?></option>
-                                <?php
-                                                                      }
-                                ?>
-                              </select>
-
-
-
-                              </select>
-                            </div>
-
-
-                          <?php } else {  ?>
-
-
-
-
-
-                            <div class="mb-3 col-md-4">
-                              <label class="form-label" for="inputZip"><strong>Day of Birth</strong></label>
-                              <select name="dob" class="form-control" required>
-                                <option value="<?= date('d', strtotime($biodetail->birthdate)); ?>"><?= date('d', strtotime($biodetail->birthdate)); ?></option>
-                                <?php
-                                for ($mday = 1; $mday <= 31; $mday++) {
-                                ?>
-                                  <option value="<?php if (strlen($mday) == 1) {
-                                                    $mday = "0$mday";
-                                                  }
-                                                  echo $mday ?>"><?php echo $mday ?></option>
-                                <?php
-                                }
-                                ?>
-
-                              </select>
-                            </div>
-                            <div class="mb-3 col-md-4">
-                              <label class="form-label" for="inputZip"><strong>Month of Birth</strong></label>
-                              <select name="mob" class="form-control" required>
-
-                                <option value="<?= date('m', strtotime($biodetail->birthdate)); ?>"><?= date('M', strtotime($biodetail->birthdate)); ?></option>
-                                <option value='01'>Jan</option>
-                                <option value='02'>Feb</option>
-                                <option value='03'>March</option>
-                                <option value='04'>Apr</option>
-                                <option value='05'>May</option>
-                                <option value='06'>Jun</option>
-                                <option value='07'>Jul</option>
-                                <option value='08'>Aug</option>
-                                <option value='09'>Sept</option>
-                                <option value='10'>Oct</option>
-                                <option value='11'>Nov</option>
-                                <option value='12'>Dec</option>
-
-                              </select>
-                            </div>
-                            <div class="mb-3 col-md-4">
-                              <label class="form-label" for="inputZip"><strong>Year of Birth</strong></label>
-                              <select name="yob" class="form-control" required>
-                                <option value="<?= date('Y', strtotime($biodetail->birthdate)); ?>"><?= date('Y', strtotime($biodetail->birthdate)); ?></option> <?php
-                                                                                                                                                                  $tillyear = 1970;
-                                                                                                                                                                  for ($year = date('Y'); $year >= $tillyear; $year--) {
-                                                                                                                                                                  ?>
-                                  <option value="<?php echo $year ?>"><?php echo $year ?></option>
-                                <?php
-                                                                                                                                                                  }
-                                ?>
-                              </select>
-                            </div>
-                          <?php } ?>
-                        </div>
-                        <div class="row">
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputAddress"><strong>Permanent Home Address</strong></label>
-                            <input type="text" class="form-control" name="student_homeaddress" value="<?= old('student_homeaddress', $biodetail->student_homeaddress); ?>" placeholder="Permanent Home Address" autocomplete="off" required>
-                          </div>
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputAddress2"><strong>Contact Address</strong></label>
-                            <input type="text" class="form-control" name="contact_address" value="<?= old('contact_address', $biodetail->contact_address); ?>" placeholder="Contact Address" autocomplete="off" required>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputFirstName"><strong>Next of Kin Name</strong></label>
-                            <input type="text" class="form-control" name="nok" value="<?= old('nok', $biodetail->next_of_kin); ?>" placeholder="Next of Kin Name" autocomplete="off" required>
-                          </div>
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputLastName"><strong>Next of Kin Phone Number</strong></label>
-                            <input type="text" class="form-control" name="nok_tel" value="<?= old('nok_tel', $biodetail->nok_tel); ?>" placeholder="Next of Kin GSM" autocomplete="off" required>
-                          </div>
-                        </div>
-
-
-                        <div class="row">
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputAddress"><strong>Next of Kin Address</strong></label>
-                            <input type="text" class="form-control" name="nok_address" value="<?= old('nok_address', $biodetail->nok_address); ?>" placeholder="Next of Kin Address" autocomplete="off" required>
-                          </div>
-
-                          <div class="mb-3 col-md-6">
-                            <label class="form-label" for="inputAddress"><strong>Next of Kin Email Address</strong></label>
-                            <input type="email" class="form-control" name="nok_email" value="<?= old('nok_email', $biodetail->nok_email); ?>" placeholder="Next of Kin Email Address" autocomplete="off" required>
-                          </div>
-
-                        </div>
-                        <div class="row">
-                          <?php if ($biodetail->std_photo == 'avatar.jpg') { ?>
-
-
-                            <div class="mb-3 col-md-12">
-                              <label class="form-label" for="inputCity"><strong> Upload Passport (Max. size 100kb, Allowed file extension(.jpg, .jpeg)</strong></label>
-                              <input type="file" class="form-control" name="file" required accept="image/jpeg, image/jpg">
-                            </div>
-                        </div>
-
-                        <div class=" mb-3 col-md-12 alert alert-warning alert-dismissible" role="alert">
-
-                          <div class="alert-message">
-                            <strong>Warning!</strong> Confirm your profile information before saving
-                          </div>
-                        </div>
-
-                        <?php if ($pstat  == 1) {
-
-
-                              echo '<div class="mb-3 col-md-12"><button type="submit" class="btn btn-primary">Confirm and Save Biodata</button> <div>';
-                            } else {
-                              echo '<div class="alert alert-danger alert-dismissible" role="alert">
-
-                     <div class="alert-message">
-                       <strong>APPLICATION FEE PAYMENT</strong> NOT MADE.
-                     </div>
-                   </div>';
-                            } ?>
-
-
-
-                      <?php } else {
-
-                            echo '<div class="alert alert-success alert-dismissible" role="alert">
-
-                     <div class="alert-message">
-                       <strong>Success!</strong> Biodata already Saved.
-                     </div>
-                   </div>';
-
-                            echo '<div class="mb-3 col-md-12"><button type="submit" class="btn btn-primary"> Update Biodata</button> <div>';
-                          } ?>
-                </div>
-
-              <?php endforeach; ?>
-            <?php endif; ?>
-            </form>
-
-
-              </div>
-
-
-            </div>
-          </div>
-      </div>
+<!-- Main Content --><div class="main-content">    <section class="section">        <ul class="breadcrumb breadcrumb-style ">            <li class="breadcrumb-item">                <h4 class="page-title m-b-0">My Profile</h4>            </li>            <li class="breadcrumb-item">                <a href="<?= base_url('applicant'); ?>">                    <i class="fas fa-home"></i></a>            </li>            <li class="breadcrumb-item active">Dashboard</li>        </ul>        <div class="row">            <div class="col-12 col-md-6 col-lg-12">                <div class="card">                    <div class="card-header">                        <h4>Biodata</h4>                    </div>                    <div class="card-body">                        <?php                        if (isset($stddetails)) :                        ?>                        <?php if (session()->getFlashdata('error')) : ?>                            <div class="alert alert-danger">                                <?= session()->getFlashdata('error') ?>                            </div>                        <?php endif; ?>                        <form id="update_profile" name="update_profile"                              action="<?= base_url('applicant/update_profile') ?>" method="post"                              enctype="multipart/form-data">                            <?= csrf_field() ?>                            <?php foreach ($stddetails                            as $biodetail) : ?>                            <div class="row">                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputFirstName"><strong>Application                                            Number</strong></label>                                    <input type="text" class="form-control" name="app_no"                                           value="<?= $biodetail->app_no; ?>" readonly>                                </div>                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputLastName"><strong>Surname</strong></label>                                    <input type="text" class="form-control" name="surname"                                           value="<?= $biodetail->surname; ?>" readonly>                                </div>                            </div>                            <div class="row">                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputFirstName"><strong>Firstname</strong></label>                                    <input type="text" class="form-control" name="firstname"                                           value="<?= $biodetail->firstname; ?>" readonly>                                </div>                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputLastName"><strong>Othername</strong></label>                                    <input type="text" class="form-control" name="othernames"                                           value="<?= $biodetail->othernames; ?>" placeholder="Other name"                                           autocomplete="off">                                </div>                            </div>                            <div class="row">                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputFirstName"><strong>Email</strong></label>                                    <input type="text" class="form-control" name="student_email"                                           value="<?= $biodetail->student_email; ?>" autocomplete="off" readonly>                                </div>                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputLastName"><strong>GSM</strong></label>                                    <input type="text" class="form-control" name="student_mobiletel"                                           value="<?= $biodetail->student_mobiletel; ?>" autocomplete="off" readonly>                                </div>                            </div>                            <?php /** jamb */                            if ($biodetail->isjamb == 1) { ?>                                <div class="row">                                    <div class="mb-3 col-md-12">                                        <label class="form-label" for="inputCity"><strong> Course of                                                Study</strong></label>                                        <select id="sprog" class="form-control">                                            <option value="<?= $jambdetails[0]->course; ?>"><?= $jambdetails[0]->course; ?></option>                                        </select>                                    </div>                                </div>                                <div class="row">                                    <div class="mb-3 col-md-12">                                        <label class="form-label" for="inputCity"><strong> Programme</strong></label>                                        <select id="sprog" class="form-control">                                            <option value="<?= $jambdetails[0]->programme_id; ?>"><?= $jambdetails[0]->programme_name; ?></option>                                        </select>                                    </div>                                </div>                                <div class="row">                                    <div class="mb-3 col-md-12">                                        <label class="form-label" for="inputCity"><strong> Programme                                                Type</strong></label>                                        <select id="sprog" class="form-control">                                            <option value="<?= $jambdetails[0]->programmet_id; ?>"><?= $jambdetails[0]->programmet_name; ?></option>                                        </select>                                    </div>                                </div>                                <div class="row">                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputFirstName"><strong>Gender</strong></label>                                        <select name="gender" class="form-control">                                            <option value="<?= $jambdetails[0]->gender; ?>"><?= $jambdetails[0]->gender; ?></option>                                        </select>                                    </div>                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputLastName"><strong>Marital                                                Status</strong></label>                                        <select name="marital_status" class="form-control" required>                                            <option value="<?php echo empty($biodetail->marital_status) ? "" : "$biodetail->marital_status"; ?>"><?php echo empty($biodetail->marital_status) ? "Select Marital Status" : "$biodetail->marital_status"; ?></option>                                            <option value="Single">Single</option>                                            <option value="Married">Married</option>                                            <option value="Divorced">Divorced</option>                                            <option value="Widowed">Widowed</option>                                        </select>                                    </div>                                </div>                                <div class="row">                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputCity"><strong>State</strong></label>                                        <select name="cstate" id="sel_state" class="form-control" required>                                            <option value="<?= $jambdetails[0]->state; ?>"><?= $jambdetails[0]->state; ?></option>                                        </select>                                    </div>                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputState"><strong>LGA</strong></label>                                        <select name="clga" id="sel_lga" class="form-control" required>                                            <option value="<?= $jambdetails[0]->lga; ?>"><?= $jambdetails[0]->lga; ?></option>                                        </select>                                    </div>                                </div>                            <?php /**end of jamb */                            } else {                            //start of others                            ?>                                <div class="row">                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputCity"><strong> Course of                                                Study</strong></label>                                        <select id="sprog" class="form-control">                                            <option value="<?= $biodetail->stdcourse; ?>"><?= $biodetail->programme_option; ?></option>                                        </select>                                    </div>                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputFirstName"><strong>Gender</strong></label>                                        <select name="gender" class="form-control" required>                                            <option value="<?php echo empty($biodetail->gender) ? "" : "$biodetail->gender"; ?>"><?php echo empty($biodetail->gender) ? "Select Gender" : "$biodetail->gender"; ?></option>                                            <option value="Male" <?= old('gender', $biodetail->gender) == "Male" ? 'selected' : '' ?>>                                                Male                                            </option>                                            <option value="Female" <?= old('gender', $biodetail->gender) == "Female" ? 'selected' : '' ?>>                                                Female                                            </option>                                        </select>                                    </div>                                </div>                                <div class="row">                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputCity"><strong> Programme</strong></label>                                        <select id="sprog" class="form-control">                                            <option value="<?= $biodetail->programme_id; ?>"><?= $biodetail->programme_name; ?></option>                                        </select>                                    </div>                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputLastName"><strong>Marital                                                Status</strong></label>                                        <select name="marital_status" class="form-control" required>                                            <option value="<?php echo empty($biodetail->marital_status) ? "" : "$biodetail->marital_status"; ?>"><?php echo empty($biodetail->marital_status) ? "Select Marital Status" : "$biodetail->marital_status"; ?></option>                                            <option value="Single">Single</option>                                            <option value="Married">Married</option>                                            <option value="Divorced">Divorced</option>                                            <option value="Widowed">Widowed</option>                                        </select>                                    </div>                                </div>                                <div class="row">                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputCity"><strong>State</strong></label>                                        <select name="state" id="sel_state" class="form-control" required>                                            <option value="<?php echo empty($biodetail->state_of_origin) ? "" : "$biodetail->state_of_origin"; ?>"><?php echo empty($biodetail->state_of_origin) ? "Select  State" : $biodetail->state_name; ?></option>                                            <?php foreach ($states as $state) : ?>                                                <option value="<?php echo $state->state_id; ?>"><?php echo $state->state_name; ?></option>                                            <?php endforeach; ?>                                        </select>                                    </div>                                    <div class="mb-3 col-md-6">                                        <label class="form-label" for="inputCity"><strong>LGA</strong></label>                                        <select name="lga" id="sel_lga" class="form-control" required>                                            <option value="<?php echo empty($biodetail->local_gov) ? "" : "$biodetail->local_gov"; ?>"><?php echo empty($biodetail->local_gov) ? "Select  LGA" : $biodetail->lga_name; ?></option>                                        </select>                                    </div>                                </div>                                <script>                                    document.getElementById('sel_state').addEventListener('change', function () {                                        var stateId = this.value;                                        var lgaSelect = document.getElementById('sel_lga');                                        if (stateId) {                                            fetch("<?= base_url('/applicant/getLGA'); ?>", {                                                method: 'POST',                                                headers: {                                                    'Content-Type': 'application/x-www-form-urlencoded'                                                },                                                body: new URLSearchParams('state_id=' + stateId)                                            })                                                .then(response => response.json())                                                .then(data => {                                                    lgaSelect.innerHTML = '<option value="">Select LGA</option>'; // Reset LGA options                                                    data.forEach(lga => {                                                        var option = document.createElement('option');                                                        option.value = lga.lga_id;                                                        option.text = lga.lga_name;                                                        lgaSelect.add(option);                                                    });                                                })                                                .catch(error => console.error('Error fetching LGAs:', error));                                        } else {                                            lgaSelect.innerHTML = '<option value="">Select LGA</option>'; // Reset LGA options                                        }                                    });                                </script>                                <?php                                /**end of others */                            } ?>                            <div class="row">                                <?php if ($biodetail->birthdate == '0000-00-00') { ?>                                    <div class="mb-3 col-md-4">                                        <label class="form-label" for="inputZip"><strong>Day of Birth</strong></label>                                        <select name="dob" class="form-control" required>                                            <option value="">Select Day</option>                                            <?php                                            for ($mday = 1; $mday <= 31; $mday++) {                                                ?>                                                <option value="<?php if (strlen($mday) == 1) {                                                    $mday = "0$mday";                                                }                                                echo $mday ?>"><?php echo $mday ?></option>                                                <?php                                            }                                            ?>                                        </select>                                    </div>                                    <div class="mb-3 col-md-4">                                        <label class="form-label" for="inputZip"><strong>Month of Birth</strong></label>                                        <select name="mob" class="form-control" required>                                            <option value="">Select Month</option>                                            <option value='01'>Jan</option>                                            <option value='02'>Feb</option>                                            <option value='03'>Mar</option>                                            <option value='04'>Apr</option>                                            <option value='05'>May</option>                                            <option value='06'>Jun</option>                                            <option value='07'>Jul</option>                                            <option value='08'>Aug</option>                                            <option value='09'>Sep</option>                                            <option value='10'>Oct</option>                                            <option value='11'>Nov</option>                                            <option value='12'>Dec</option>                                        </select>                                    </div>                                    <div class="mb-3 col-md-4">                                        <label class="form-label" for="inputZip"><strong>Year of Birth</strong></label>                                        <select name="yob" class="form-control" required>                                            <option value="">Select Year</option> <?php                                            $tillyear = 1970;                                            for ($year = date('Y'); $year >= $tillyear; $year--) {                                                ?>                                                <option value="<?php echo $year ?>"><?php echo $year ?></option>                                                <?php                                            }                                            ?>                                        </select>                                        </select>                                    </div>                                <?php } else { ?>                                    <div class="mb-3 col-md-4">                                        <label class="form-label" for="inputZip"><strong>Day of Birth</strong></label>                                        <select name="dob" class="form-control" required>                                            <option value="<?= date('d', strtotime($biodetail->birthdate)); ?>"><?= date('d', strtotime($biodetail->birthdate)); ?></option>                                            <?php                                            for ($mday = 1; $mday <= 31; $mday++) {                                                ?>                                                <option value="<?php if (strlen($mday) == 1) {                                                    $mday = "0$mday";                                                }                                                echo $mday ?>"><?php echo $mday ?></option>                                                <?php                                            }                                            ?>                                        </select>                                    </div>                                    <div class="mb-3 col-md-4">                                        <label class="form-label" for="inputZip"><strong>Month of Birth</strong></label>                                        <select name="mob" class="form-control" required>                                            <option value="<?= date('m', strtotime($biodetail->birthdate)); ?>"><?= date('M', strtotime($biodetail->birthdate)); ?></option>                                            <option value='01'>Jan</option>                                            <option value='02'>Feb</option>                                            <option value='03'>March</option>                                            <option value='04'>Apr</option>                                            <option value='05'>May</option>                                            <option value='06'>Jun</option>                                            <option value='07'>Jul</option>                                            <option value='08'>Aug</option>                                            <option value='09'>Sept</option>                                            <option value='10'>Oct</option>                                            <option value='11'>Nov</option>                                            <option value='12'>Dec</option>                                        </select>                                    </div>                                    <div class="mb-3 col-md-4">                                        <label class="form-label" for="inputZip"><strong>Year of Birth</strong></label>                                        <select name="yob" class="form-control" required>                                            <option value="<?= date('Y', strtotime($biodetail->birthdate)); ?>"><?= date('Y', strtotime($biodetail->birthdate)); ?></option> <?php                                            $tillyear = 1970;                                            for ($year = date('Y'); $year >= $tillyear; $year--) {                                                ?>                                                <option value="<?php echo $year ?>"><?php echo $year ?></option>                                                <?php                                            }                                            ?>                                        </select>                                    </div>                                <?php } ?>                            </div>                            <div class="row">                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputAddress"><strong>Permanent Home Address</strong></label>                                    <input type="text" class="form-control" name="student_homeaddress"                                           value="<?= old('student_homeaddress', $biodetail->student_homeaddress); ?>"                                           placeholder="Permanent Home Address" autocomplete="off" required>                                </div>                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputAddress2"><strong>Contact                                            Address</strong></label>                                    <input type="text" class="form-control" name="contact_address"                                           value="<?= old('contact_address', $biodetail->contact_address); ?>"                                           placeholder="Contact Address" autocomplete="off" required>                                </div>                            </div>                            <div class="row">                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputFirstName"><strong>Next of Kin                                            Name</strong></label>                                    <input type="text" class="form-control" name="nok"                                           value="<?= old('nok', $biodetail->next_of_kin); ?>"                                           placeholder="Next of Kin Name" autocomplete="off" required>                                </div>                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputLastName"><strong>Next of Kin Phone                                            Number</strong></label>                                    <input type="text" class="form-control" name="nok_tel"                                           value="<?= old('nok_tel', $biodetail->nok_tel); ?>"                                           placeholder="Next of Kin GSM" autocomplete="off" required>                                </div>                            </div>                            <div class="row">                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputAddress"><strong>Next of Kin                                            Address</strong></label>                                    <input type="text" class="form-control" name="nok_address"                                           value="<?= old('nok_address', $biodetail->nok_address); ?>"                                           placeholder="Next of Kin Address" autocomplete="off" required>                                </div>                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputAddress"><strong>Next of Kin Email                                            Address</strong></label>                                    <input type="email" class="form-control" name="nok_email"                                           value="<?= old('nok_email', $biodetail->nok_email); ?>"                                           placeholder="Next of Kin Email Address" autocomplete="off" required>                                </div>                            </div>                            <div class="row">                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputAddress"><strong>Next of Kin                                            Relationship</strong></label>                                    <input type="text" class="form-control" name="nok_rel"                                           value="<?= old('nok_rel', $biodetail->nok_rel); ?>"                                           placeholder="Next of Kin Relationship" autocomplete="off" required>                                </div>                                <div class="mb-3 col-md-6">                                    <label class="form-label" for="inputAddress"><strong>Home Town /                                            Village</strong></label>                                    <input type="text" class="form-control" name="hometown"                                           value="<?= old('hometown', $biodetail->hometown); ?>"                                           placeholder="Home Town / Village" autocomplete="off" required>                                </div>                            </div>                            <div class="row">                                <?php if ($biodetail->std_photo == 'avatar.jpg') { ?>                                <div class="mb-3 col-md-12">                                    <label class="form-label" for="inputCity"><strong> Upload Passport (Max. size 100kb,                                            Allowed file extension(.jpg, .jpeg)</strong></label>                                    <input type="file" class="form-control" name="file" required                                           accept="image/jpeg, image/jpg">                                </div>                            </div>                            <div class=" mb-3 col-md-12 alert alert-warning alert-dismissible" role="alert">                                <div class="alert-message">                                    <strong>Warning!</strong> Confirm your profile information before saving                                </div>                            </div>                        <?php if ($pstat == 1) {                            echo '<div class="mb-3 col-md-12"><button type="submit" class="btn btn-primary">Confirm and Save Biodata</button> <div>';                        } else {                            echo '<div class="alert alert-danger alert-dismissible" role="alert">                     <div class="alert-message">                       <strong>APPLICATION FEE PAYMENT</strong> NOT MADE.                     </div>                   </div>';                        } ?>                        <?php } else {                            echo '<div class="alert alert-success alert-dismissible" role="alert">                     <div class="alert-message">                       <strong>Success!</strong> Biodata already Saved.                     </div>                   </div>';                            echo '<div class="mb-3 col-md-12"><button type="submit" class="btn btn-primary"> Update Biodata</button> <div>';                        } ?>                    </div>                    <?php endforeach; ?>                    <?php endif; ?>                    </form>                </div>            </div>        </div></div>
