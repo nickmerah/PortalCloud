@@ -16,6 +16,7 @@ use App\Models\StateOfOrigin;
 use App\Models\StdCurrentSession;
 use App\Models\StdTransaction;
 use App\Models\Student;
+use App\Models\StudentLogin;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -674,6 +675,27 @@ class StudentController extends Controller
 
         $student->fill($data);
         $student->update();
+
+        // we need to check and update login username
+        $studentlogin = StudentLogin::where('log_id', $student->std_logid)->first();
+        if ($studentlogin) {
+            $studentlogin->log_username = strtoupper($student->matric_no);
+            $studentlogin->log_surname = strtoupper($student->surname);
+            $studentlogin->log_firstname = strtoupper($student->firstname);
+            $studentlogin->log_othernames = strtoupper($student->othernames);
+            $studentlogin->log_email = strtolower($student->student_email);
+
+            // Check if any of these fields have changed before saving
+            if (
+                $studentlogin->isDirty('log_username') ||
+                $studentlogin->isDirty('log_surname') ||
+                $studentlogin->isDirty('log_firstname') ||
+                $studentlogin->isDirty('log_othernames') ||
+                $studentlogin->isDirty('log_email')
+            ) {
+                $studentlogin->save();
+            }
+        }
 
         return redirect()->intended('students/' . $request->stdid);
     }

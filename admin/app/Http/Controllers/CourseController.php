@@ -21,19 +21,19 @@ class CourseController extends Controller
         $showdelete = false;
 
         if ($request->filled('level_id')) {
-            $query->where('levels', 'like', '%' . $request->level_id . '%');
+            $query->where('levels', $request->level_id);
             $showdelete = true;
         }
         if ($request->filled('programmet_id')) {
-            $query->where('prog_type', 'like', '%' . $request->programmet_id . '%');
+            $query->where('prog_type', $request->programmet_id);
             $showdelete = true;
         }
         if ($request->filled('programme_id')) {
-            $query->where('prog', 'like', '%' . $request->programme_id . '%');
+            $query->where('prog', $request->programme_id);
             $showdelete = true;
         }
         if ($request->filled('cos')) {
-            $query->where('stdcourse', 'like', '%' . $request->cos . '%');
+            $query->where('stdcourse', $request->cos);
             $showdelete = true;
         }
 
@@ -118,7 +118,7 @@ class CourseController extends Controller
         if ($csv && $csv->getClientOriginalExtension() !== 'csv') {
             return back()->withErrors(['csv_file' => 'Invalid file extension.']);
         }
-        
+
         if ($csv->isValid()) {
             $file = $request->file('csv_file');
             $handle = fopen($file->getRealPath(), 'r');
