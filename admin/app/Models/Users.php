@@ -79,4 +79,11 @@ class Users extends Model
 
         return Level::whereIn('level_id', $levelIds)->pluck('level_name')->toArray();
     }
+
+    public function getCosNamesAttribute()
+    {
+        $deptIds = explode(',', $this->u_cos);
+
+        return DeptOption::whereIn('do_id', $deptIds)->pluck('programme_option')->toArray();
+    }
 }

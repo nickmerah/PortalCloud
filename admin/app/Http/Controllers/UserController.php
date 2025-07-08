@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\DeptOption;
 use App\Models\Level;
 use App\Models\Users;
 use App\Models\Programme;
@@ -121,25 +122,12 @@ class UserController extends Controller
     function updateuserpass(Request $request, string $id)
     {
         $request->validate([
-            'u_username' => 'required|string',
             'u_password' => 'required|string',
         ], [
-            'u_username.required' => 'The Username is required.',
             'u_password.required' => 'The Password is required.',
         ]);
 
-        $existingUser = Users::where('u_username', $request->u_username)
-            ->where('user_id', '<>', $id)
-            ->first();
-
-        if ($existingUser) {
-            return redirect()->back()
-                ->withErrors(['u_username' => 'This username already exists.'])
-                ->withInput();
-        }
-
         $user = Users::find($id);
-        $user->u_username = $request->u_username;
         $user->u_password = $request->u_password;
         $user->save();
 
@@ -193,10 +181,12 @@ class UserController extends Controller
         $courseadviserGroupId = self::COURSE_ADVISER_GROUP_ID;
 
         $users = Users::where('u_group', $courseadviserGroupId)->get();
-        $departments = Department::all();
+        $departments = DeptOption::all();
         $levels = Level::all();
+        $programmes = Programme::all();
+        $programmeTypes = ProgrammeType::all();
 
-        return view('users.assigndeptscourse', compact('users', 'departments', 'levels'));
+        return view('users.assigndeptscourse', compact('users', 'departments', 'levels', 'programmes', 'programmeTypes'));
     }
 
     function savecourseadvisers(Request $request)
@@ -223,8 +213,8 @@ class UserController extends Controller
 
         $user->u_cos = implode(',', $selectedCourses);
         $user->u_level = implode(',', $selectedLevels);
-        $user->u_prog = 0;
-        $user->u_progtype = 0;
+        // $user->u_prog = 0;
+        // $user->u_progtype = 0;
         if ($user->save()) {
 
             return redirect()->route('courseadvisers')->with('success', 'User department courses updated successfully.');

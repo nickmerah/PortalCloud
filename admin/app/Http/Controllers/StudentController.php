@@ -466,13 +466,15 @@ class StudentController extends Controller
             if ($userData) {
                 // Get assigned departments
                 $assignedDepts = explode(',', $userData->u_cos ?? '');
-
                 $assignedLevels = explode(',', $userData->u_level ?? '');
+                $assignedProg = explode(',', $userData->u_prog ?? '');
+                $assignedProgType = explode(',', $userData->u_progtype ?? '');
 
                 // Apply filters to the main query
-                $query->whereIn('stddepartment_id', $assignedDepts)
-                    ->whereIn('stdlevel', $assignedLevels);
-
+                $query->whereIn('stdcourse', $assignedDepts)
+                    ->whereIn('stdlevel', $assignedLevels)
+                    ->whereIn('stdprogramme_id', $assignedProg)
+                    ->whereIn('stdprogrammetype_id', $assignedProgType);
             } else {
                 throw new \Exception("User data not found for the given criteria.");
             }
@@ -504,8 +506,10 @@ class StudentController extends Controller
                 'u_group' => $cAGroupId,
                 'user_id' => $decryptedUserData['userId'],
             ])
-                ->whereRaw("FIND_IN_SET(?, u_cos)", [$student->stddepartment_id])
+                ->whereRaw("FIND_IN_SET(?, u_cos)", [$student->stdcourse])
                 ->whereRaw("FIND_IN_SET(?, u_level)", [$student->stdlevel])
+                ->whereRaw("FIND_IN_SET(?, u_prog)", [$student->stdprogramme_id])
+                ->whereRaw("FIND_IN_SET(?, u_progtype)", [$student->stdprogrammetype_id])
                 ->first();
             if (is_null($userAssign)) {
                 return redirect()->route('coursereg')

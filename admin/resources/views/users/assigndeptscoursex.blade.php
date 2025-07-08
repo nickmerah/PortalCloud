@@ -17,7 +17,7 @@
                                 <i class="fas fa-home"></i> Home</a>
                         </li>
                         <li class="breadcrumb-item bcrumb-2">
-                            <a href="#" onClick="return false;">Assign Clearance Officers</a>
+                            <a href="#" onClick="return false;">Assign Course Advisers</a>
                         </li>
 
                     </ul>
@@ -36,7 +36,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="formModal">Edit Clearance Officer</h5>
+                                            <h5 class="modal-title" id="formModal">Edit Course Adviser</h5>
                                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -58,53 +58,29 @@
                                                     </div>
                                                 </div>
 
-                                                <label for="email_address1">Programme Type</label>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <select name="progtype" id="progtype" class="form-control" required>
-                                                            <option value="">Select Programme Type</option>
-                                                            @foreach($programmeTypes as $programmeType)
-                                                            <option value="{{ $programmeType->programmet_id }}">{{ $programmeType->programmet_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <label for="email_address1">Programme</label>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <select name="prog" id="prog" class="form-control" required>
-                                                            <option value="">Select Programme</option>
-                                                            @foreach($programmes as $programme)
-                                                            <option value="{{ $programme->programme_id }}">{{ $programme->programme_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <label>Course of Study</label>
+                                                <label>Departments</label>
                                                 <hr>
                                                 <div class="form-group">
                                                     <div class="form-line" id="courseOfStudyContainer">
                                                     </div>
                                                 </div>
+
                                                 <label>Level</label>
                                                 <hr>
                                                 <div class="form-group">
                                                     <div class="form-line" id="levelContainer">
                                                     </div>
                                                 </div>
-                                                <label for="email_address1">Department Update Type
+                                                <label for="email_address1">Courses Update Type
                                                     <div class="form-group">
                                                         <div class="form-line">
                                                             <select name="updatettype" class="form-control" required>
                                                                 <option value="">Select</option>
-                                                                <option value="1">Add to Already assigned Department</option>
+                                                                <option value="1">Add to Already assigned Departments</option>
                                                                 <option value="0">Remove existing and add my selection</option>
                                                             </select>
                                                         </div>
                                                     </div>
-
                                                     <br>
 
                                                     <input type="hidden" class="form-control" id="euser_id" name="user_id" required="required">
@@ -114,7 +90,8 @@
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger waves-effect" data-bs-dismiss="modal" onclick="location.reload();">Cancel</button>
+
+                                            <button type="button" class="btn btn-danger waves-effect" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -154,15 +131,13 @@
                     @endif
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-hover js-basic-example contact_list" style="font-size: 12px;">
+                            <table class="table table-hover js-basic-example contact_list">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Assigned Departments</th>
                                         <th>Assigned Level</th>
-                                        <th>Prog</th>
-                                        <th>ProgType</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -172,7 +147,7 @@
                                     <tr class="odd">
                                         <td class="center">{{$loop->iteration}}</td>
                                         <td>{{ $user->u_surname }} {{ $user->u_firstname }}</td>
-                                        <td>@foreach($user->cos_names as $deptName)
+                                        <td>@foreach($user->department_names as $deptName)
                                             <li>{{ $deptName }}</li>
                                             @endforeach
                                         </td>
@@ -180,8 +155,6 @@
                                             <li>{{ $levelName }}</li>
                                             @endforeach
                                         </td>
-                                        <td>{{ $user->programme?->aprogramme_name }}</td>
-                                        <td>{{ $user->programmeType?->programmet_aname }}</td>
                                         <td>
                                             <b style="color: {{ $user->u_status == 1 ? 'green' : 'red' }}">
                                                 {{ $user->u_status == 1 ? 'Active' : 'Disabled' }}
@@ -193,7 +166,7 @@
                                             <button data-bs-toggle="modal"
                                                 data-id="{{ $user->user_id }}"
                                                 data-level="{{ $user->u_level }}"
-                                                data-department="{{ $user->u_dept }}"
+                                                data-department="{{ $user->u_cos }}"
                                                 id="fieldEdit"
                                                 class="btn btn-success edit">
                                                 <i class="material-icons">create</i>
@@ -206,9 +179,6 @@
                             </table>
 
                             <script type="text/javascript">
-                                // Declare globally so all functions can access it
-                                let selectedDepartments = [];
-
                                 $(document).on('click', '#fieldEdit', function(e) {
                                     e.preventDefault();
 
@@ -231,19 +201,18 @@
                                                 $('#eu_firstname').val(response.data.u_firstname);
                                                 $('#eu_status').val(response.data.u_status);
 
-                                                $('#prog').val(response.data.u_programme);
-                                                $('#progtype').val(response.data.u_programme_type);
-
                                                 const userLevels = response.data.u_level ? response.data.u_level.split(',') : [];
                                                 $('#levelContainer input[type="checkbox"]').prop('checked', false);
                                                 userLevels.forEach(function(levelId) {
                                                     $(`#levelContainer input[type="checkbox"][value="${levelId.trim()}"]`).prop('checked', true);
                                                 });
 
-                                                selectedDepartments = response.data.u_dept ?
-                                                    response.data.u_dept.split(',').map(id => id.trim()) : [];
+                                                const userDepartments = response.data.u_cos ? response.data.u_cos.split(',') : [];
+                                                $('#courseOfStudyContainer input[type="checkbox"]').prop('checked', false);
+                                                userDepartments.forEach(function(deptId) {
+                                                    $(`#courseOfStudyContainer input[type="checkbox"][value="${deptId.trim()}"]`).prop('checked', true);
+                                                });
 
-                                                fetchCourseOptions();
                                             } else {
                                                 $('.edit_response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>' + response.data + '</div>');
                                             }
@@ -253,56 +222,29 @@
                                         }
                                     });
                                 });
+                            </script>
 
+                            <script type="text/javascript">
                                 $(document).ready(function() {
                                     const levels = @json($levels);
-                                    // Function to fetch course options
-                                    function fetchCourseOptions() {
-                                        let programmeId = $('#prog').val();
-                                        let programmetId = $('#progtype').val();
-                                        let _token = $('meta[name="csrf-token"]').attr('content');
+                                    const departments = @json($departments);
 
-                                        $('#courseOfStudyContainer').html(''); // Clear the container
-
-                                        if (programmeId && programmetId) {
-                                            $.ajax({
-                                                url: "{{ url('dept-options') }}/" + programmeId + "/" + programmetId,
-                                                type: "GET",
-                                                headers: {
-                                                    'X-CSRF-TOKEN': _token
-                                                },
-                                                success: function(response) {
-                                                    if (response.options && response.options.length > 0) {
-                                                        response.options.forEach(function(option) {
-                                                            const checked = selectedDepartments.includes(String(option.do_id)) ? 'checked' : '';
-                                                            $('#courseOfStudyContainer').append(`
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="cos[]" value="${option.do_id}" ${checked} />
-                                            <span>${option.programme_option}</span>
-                                        </label>
-                                    </div>
-                                `);
-                                                        });
-                                                    } else {
-                                                        $('#courseOfStudyContainer').html('<p>No options available for this programme and programme type.</p>');
-                                                    }
-                                                },
-                                                error: function() {
-                                                    $('#courseOfStudyContainer').html('<p class="text-danger">An error occurred while fetching course options.</p>');
-                                                }
-                                            });
-                                        } else {
-                                            $('#courseOfStudyContainer').html('<p>Please select both Programme and Programme Type.</p>');
-                                        }
+                                    // Render departments (course of study)
+                                    $('#courseOfStudyContainer').html('');
+                                    if (departments.length > 0) {
+                                        departments.forEach(function(dept) {
+                                            $('#courseOfStudyContainer').append(`
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="cos[]" value="${dept.do_id}" />
+                            <span>${dept.programme_option}</span>
+                        </label>
+                    </div>
+                `);
+                                        });
+                                    } else {
+                                        $('#courseOfStudyContainer').html('<p>No departments available.</p>');
                                     }
-
-
-
-                                    // Trigger fetchCourseOptions when either prog or progtype changes
-                                    $('#prog, #progtype').change(function() {
-                                        fetchCourseOptions();
-                                    });
 
                                     // Render levels
                                     $('#levelContainer').html('');
@@ -322,6 +264,7 @@
                                     }
                                 });
                             </script>
+
 
                         </div>
                     </div>
