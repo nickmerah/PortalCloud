@@ -20,6 +20,13 @@ class Results extends Model
         ['min' => 40, 'max' => 44, 'grade' => 'E', 'point' => 2.00],
         ['min' => 0, 'max' => 39, 'grade' => 'F', 'point' => 0.00],
     ];
+
+    public static array $finalCgpaScale = [
+        ['min' => 3.50, 'max' => 4.00, 'class' => 'Distinction'],
+        ['min' => 3.00, 'max' => 3.49, 'class' => 'Upper Credit'],
+        ['min' => 2.50, 'max' => 2.99, 'class' => 'Lower Credit'],
+        ['min' => 0.00, 'max' => 2.49, 'class' => 'Pass'],
+    ];
     public $timestamps = false;
     protected $table = 'stdresults';
     protected $primaryKey = 'stdresult_id';
@@ -60,6 +67,11 @@ class Results extends Model
             }
         }
         return ['grade' => 'F', 'point' => 0];
+    }
+
+    public static function isFinalYear(int $level): bool
+    {
+        return in_array($level, [2, 4]);
     }
 
     public static function getGradeLetters(): array

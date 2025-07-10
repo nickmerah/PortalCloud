@@ -139,14 +139,16 @@
                     <th><strong>TPS</strong></th>
                     <th><strong>GPA</strong></th>
                     @if ($semester == 'Second Semester')
-                    <th><strong>PREV TCU</strong></th>
-                    <th><strong>PREV TPS</strong></th>
-                    <th><strong>PREV GPA</strong></th>
                     <th><strong>CGPA</strong></th>
-                    @endif
                     <th><strong>
                             <div style="line-height: 1;">{!! str_replace(' ', '<br>', 'SEM PERF') !!}</div>
                         </strong></th>
+                    <th><strong>PREV TCU</strong></th>
+                    <th><strong>PREV TPS</strong></th>
+                    <th><strong>PREV GPA</strong></th>
+                    @endif
+                    <th><strong>PREV CGPA</strong></th>
+                    <th><strong>FCGPA</strong></th>
                     @if ($semester == 'Second Semester')
                     <th><strong>
                             <div style="line-height: 1;">{!! str_replace(' ', '<br>', 'PREV PERF') !!}</div>
@@ -171,6 +173,9 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                $allfcpga = [];
+                @endphp
                 @foreach ($results as $result)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
@@ -186,16 +191,28 @@
                     <td>{{ $result->tgp }}</td>
                     <td>{{ $result->gpa }}</td>
                     @if ($semester == 'Second Semester')
+                    <td>{{ $result->cgpa }}</td>
+                    <td>{{ $result->status }}</td>
                     <td>{{ $result->prev_tcu }}</td>
                     <td>{{ $result->prev_tps }}</td>
                     <td>{{ $result->prev_gpa }}</td>
-                    <td>{{ $result->cgpa }}</td>
                     @endif
-                    <td>{{ $result->status }}</td>
+
+                    <td>
+                        @php
+                        $cgpa = collect($prevCgpaSummary)->firstWhere('matric_no', $result->matric_no)['cgpa'] ?? 'N/A';
+                        $fcgpa = number_format((0.4*$cgpa) + (0.6*$result->cgpa), 2);
+                        $allfcpga[] = $fcgpa;
+                        @endphp
+                        {{ $cgpa }}
+
+                    </td>
+                    <td>{{ $fcgpa }}</td>
                     @if ($semester == 'Second Semester')
                     <td>{{ $result->prev_status }}</td>
                     @endif
-                    <td>{{ $result->status }}</td>
+                    <td>{{ Str::contains($result->status, 'F') ? $result->status : ($finalCgpaScale->first(fn($s) => $fcgpa >= $s['min'] && $fcgpa <= $s['max'])['class'] ?? 'Fail') }}
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -279,51 +296,54 @@
                         </tr>
                         @if ($semester == 'Second Semester')
                         <tr>
-                            <td>HIGHEST CGPA</td>
-                            <td>{{ $cgpaStats['maxCgpa'] }}</td>
+                            <td>HIGHEST FCGPA</td>
+                            <td>{{ collect($allfcpga)->max() }}</td>
                         </tr>
                         <tr>
-                            <td>LOWEST CGPA</td>
-                            <td>{{ $cgpaStats['minCgpa'] }}</td>
+                            <td>LOWEST FCGPA</td>
+                            <td>{{ collect($allfcpga)->min() }}</td>
                         </tr>
                         @else
-                        <tr>
-                            <td>HIGHEST GPA</td>
-                            <td>{{ $gpaStats['maxGpa'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>LOWEST GPA</td>
-                            <td>{{ $gpaStats['minGpa'] }}</td>
-                        </tr>
+
                         @endif
-                        <tr>
-                            <td>Number of Students With GPA Less Than 1.5</td>
-                            <td>{{ $gpaStats['countLessthanOnePointFive'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Students With GPA Between 1.5 - 1.74</td>
-                            <td>{{ $gpaStats['countBetweenOnePointFiveAndOnePointSevenFour'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Students With GPA Between 1.75 - 1.99</td>
-                            <td>{{ $gpaStats['countBetweenOnePointSevenFiveAndOnePointNineNine'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Students With GPA 2.00 above</td>
-                            <td>{{ $gpaStats['countGreaterthanTwoPoint'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Students With pass</td>
-                            <td>{{ $gpaStats['countPass'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Students With carryover</td>
-                            <td>{{ $gpaStats['totalStudents'] - $gpaStats['countPass'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Students With Malpractice Cases</td>
-                            <td>0</td>
-                        </tr>
+
+
+                        @php
+                        $fcgpaCollection = collect($allfcpga)->map(fn($val) => (float) $val); // ensure floats
+
+                        $lessThan15 = $fcgpaCollection->filter(fn($gpa) => $gpa < 1.5)->count();
+                            $between15_174 = $fcgpaCollection->filter(fn($gpa) => $gpa >= 1.5 && $gpa <= 1.74)->count();
+                                $between175_199 = $fcgpaCollection->filter(fn($gpa) => $gpa >= 1.75 && $gpa <= 1.99)->count();
+                                    $above2 = $fcgpaCollection->filter(fn($gpa) => $gpa >= 2.00)->count();
+                                    @endphp
+                                    <tr>
+                                        <td>Number of Students With FCGPA Less Than 1.5</td>
+                                        <td>{{ $lessThan15 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number of Students With FCGPA Between 1.5 - 1.74</td>
+                                        <td>{{ $between15_174 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number of Students With FCGPA Between 1.75 - 1.99</td>
+                                        <td>{{ $between175_199 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number of Students With FCGPA 2.00 above</td>
+                                        <td>{{ $above2 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number of Students With pass</td>
+                                        <td>{{ $gpaStats['countPass'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number of Students With carryover</td>
+                                        <td>{{ $gpaStats['totalStudents'] - $gpaStats['countPass'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number of Students With Malpractice Cases</td>
+                                        <td>0</td>
+                                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -350,7 +370,55 @@
             </div>
         </div>
     </div>
+    <div class="page-break summary-section">
+        <div class="table-responsive">
+            <div class="table-responsive">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 80px; vertical-align: top;">
+                            <img src="https://portal.mydspg.edu.ng/eportal/public/images/logo.png" width="120"
+                                height="140" alt="Logo">
+                        </td>
+                        <td style="text-align: left; padding-left: 10px; font-family: Tahoma, Geneva, sans-serif;">
+                            <strong style="font-size: 16px;">{{ $schoolname }}</strong><br>
+                            <span style="font-size:12px;"><strong>SCHOOL:</strong> {{ $courseofstudy[0]->department->faculty->faculties_name }}</span><br>
+                            <span
+                                style="font-size:12px;"><strong>DEPARTMENT:</strong> {{ $courseofstudy[0]->programme_option }}</span><br>
 
+                            <span style="font-size:12px;"><strong>PROGRAMME:</strong> {{ $courseofstudy[0]->programme->programme_name }} </span><br>
+                            <span
+                                style="font-size:12px;"><strong>{{ $session }} GRADUATING LIST</strong> </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="margin-top: 20px">
+                <table class="table table-bordered table-hover" style="font-size:12px; line-height:1;" id="dataTables-example">
+
+                    <tbody>
+
+                        @foreach ($results as $graduatingResult)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $graduatingResult->fullnames ?? 'N/A' }}</td>
+                            <td>{{ $graduatingResult->matric_no }}</td>
+                            <td>
+                                @php
+
+                                $gcgpa = collect($prevCgpaSummary)->firstWhere('matric_no', $graduatingResult->matric_no)['cgpa'] ?? 'N/A';
+                                $gfcgpa = number_format((0.4*$gcgpa) + (0.6*$graduatingResult->cgpa), 2);
+                                echo $gfcgpa;
+                                @endphp
+                            </td>
+                            <td>{{ ($finalCgpaScale->first(fn($s) => $gfcgpa >= $s['min'] && $gfcgpa <= $s['max'])['class'] ?? 'Fail') }}</td>
+                        </tr>
+
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <!-- Signature Footer -->
     <div class="signature-footer">
         <div>

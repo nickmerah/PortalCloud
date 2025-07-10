@@ -133,8 +133,7 @@ class ResultController extends Controller
 
         $resulttable = (new Results)->getTable();
         $coursetable = (new Courses)->getTable();
-        $sess = Sessions::select('cs_session')->get();
-        $results = Results::where('cyearsession', $sess[0]->cs_session)
+        $results = Results::where('cyearsession', $request->sess)
             ->select(
                 "$resulttable.stdcourse_id",
                 "$resulttable.course_code",
@@ -380,30 +379,36 @@ class ResultController extends Controller
     {
         $sem = $semester == 1 ? 'First Semester' : 'Second Semester';
 
-        list($courseofstudy, $results, $courselogs) = $this->getResultsData($cos, $session, $level, $sem);
-
-        $courses = $courselogs->sortBy('coursecode')->values();
+        [$results, $courses, $courseofstudy] = $this->processResultSummary($level, $session, $semester, $cos);
 
         if ($courses->isEmpty()) {
             return redirect("resultsummary")->withErrors("Oops! Result for {$level}00 Level, {$session}/" . ($session + 1) . " Session for {$sem} examination is not uploaded");
         }
 
-        $results = $this->computeResultsWithMarks($results, $courses, $session);
+        $isFinalPrint = $mode === 'print' && Results::isFinalYear($level) && $semester == '2';
+        $view = $isFinalPrint
+            ? 'printsummary_result_final'
+            : ($mode === 'print' ? 'printsummary_result' : 'viewsummary_result');
 
-        list($summmaryResultsFirstsem, $courseofstudy) = $this->getFirstSemesterResultsSummary($semester, $cos, $session, $level, $courseofstudy);
+        if ($isFinalPrint) {
+            $prevLevel = $level - 1;
+            $prevSession = $session - 1;
 
-        $results = $this->getSessionalResults($results, $courses, $semester, $summmaryResultsFirstsem);
+            $resultsprev = $this->processResultSummary($prevLevel, $prevSession, $semester, $cos, $courseofstudy)[0];
 
-        $view = ($mode === 'print') ? 'printsummary_result' : 'viewsummary_result';
+            $prevCgpaSummary = $resultsprev->map(fn($r) => [
+                'matric_no' => $r->matric_no,
+                'cgpa' => $r->cgpa,
+            ]);
+        }
 
         $showResults = $this->showResults($courses, $results);
-
         $gpaStats = $this->getGpaStats($results);
-
         $cgpaStats = $this->getCgpaStats($results);
 
         return view($view, [
             'results' => $results,
+            'prevCgpaSummary' => $prevCgpaSummary ?? null,
             'level' => (new Levels)->getLevelName($level),
             'session' => $session,
             'semester' => $sem,
@@ -415,8 +420,30 @@ class ResultController extends Controller
             'gradeScale' => Results::$gradeScale,
             'gpaStats' => $gpaStats,
             'cgpaStats' => $cgpaStats,
+            'finalCgpaScale' => collect(Results::$finalCgpaScale),
             'success' => 'Results Fetched Successfully'
         ]);
+    }
+
+    private function processResultSummary($level, $session, $semester, $cos, $courseofstudyOverride = null)
+    {
+        $sem = $semester == 1 ? 'First Semester' : 'Second Semester';
+
+        [$courseofstudy, $results, $courselogs] = $this->getResultsData($cos, $session, $level, $sem);
+        $courses = $courselogs->sortBy('coursecode')->values();
+        $results = $this->computeResultsWithMarks($results, $courses, $session);
+
+        [$summaryResultsFirstsem, $courseofstudy] = $this->getFirstSemesterResultsSummary(
+            $semester,
+            $cos,
+            $session,
+            $level,
+            $courseofstudyOverride ?: $courseofstudy
+        );
+
+        $results = $this->getSessionalResults($results, $courses, $semester, $summaryResultsFirstsem);
+
+        return [$results, $courses, $courseofstudy];
     }
 
     /**
