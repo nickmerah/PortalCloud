@@ -411,10 +411,13 @@ class RemedialPaymentController extends Controller
 
 
         if ($response_code == '01' || $response_code == '00') {
-
+            $payment_date = date('Y-m-d H:i:s');
+            $pt_date = date('Y-m-d', strtotime($payment_date));
 
             $udata = [
-                'trans_custom1'  => "Paid"
+                'trans_custom1'  => "Paid",
+                'trans_date' => $payment_date,
+                't_date' => $pt_date,
             ];
 
             RTransaction::where('rrr', $rrr)
@@ -475,10 +478,14 @@ class RemedialPaymentController extends Controller
 
                 $result = json_decode($response);
 
+                $payment_date = date('Y-m-d H:i:s');
+                $pt_date = date('Y-m-d', strtotime($payment_date));
 
                 if ($result->message == "Successful" && $result->status == "00") {
                     $udata = [
-                        'trans_custom1'  => 'Paid'
+                        'trans_custom1'  => 'Paid',
+                        'trans_date' => $payment_date,
+                        't_date' => $pt_date,
                     ];
 
                     RTransaction::where('rrr', $result->rrr)

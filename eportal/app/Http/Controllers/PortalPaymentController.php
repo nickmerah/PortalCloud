@@ -400,9 +400,13 @@ class PortalPaymentController extends Controller
 
         if ($response_code == '01' || $response_code == '00') {
 
+            $payment_date = date('Y-m-d H:i:s');
+            $pt_date = date('Y-m-d', strtotime($payment_date));
 
             $udata = [
-                'pay_status'  => "Paid"
+                'pay_status'  => "Paid",
+                'trans_date' => $payment_date,
+                't_date' => $pt_date,
             ];
 
             STransaction::where('rrr', $rrr)
@@ -423,36 +427,37 @@ class PortalPaymentController extends Controller
             self::redirectWithAlert($message, $redirectUrl);
         }
     }
-    
-    public function testrrr() {
+
+    public function testrrr()
+    {
         $rrr = "251256441106";
         $hash_string = $rrr .  $this->apiKey . $this->merchantId;
         $apiHash = hash('sha512', $hash_string);
-        
+
         $curl = curl_init();
 
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => $this->checkStatusUrl . "/$this->merchantId/$rrr/$apiHash/status.reg",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'GET',
-                    CURLOPT_HTTPHEADER => array(
-                        'Content-Type: application/json',
-                        "Authorization: remitaConsumerKey=2547916,remitaConsumerToken=$apiHash"
-                    ),
-                ));
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $this->checkStatusUrl . "/$this->merchantId/$rrr/$apiHash/status.reg",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Authorization: remitaConsumerKey=2547916,remitaConsumerToken=$apiHash"
+            ),
+        ));
 
-                $response = curl_exec($curl);
-                curl_close($curl);
+        $response = curl_exec($curl);
+        curl_close($curl);
 
-                $result = json_decode($response);
-                
-                print_r($result); exit;
-        
+        $result = json_decode($response);
+
+        print_r($result);
+        exit;
     }
 
     public function checkpayment()
@@ -494,8 +499,13 @@ class PortalPaymentController extends Controller
 
 
                 if ($result->message == "Successful" && $result->status == "00") {
+                    $payment_date = date('Y-m-d H:i:s');
+                    $pt_date = date('Y-m-d', strtotime($payment_date));
+
                     $udata = [
-                        'pay_status'  => 'Paid'
+                        'pay_status'  => 'Paid',
+                        'trans_date' => $payment_date,
+                        't_date' => $pt_date,
                     ];
 
                     STransaction::where('rrr', $result->rrr)
