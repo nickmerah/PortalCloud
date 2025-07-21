@@ -46,7 +46,7 @@ class StudentPaymentListExport  implements FromCollection, WithStyles, ShouldAut
         $rows->push([]);
 
         // Add headers
-        $rows->push(['S/N', 'MATRICULATION NO', 'STUDENT NAME',  'STATE', 'LGA', 'FEE NAME', 'FEE TYPE', 'RRR', 'TOTAL AMOUNT', 'DATE PAID']);
+        $rows->push(['S/N', 'MATRICULATION NO', 'STUDENT NAME', 'STUDENT ID', 'STATE', 'LGA', 'FEE NAME', 'FEE TYPE', 'POLICY', 'RRR', 'TOTAL AMOUNT', 'DATE PAID']);
         $student = new Student();
         // Add data rows
         foreach ($this->data as $index => $report) {
@@ -55,10 +55,12 @@ class StudentPaymentListExport  implements FromCollection, WithStyles, ShouldAut
                 $index + 1,
                 $report?->appno,
                 $report?->fullnames,
+                $report?->student->getStudentId($report->log_id) ?? null,
                 $report?->stateor->state_name,
                 $lgaName,
                 $report?->trans_name,
                 $report?->fee_type == 'fees' ? 'Fees' : 'Other Fees',
+                ($report->policy == '0.4') ? '2nd Installment' : (($report->policy == '0.6') ? '1st Installment' : 'Full Payment'),
                 " $report?->rrr",
                 number_format($report?->trans_amount),
                 \Carbon\Carbon::parse($report?->t_date)->format('jS F, Y'),
@@ -67,7 +69,7 @@ class StudentPaymentListExport  implements FromCollection, WithStyles, ShouldAut
 
         // Add blank row and total
         $rows->push([]);
-        $rows->push(['', '', '', '', '', 'TOTAL', number_format($this->totalSum), '', '',]);
+        $rows->push(['', '', '', '', '', '', '', '', '', 'TOTAL', number_format($this->totalSum), '', '',]);
 
         return $rows;
     }

@@ -142,4 +142,11 @@ class Student extends Model
             ->where('std_logid', $std_logid)
             ->value('lga_name');
     }
+
+    public function getStudentId($std_logid)
+    {
+        $student = self::where('std_logid', $std_logid)->first();
+
+        return $student ? $student->cs_status : null;
+    }
 }

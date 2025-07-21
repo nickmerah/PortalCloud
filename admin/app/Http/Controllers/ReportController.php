@@ -1036,6 +1036,7 @@ class ReportController extends Controller
             'appsor',
             'trans_name',
             'fee_type',
+            'policy',
             't_date',
             'trans_amount',
             'rrr',
