@@ -151,7 +151,7 @@
 
                                                 <script>
                                                     function confirmDisableAccount() {
-                                                        return confirm("You are able to disable the applicant's account. Click OK to proceed.");
+                                                        return confirm("You are able to update the status of the applicant's account. Click OK to proceed.");
                                                     }
                                                 </script>
                                             </td>

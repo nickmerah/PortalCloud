@@ -266,17 +266,22 @@ class ApplicantController extends Controller
     {
         $query = Applicant::with('programme');
 
+        $hasSearch = $request->filled('matric_no') || $request->filled('surname');
+
         if ($request->filled('matric_no')) {
             $query->where('app_no', 'like', '%' . $request->matric_no . '%');
         }
+
         if ($request->filled('surname')) {
             $query->where('surname', 'like', '%' . $request->surname . '%');
         }
 
-        // Filter by current session
-        $query->whereHas('currentSession', function ($query) {
-            $query->where('status', 'current');
-        });
+        // Only apply current session filter if no search parameters
+        if (!$hasSearch) {
+            $query->whereHas('currentSession', function ($query) {
+                $query->where('status', 'current');
+            });
+        }
 
         $applicants = $query->paginate(50);
 
@@ -286,6 +291,7 @@ class ApplicantController extends Controller
 
         return view('applicants.pwdchange', compact('applicants'));
     }
+
 
     public function applicantspwdreset($id)
     {
@@ -317,13 +323,22 @@ class ApplicantController extends Controller
                 ->with('error', 'Record not found');
         }
 
+        $currentStatus = DB::table('jlogin')
+            ->where('log_id', $id)
+            ->value('log_status');
+
+        $newStatus = $currentStatus == 1 ? 0 : 1;
+
         DB::table('jlogin')
             ->where('log_id', $id)
-            ->update(['log_status' => 0]);
+            ->update(['log_status' => $newStatus]);
+
+        $statusMessage = $newStatus == 1 ? 'enabled' : 'disabled';
 
         return redirect()->route('applicantspwd')
-            ->with('success', "Account successful Disabled");
+            ->with('success', "Account successfully {$statusMessage}");
     }
+
 
     public function subjects()
     {

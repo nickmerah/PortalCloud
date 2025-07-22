@@ -201,7 +201,6 @@ class RegisterController extends Controller
             $facId = Department::where('departments_id', $deptId)->value('fac_id') ?? 0;
 
             $studentData = [
-
                 'std_logid' => $login->log_id,
                 'matric_no' => $student->matno,
                 'surname'  => $student->surname,
