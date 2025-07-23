@@ -113,6 +113,18 @@
                                                     </div>
                                                 </div>
 
+                                                <label for="email_address1">Session</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+
+                                                        <select name="appyear" class="form-control">
+                                                            @foreach($allsession as $session)
+                                                            <option value="{{ $session->cs_session }}">{{ $session->cs_session }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
 
 
                                                 <br>
@@ -152,6 +164,7 @@
                                         <th>Applicant No</th>
                                         <th>FeeName</th>
                                         <th>RRR</th>
+                                        <th>Session</th>
                                         <th>Amount</th>
                                         <th>Date Paid</th>
                                     </tr>
@@ -164,6 +177,7 @@
                                         <td>{{ $report->appno }}</td>
                                         <td>{{ $report->fee_name }}</td>
                                         <td>{{ $report->rrr }}</td>
+                                        <td>{{ $report->trans_year }}</td>
                                         <td>{{ number_format($report->fee_amount) }}</td>
                                         <td>{{ \Carbon\Carbon::parse($report->t_date)->format('jS F, Y')  }}</td>
 

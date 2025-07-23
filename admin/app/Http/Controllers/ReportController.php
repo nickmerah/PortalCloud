@@ -41,19 +41,21 @@ class ReportController extends Controller
 
         $fromdate = Carbon::today()->toDateString();
         $todate = $fromdate;
+        $allsession = CurrentSession::orderBy('cs_id', 'desc')->get();
         $appPaymentReport = AppTransaction::select(
             'rrr',
             'fullnames',
             'appno',
+            'trans_year',
             DB::raw('GROUP_CONCAT(fee_name SEPARATOR ", ") as fee_name'),
             DB::raw('SUM(fee_amount) as fee_amount')
         )
             ->where('trans_custom1', self::STATUS_PAID)
             ->whereDate('t_date', $fromdate)
-            ->groupBy('rrr', 'fullnames', 'appno')
+            ->groupBy('rrr', 'fullnames', 'appno', 'trans_year')
             ->get();
 
-        return view('reports.apppayment', compact('appPaymentReport', 'fromdate', 'todate'));
+        return view('reports.apppayment', compact('appPaymentReport', 'fromdate', 'todate', 'allsession'));
     }
 
     public function getapppaymentbysearch(Request $request)
@@ -65,11 +67,12 @@ class ReportController extends Controller
             'surname' => 'nullable|string',
             'rrr' => 'nullable|string',
             'appno' => 'nullable|string',
+            'appyear' => 'nullable|integer',
         ]);
 
         // If it's a POST request, store the search criteria in the session
         if ($request->isMethod('post')) {
-            Session::put('search_criteria', $request->only(['fromdate', 'todate', 'surname', 'rrr', 'appno']));
+            Session::put('search_criteria', $request->only(['fromdate', 'todate', 'surname', 'rrr', 'appno', 'appyear']));
         }
 
         // Retrieve search criteria from the session
@@ -79,6 +82,7 @@ class ReportController extends Controller
             'surname' => null,
             'rrr' => null,
             'appno' => null,
+            'appyear' => null,
         ]);
 
         // Build the query using the search criteria
@@ -87,6 +91,7 @@ class ReportController extends Controller
 
         $fromdate = $criteria['fromdate'];
         $todate = $criteria['todate'];
+        $appyear = $criteria['appyear'];
 
         if (!empty($fromdate) && !empty($todate)) {
             $query->whereBetween('t_date', [$fromdate, $todate]);
@@ -106,6 +111,10 @@ class ReportController extends Controller
             $query->where('appno', $criteria['appno']);
         }
 
+        if (!empty($criteria['appyear'])) {
+            $query->where('trans_year', $criteria['appyear']);
+        }
+
         $query->where('trans_custom1', self::STATUS_PAID);
 
         // Get filtered results
@@ -120,9 +129,9 @@ class ReportController extends Controller
 
             return $export;
         }
-
+        $allsession = CurrentSession::orderBy('cs_id', 'desc')->get();
         // Return the view with filtered data
-        return view('reports.apppayment', compact('appPaymentReport', 'fromdate', 'todate'));
+        return view('reports.apppayment', compact('appPaymentReport', 'fromdate', 'todate', 'allsession'));
     }
 
 
@@ -222,8 +231,9 @@ class ReportController extends Controller
         $currentSession = CurrentSession::where('status', 'current')->first();
         $programmes = Programme::get();
         $programmeTypes = ProgrammeType::get();
+        $allsession = CurrentSession::orderBy('cs_id', 'desc')->get();
 
-        return view('reports.appregistration', compact('applicants', 'currentSession', 'programmes', 'programmeTypes'));
+        return view('reports.appregistration', compact('applicants', 'currentSession', 'programmes', 'programmeTypes', 'allsession'));
     }
 
     public function getappregistrationbysearch(Request $request)
@@ -237,11 +247,12 @@ class ReportController extends Controller
             'appstatus' => 'nullable|integer',
             'admstatus' => 'nullable|integer',
             'eclearance' => 'nullable|integer',
+            'appyear' => 'nullable|integer',
         ]);
 
         // If it's a POST request, store the search criteria in the session
         if ($request->isMethod('post')) {
-            Session::put('search_criteria', $request->only(['surname', 'appno', 'prog_id', 'progtype_id', 'appstatus', 'admstatus', 'eclearance']));
+            Session::put('search_criteria', $request->only(['surname', 'appno', 'prog_id', 'progtype_id', 'appstatus', 'admstatus', 'eclearance', 'appyear']));
         }
 
         // Retrieve search criteria from the session
@@ -253,6 +264,7 @@ class ReportController extends Controller
             'appstatus' => null,
             'admstatus' => null,
             'eclearance' => null,
+            'appyear' => null,
         ]);
 
         // Build the query using the search criteria
@@ -296,6 +308,10 @@ class ReportController extends Controller
             $query->where('eclearance', $criteria['eclearance']);
         }
 
+        if (!empty($criteria['appyear'])) {
+            $query->where('appyear', $criteria['appyear']);
+        }
+
         // Get filtered results
         $applicants = $query->get();
 
@@ -305,6 +321,7 @@ class ReportController extends Controller
         $currentSession = CurrentSession::where('status', 'current')->first();
         $programmes = Programme::get();
         $programmeTypes = ProgrammeType::get();
+        $allsession = CurrentSession::orderBy('cs_id', 'desc')->get();
 
         // Check if the request is for export to Excel
         if ($request->query('export') === 'excel') {
@@ -318,7 +335,7 @@ class ReportController extends Controller
 
 
         // Return the view with filtered data
-        return view('reports.appregistration', compact('applicants', 'currentSession', 'programmes', 'programmeTypes'));
+        return view('reports.appregistration', compact('applicants', 'currentSession', 'programmes', 'programmeTypes', 'allsession'));
     }
 
     public function getremedialpayment()

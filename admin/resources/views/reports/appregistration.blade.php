@@ -137,7 +137,16 @@
                                                     </div>
                                                 </div>
 
-
+                                                <label for="email_address1">Application Session</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <select name="appyear" class="form-control">
+                                                            @foreach($allsession as $session)
+                                                            <option value="{{ $session->cs_session }}">{{ $session->cs_session }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
 
                                                 <br>
                                                 <button type="submit"

@@ -523,9 +523,7 @@
                         </div>
 
                         <div class="header">
-                            <h2>
-                                <strong>View</strong> Remedial Payment
-                            </h2>
+                            <h2><strong>View</strong> Remedial Payment</h2>
                             <hr>
 
                             @if(count($remedialpayments) > 0)
@@ -544,32 +542,135 @@
                                     <tbody>
                                         @foreach($remedialpayments as $remedialpayment)
                                         <tr class="odd">
-                                            <td class="center">{{$loop->iteration}}</td>
+                                            <td class="center">{{ $loop->iteration }}</td>
                                             <td>{{ $remedialpayment->fee_name }}</td>
-                                            <td>{{ $remedialpayment?->rrr }}</td>
-                                            <td>{{ number_format($remedialpayment?->fee_amount) }}</td>
-                                            <td>{{ $remedialpayment?->trans_year }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($remedialpayment?->trans_date)->format('jS F, Y')  }}</td>
-                                            </td>
-                                        </tr>@endforeach
-
+                                            <td>{{ $remedialpayment->rrr }}</td>
+                                            <td>{{ number_format($remedialpayment->fee_amount) }}</td>
+                                            <td>{{ $remedialpayment->trans_year }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($remedialpayment->trans_date)->format('jS F, Y') }}</td>
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
-                            </div>@else
+                            </div>
+                            @else
                             No Payment Found
                             @endif
-
                         </div>
 
                         <div class="header">
-                            <h2>
-                                <strong>View</strong> Course Registration
-                            </h2>
+                            <h2><strong>View</strong> Course Registration</h2>
                             <hr>
 
-                            No Courses Registered
+                            @if($courseregistrations->isNotEmpty())
+                            @php
+                            // Group by session + level name (or ID fallback)
+                            $grouped = $courseregistrations->groupBy(function ($course) {
+                            $level = $course->level->level_name ?? 'Level ' . $course->clevel_id;
+                            return $course->cyearsession . '|' . $level;
+                            });
+                            @endphp
 
+                            @foreach($grouped as $groupKey => $groupCourses)
+                            @php
+                            [$session, $level] = explode('|', $groupKey);
+                            $firstSemesterCourses = $groupCourses->where('csemester', 'First Semester');
+                            $secondSemesterCourses = $groupCourses->where('csemester', 'Second Semester');
+                            @endphp
+
+                            <div class="mb-5">
+                                <h5 class="text-primary">Session: {{ $session }} | Level: {{ $level }}</h5>
+
+                                <div class="row">
+                                    <!-- First Semester -->
+                                    <div class="col-md-6">
+                                        <h6>First Semester</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-bordered" style="font-size: 12px;">
+                                                <thead>
+                                                    <tr>
+
+                                                        <th>Code</th>
+                                                        <th>Title</th>
+                                                        <th>Unit</th>
+                                                        <th>Date Reg</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($firstSemesterCourses as $i => $course)
+                                                    <tr>
+
+                                                        <td>{{ $course->c_code }}</td>
+                                                        <td>{{ $course->c_title }}</td>
+                                                        <td>{{ $course->c_unit }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($course->cdate_reg)->format('jS M, Y') }}</td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr>
+                                                        <td colspan="5" class="text-center">No First Semester Courses</td>
+                                                    </tr>
+                                                    @endforelse
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="5" class="text-end fw-bold">
+                                                            Total Units: {{ $firstSemesterCourses->sum('c_unit') }}
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Second Semester -->
+                                    <div class="col-md-6">
+                                        <h6>Second Semester</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-bordered" style="font-size: 12px;">
+                                                <thead>
+                                                    <tr>
+
+                                                        <th>Code</th>
+                                                        <th>Title</th>
+                                                        <th>Unit</th>
+                                                        <th>Date Reg</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($secondSemesterCourses as $j => $course)
+                                                    <tr>
+
+                                                        <td>{{ $course->c_code }}</td>
+                                                        <td>{{ $course->c_title }}</td>
+                                                        <td>{{ $course->c_unit }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($course->cdate_reg)->format('jS M, Y') }}</td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr>
+                                                        <td colspan="5" class="text-center">No Second Semester Courses</td>
+                                                    </tr>
+                                                    @endforelse
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="5" class="text-end fw-bold">
+                                                            Total Units: {{ $secondSemesterCourses->sum('c_unit') }}
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                            @else
+                            <p>No Courses Registered</p>
+                            @endif
                         </div>
+
+
+
                         <div class="col-lg-12 p-t-20 text-center">
 
                             <a href="{{url('/students') }}" class="btn btn-danger waves-effect">Go Back</a>

@@ -388,6 +388,7 @@ class StudentController extends Controller
         $feepayments = StdTransaction::where(['log_id' => $student->std_logid, 'pay_status' => 'Paid'])->get();
         $clearancepayments = CTransaction::where(['matno' => $student->matric_no, 'trans_custom1' => 'Paid'])->get();
         $remedialpayments = RTransaction::where(['matno' => $student->matric_no, 'trans_custom1' => 'Paid'])->get();
+        $courseregistrations = CourseRegistration::where(['log_id' => $student->std_logid])->get();
 
         return view('students.viewstudent', compact(
             'student',
@@ -402,6 +403,7 @@ class StudentController extends Controller
             'feepayments',
             'clearancepayments',
             'remedialpayments',
+            'courseregistrations',
         ));
     }
 

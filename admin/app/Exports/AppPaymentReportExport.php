@@ -14,6 +14,7 @@ class AppPaymentReportExport implements FromArray, WithHeadings, WithEvents
     protected $appPaymentReport;
     protected $fromdate;
     protected $todate;
+    protected $appyear;
 
     public function __construct($appPaymentReport, $fromdate, $todate)
     {
@@ -41,6 +42,7 @@ class AppPaymentReportExport implements FromArray, WithHeadings, WithEvents
                 $transaction->applicant->programme->programme_name,
                 $transaction->applicant->stdcourseOption->programme_option,
                 $transaction->applicant->std_courseOption->programme_option,
+                $transaction->trans_year,
                 " $transaction->rrr",
                 number_format($transaction->fee_amount, 2),
                 $transaction->fee_name,
@@ -71,7 +73,7 @@ class AppPaymentReportExport implements FromArray, WithHeadings, WithEvents
             [Controller::SCHOOLNAME],
             ['Payment Report from ' . Carbon::parse($this->fromdate)->format('jS F, Y') . ' to ' . Carbon::parse($this->todate)->format('jS F, Y')],
             [''],
-            ['S/N', 'Fullname', 'App Number', 'Programme', 'First Choice', 'Second Choice', 'RRR', 'Fee Name', 'Amount', 'Date Paid']
+            ['S/N', 'Fullname', 'App Number', 'Programme', 'First Choice', 'Second Choice', 'Session', 'RRR', 'Fee Name', 'Amount', 'Date Paid']
         ];
     }
 
@@ -83,22 +85,22 @@ class AppPaymentReportExport implements FromArray, WithHeadings, WithEvents
                 $sheet = $event->sheet->getDelegate();
 
                 // Merge header cells and center align them
-                $sheet->mergeCells('A1:J1');
-                $sheet->mergeCells('A2:J2');
-                $sheet->getStyle('A1:J1')->getAlignment()->setHorizontal('center');
-                $sheet->getStyle('A2:J2')->getAlignment()->setHorizontal('center');
-                $sheet->getStyle('A1:J1')->getFont()->setBold(true)->setSize(16);
-                $sheet->getStyle('A2:J2')->getFont()->setBold(true);
-                $sheet->getStyle('A4:J5')->getFont()->setBold(true);
+                $sheet->mergeCells('A1:K1');
+                $sheet->mergeCells('A2:K2');
+                $sheet->getStyle('A1:K1')->getAlignment()->setHorizontal('center');
+                $sheet->getStyle('A2:K2')->getAlignment()->setHorizontal('center');
+                $sheet->getStyle('A1:K1')->getFont()->setBold(true)->setSize(16);
+                $sheet->getStyle('A2:K2')->getFont()->setBold(true);
+                $sheet->getStyle('A4:K5')->getFont()->setBold(true);
 
                 // Set column auto size
-                foreach (range('A', 'J') as $column) {
+                foreach (range('A', 'K') as $column) {
                     $sheet->getColumnDimension($column)->setAutoSize(true);
                 }
 
                 // Style the table border
                 $lastRow = count($this->appPaymentReport) + 6; // +6 because we have 5 rows before the data (headers and title)
-                $sheet->getStyle('A4:I' . $lastRow)->applyFromArray([
+                $sheet->getStyle('A4:K' . $lastRow)->applyFromArray([
                     'borders' => [
                         'outline' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
@@ -112,9 +114,9 @@ class AppPaymentReportExport implements FromArray, WithHeadings, WithEvents
                 ]);
 
                 // Style the total row
-                $sheet->getStyle('A' . ($lastRow + 1) . ':I' . ($lastRow + 1))
+                $sheet->getStyle('A' . ($lastRow + 1) . ':K' . ($lastRow + 1))
                     ->getFont()->setBold(true);
-                $sheet->getStyle('H' . ($lastRow + 1))->getAlignment()->setHorizontal('right');
+                $sheet->getStyle('J' . ($lastRow + 1))->getAlignment()->setHorizontal('right');
             }
         ];
     }
