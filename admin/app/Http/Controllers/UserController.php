@@ -107,14 +107,16 @@ class UserController extends Controller
         }
 
 
-        Users::where('user_id', $id)->update([
-            'u_username' => $request->u_username,
-            'u_surname' => $request->u_surname,
-            'u_firstname' => $request->u_firstname,
-            'u_email' => $request->u_email,
-            'u_status' => $request->u_status,
-            'u_group' => $request->u_group,
-        ]);
+        $user = Users::findOrFail($id);
+
+        $user->u_username  = $request->u_username;
+        $user->uSurname    = $request->u_surname;
+        $user->uFirstname  = $request->u_firstname;
+        $user->u_email     = $request->u_email;
+        $user->u_status    = $request->u_status;
+        $user->u_group     = $request->u_group;
+
+        $user->save();
         return redirect()->route('users.index')
             ->with('success', 'Record updated successfully.');
     }

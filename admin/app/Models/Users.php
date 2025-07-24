@@ -39,6 +39,16 @@ class Users extends Model
         'log_password',
     ];
 
+    public function setUSurnameAttribute($value)
+    {
+        $this->attributes['u_surname'] = strtoupper($value);
+    }
+
+    public function setUFirstnameAttribute($value)
+    {
+        $this->attributes['u_firstname'] = strtoupper($value);
+    }
+
     public function setUPasswordAttribute($value)
     {
 

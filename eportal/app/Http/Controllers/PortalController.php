@@ -25,6 +25,7 @@ class PortalController extends Controller
 
     private const SERVICE_CHARGE = 300;
     private const MAX_UNIT_TO_REGISTER = 40;
+    private const COURSE_ADVISER_ID = 10;
     protected $schoolInfo;
     protected $student;
     protected $currentSessionSem;
@@ -1005,7 +1006,8 @@ class PortalController extends Controller
         $courseAdviser = DB::table('users')
             ->whereRaw("FIND_IN_SET(?, u_cos)", [$this->student->stdcourse])
             ->where("u_prog", $this->student->stdprogramme_id)
-            ->where("u_group", 10)
+            ->where("u_group", self::COURSE_ADVISER_ID)
+            ->where("u_level", $this->student->stdlevel)
             ->where("u_progtype", $this->student->stdprogrammetype_id)
             ->select('u_surname', 'u_firstname')
             ->first();
