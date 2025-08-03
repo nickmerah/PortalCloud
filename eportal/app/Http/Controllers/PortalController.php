@@ -85,10 +85,12 @@ class PortalController extends Controller
     {
         $schoolfeespaid = STransaction::where(['log_id' => $this->student->std_logid, 'pay_status' => 'Paid', 'trans_year' => $this->currentSession, 'fee_type' => 'fees'])->get();
         $otherfeespaid = STransaction::where(['log_id' => $this->student->std_logid, 'pay_status' => 'Paid', 'trans_year' => $this->currentSession, 'fee_type' => 'ofees'])->get();
+        $courseReg = CourseReg::where(['log_id' => $this->student->std_logid,  'cyearsession' => $this->currentSession])->count();
 
         return view('portal.dashboard', compact(
             'schoolfeespaid',
             'otherfeespaid',
+            'courseReg',
         ));
     }
 

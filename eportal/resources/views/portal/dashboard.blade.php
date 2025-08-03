@@ -16,7 +16,7 @@
     </div>&nbsp;
     <div class="card">
         <h5>Course Registration</h5>
-        <p>0</p>
+        <p>{{ $courseReg }}</p>
     </div>
 </div>
 @endsection
