@@ -48,11 +48,21 @@
                                         <div class="modal-body">
                                             <form class="form-signin" method="post" enctype="multipart/form-data" action="{{ route('uploadexclusionlist') }}">
                                                 @csrf
+                                                <label for="email_address1">Session</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
 
+                                                        <select name="sess" class="form-control" required>
+                                                            <option value="">Select Session</option>
+                                                            @for ($year = $session->cs_session; $year >= 2023; $year--)
+                                                            <option value="{{ $year }}">{{ $year }}</option>
+                                                            @endfor
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <label for="csv_file">Select Exclusion list file in .csv file</label>
 
                                                 <div class="form-group">
-
                                                     <div class="form-group">
                                                         <div class="form-line">
                                                             <input type="file" name="csv_file" accept=".csv" required>
@@ -105,6 +115,7 @@
                                         <th>#</th>
                                         <th>Matriculation No</th>
                                         <th>Amount</th>
+                                        <th>Session</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -113,6 +124,7 @@
                                         <td class="center">{{$loop->iteration}}</td>
                                         <td>{{ $exclusion->matno }}</td>
                                         <td>{{ $exclusion->balance}}</td>
+                                        <td>{{ $exclusion->sess}}/{{ $exclusion->sess+1}}</td>
                                     </tr>@endforeach
                                 </tbody>
 

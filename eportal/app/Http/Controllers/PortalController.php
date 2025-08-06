@@ -507,7 +507,7 @@ class PortalController extends Controller
 
         $feeAmount = $feeService->getStudentFeeExclusion();
 
-        if ($feeAmount != 0 || $feeAmount == -1) {
+        if ($feeAmount->balance != 0 || $feeAmount->balance == -1) {
             return redirect('/fees')->with('error', 'You have not been enabled to pay this fee.');
         }
 
@@ -532,13 +532,14 @@ class PortalController extends Controller
 
         $feeAmount = $feeService->getStudentFeeExclusion();
 
-        if ($feeAmount == 0 || $feeAmount == -1) {
+        if ($feeAmount->balance == 0 || $feeAmount->balance == -1) {
             return redirect('/fees')->with('error', 'You have not been enabled to pay this fee.');
         }
 
         return view('portal.bfee', [
             'fees' => $fees,
-            'balance' => $feeAmount,
+            'balance' => $feeAmount->balance,
+            'sess' => $feeAmount->sess,
         ]);
     }
 

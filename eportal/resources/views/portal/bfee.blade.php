@@ -26,7 +26,7 @@
                 <th scope="col"></th>
                 <th scope="col">Fee Item</th>
                 <th scope="col">Amount</th>
-
+                <th scope="col">Session</th>
             </tr>
         </thead>
         <tbody>
@@ -39,7 +39,7 @@
                 <td>{{$loop->iteration}}</td>
                 <td>{{ $fee->field_name }}</td>
                 <td>{{ number_format($balance) }}</td>
-
+                <td>{{ $sess }}/{{ $sess+1 }}</td>
             </tr>
             @endif
             @endforeach

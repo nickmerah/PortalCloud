@@ -716,9 +716,9 @@
                             <button type="button" class="btn btn-success waves-effect m-r-15">Applicant Already Cleared</button>
                             @else
                             <button type="submit" class="btn btn-success waves-effect m-r-15">Clear Applicant</button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Reject Applicant</button>
                             @endif
 
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Reject Applicant</button>
                             <input name="appid" type="hidden" value="{{ $applicant->std_id }}" />
 
                             @if($applicant->eclearance == -1)

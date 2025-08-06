@@ -567,12 +567,6 @@ class ApplicantController extends Controller
                 ->with('error', 'Applicant already cleared');
         }
 
-        // Check if the applicant has a student ID
-        if ($applicant->student_id) {
-            return redirect()->route('applicants.index')
-                ->with('error', 'Applicant already cleared');
-        }
-
         // we need to confirm that the applicant migration has an issue
         $studentLogin = DB::table('stdlogin')->where(['log_username' => $applicant->app_no])->first();
 
@@ -687,6 +681,10 @@ class ApplicantController extends Controller
             $deptId = DeptOption::where('do_id', $applicantProfile->stdcourse)->value('dept_id') ?? 0;
             $facId = Department::where('departments_id', $deptId)->value('fac_id') ?? 0;
 
+
+            // Check if the applicant has a student ID
+            $studentId = $applicantProfile->student_id ?? $newStudentId;
+
             $studentData = [
 
                 'std_logid' => $loginId,
@@ -721,7 +719,7 @@ class ApplicantController extends Controller
                 'std_admyear' => $applicantProfile->appyear ?? date('Y'),
                 'std_photo' => $applicantProfile->std_photo,
                 'std_status' => 'New',
-                'cs_status' => $newStudentId,
+                'cs_status' => $studentId,
                 'student_status' => 'Undgergraduate',
                 'promote_status' => 0
             ];

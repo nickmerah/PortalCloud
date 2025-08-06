@@ -233,6 +233,7 @@
                         <a href="{{ url('/fees') }}"> > School Fees</a>
                         <a href="{{ url('/ofees') }}"> > Other Fees</a>
                         <a href="{{ url('/bpfee') }}"> > Previous Fees</a>
+                        <a href="{{ url('/bfees') }}"> > Balance Fees</a>
                     </div>
 
                     <a href="#feeSubmenu" data-toggle="collapse" aria-expanded="false" aria-controls="feeSubmenu">2023 Fee Payment <span class="dropdown-indicator">▼</span></a>

@@ -138,16 +138,16 @@ class FeeService
         return preg_match('/<[^>]*>/', $string) === 1;
     }
 
-    public function getStudentFeeExclusion(): int|null
+    public function getStudentFeeExclusion(): object|null
     {
         $sessSem = StdSession::getStdCurrentSession($this->student->stdprogramme_id);
-        $balance = DB::table('exclusion')
+        $balanceSess = DB::table('exclusion')
             ->where('matno', $this->student->matric_no)
-            ->where('sess', 2023)
+            ->where('sess', '>=', 2023)
             // ->where('sess', $sessSem['cs_session'])
-            ->value('balance');
+            ->first();
 
-        return $balance ?? -1;
+        return $balanceSess ?? -1;
     }
 
     /**

@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CourseRegistration;
-use App\Models\CTransaction;
+use ZipArchive;
+use App\Models\Lga;
+use App\Models\Level;
+use App\Models\Users;
+use App\Models\Faculty;
+use App\Models\Student;
+use App\Models\Programme;
 use App\Models\Department;
 use App\Models\DeptOption;
-use App\Models\Faculty;
-use App\Models\Level;
-use App\Models\Lga;
-use App\Models\Programme;
-use App\Models\ProgrammeType;
+use App\Models\CTransaction;
 use App\Models\RTransaction;
-use App\Models\StateOfOrigin;
-use App\Models\StdCurrentSession;
-use App\Models\StdTransaction;
-use App\Models\Student;
 use App\Models\StudentLogin;
-use App\Models\Users;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
+use App\Models\ProgrammeType;
+use App\Models\StateOfOrigin;
+use App\Models\CurrentSession;
+use App\Models\StdTransaction;
+use App\Models\StdCurrentSession;
+use App\Models\CourseRegistration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
-use ZipArchive;
 
 class StudentController extends Controller
 {
@@ -120,7 +121,9 @@ class StudentController extends Controller
     public function getExclusions()
     {
         $exclusions = DB::table('exclusion')->get();
-        return view('students.exclusions', compact('exclusions'));
+        $session = CurrentSession::select('cs_session')->first();
+
+        return view('students.exclusions', compact('exclusions', 'session'));
     }
 
     public function getPromotionList()
@@ -133,6 +136,7 @@ class StudentController extends Controller
     {
         $request->validate([
             'csv_file' => 'required|file|mimes:csv,txt|max:2048',
+            'sess' => 'required|integer',
         ]);
         if ($request->file('csv_file')->isValid()) {
             $file = $request->file('csv_file');
@@ -140,6 +144,7 @@ class StudentController extends Controller
             $headers = fgetcsv($handle);
             $matnoIndex = array_search('matno', $headers);
             $amountIndex = array_search('amount', $headers);
+            $sess = $request->input('sess');
             if ($matnoIndex === false || $amountIndex === false) {
                 return redirect()->back()->withErrors('CSV must contain "matno" and "amount" columns.');
             }
@@ -150,6 +155,7 @@ class StudentController extends Controller
                     ['matno' => $matno],
                     [
                         'balance' => $amount,
+                        'sess' => $sess,
                     ]
                 );
             }

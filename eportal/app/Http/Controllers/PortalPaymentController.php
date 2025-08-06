@@ -744,7 +744,7 @@ class PortalPaymentController extends Controller
 
         $feeAmount = $feeService->getStudentFeeExclusion();
 
-        if ($feeAmount != 0 || $feeAmount == -1) {
+        if ($feeAmount->balance != 0 || $feeAmount->balance == -1) {
             $message = "You have not been enabled to pay this fee";
             $redirectUrl = url('/sfees');
             self::redirectWithAlert($message, $redirectUrl);
@@ -838,7 +838,7 @@ class PortalPaymentController extends Controller
 
         $feeAmount = $feeService->getStudentFeeExclusion();
 
-        if ($feeAmount == 0) {
+        if ($feeAmount->balance == 0) {
             $message = "You have not been enabled to pay this fee";
             $redirectUrl = url('/bfees');
             self::redirectWithAlert($message, $redirectUrl);
@@ -848,7 +848,7 @@ class PortalPaymentController extends Controller
 
         $postFields = array(
             "serviceTypeId" => $this->service_type_id_SCHOOL_FEES,
-            "amount" => $feeAmount,
+            "amount" => $feeAmount->balance,
             "orderId" => $orderId,
             "payerName" => $fullNames,
             "payerEmail" => $this->student->student_email,
@@ -861,10 +861,10 @@ class PortalPaymentController extends Controller
         $this->handleRemitaResponse($response, $orderId);
 
         $rrr = trim($response['RRR']);
-        $sess = "2023"; // current session
+        $sess = $feeAmount->sess; // current session
 
         foreach ($schoolFees as $fee) {
-            $feedata[] = $this->createTransactionData($fee, $orderId, $sess, $feeAmount, $fullNames, $rrr, "fees");
+            $feedata[] = $this->createTransactionData($fee, $orderId, $sess, $feeAmount->balance, $fullNames, $rrr, "fees");
         }
         if (empty($feedata)) {
             return redirect('/fees')->with('error', 'Error generating fees.');
