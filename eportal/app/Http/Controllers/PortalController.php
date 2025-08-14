@@ -318,12 +318,7 @@ class PortalController extends Controller
             ->pluck('matno')
             ->first();
 
-        //$matNo = "WED/ND/23/00131";
-
         if (!$matNo) {
-            //return false;
-            // lets try to add the first entry in the matcode table
-
             $matNo = $this->addStartingMatricNumber();
         }
 
@@ -387,7 +382,6 @@ class PortalController extends Controller
         }
 
         // Extract the prefix and increment the number
-        //  echo $qprefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
         $prefix = implode('/', array_slice(explode('/', $matNo), 0, 3)) . '/';
 
         $parts = explode('/', $matNo);

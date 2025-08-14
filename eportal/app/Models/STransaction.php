@@ -186,11 +186,10 @@ class STransaction extends Model
         $csess = !empty($sess) ? $sess : $sessSem['cs_session'];
 
         return STransaction::where([
-            'log_id' => $sid,
-            'pay_status' => 'Paid',
-            'fee_type' => 'fees',
+            'log_id'    => $sid,
+            'fee_type'  => 'fees',
             'trans_year' => $csess,
-            'fee_id' => 1
-        ])->get();
+            'fee_id'    => 1,
+        ])->whereIn('pay_status', ['Paid', 'waived'])->get();
     }
 }
