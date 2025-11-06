@@ -1,0 +1,66 @@
+CRITICAL - 2025-01-29 20:20:12 --> InvalidArgumentException: whereIn() expects $values to be of type array or closure
+[Method: POST, Route: account/store]
+in SYSTEMPATH/Database/BaseBuilder.php on line 951.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(837): CodeIgniter\Database\BaseBuilder->_whereIn()
+ 2 APPPATH/Models/AccountModel.php(398): CodeIgniter\Database\BaseBuilder->whereIn()
+ 3 APPPATH/Controllers/Account.php(133): App\Models\AccountModel->checkIfCosIsDisabled()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Account->store()
+ 5 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+ERROR - 2025-01-29 20:22:40 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2025-01-29 20:22:40 --> 220-server1.mydspg.edu.ng ESMTP Exim 4.98 #2 Wed, 29 Jan 2025 20:22:35 +0000 
+220-We do not authorize the use of this system to transport unsolicited, 
+220 and/or bulk e-mail.
+
+hello: 250-server1.mydspg.edu.ng Hello localhost [197.211.63.103]
+250-SIZE 52428800
+250-LIMITS MAILMAX=1000 RCPTMAX=50000
+250-8BITMIME
+250-PIPELINING
+250-PIPECONNECT
+250-STARTTLS
+250 HELP
+
+starttls: 220 TLS go ahead
+
+hello: 250-server1.mydspg.edu.ng Hello localhost [197.211.63.103]
+250-SIZE 52428800
+250-LIMITS MAILMAX=1000 RCPTMAX=50000
+250-8BITMIME
+250-PIPELINING
+250-PIPECONNECT
+250-AUTH PLAIN LOGIN
+250 HELP
+
+Failed to authenticate password. Error: 535 Incorrect authentication data
+
+ERROR - 2025-01-29 20:24:31 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2025-01-29 20:24:31 --> 220-server1.mydspg.edu.ng ESMTP Exim 4.98 #2 Wed, 29 Jan 2025 20:24:26 +0000 
+220-We do not authorize the use of this system to transport unsolicited, 
+220 and/or bulk e-mail.
+
+hello: 250-server1.mydspg.edu.ng Hello localhost [197.211.63.103]
+250-SIZE 52428800
+250-LIMITS MAILMAX=1000 RCPTMAX=50000
+250-8BITMIME
+250-PIPELINING
+250-PIPECONNECT
+250-STARTTLS
+250 HELP
+
+starttls: 220 TLS go ahead
+
+hello: 250-server1.mydspg.edu.ng Hello localhost [197.211.63.103]
+250-SIZE 52428800
+250-LIMITS MAILMAX=1000 RCPTMAX=50000
+250-8BITMIME
+250-PIPELINING
+250-PIPECONNECT
+250-AUTH PLAIN LOGIN
+250 HELP
+
+Failed to authenticate password. Error: 535 Incorrect authentication data
+

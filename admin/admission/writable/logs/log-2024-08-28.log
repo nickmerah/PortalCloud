@@ -1,0 +1,234 @@
+ERROR - 2024-08-28 09:32:12 --> mysqli_sql_exception: Unknown column 'grade' in 'field list' in /var/www/html/delta/admissions/system/Database/MySQLi/Connection.php:312
+Stack trace:
+#0 /var/www/html/delta/admissions/system/Database/MySQLi/Connection.php(312): mysqli->query()
+#1 /var/www/html/delta/admissions/system/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+#2 /var/www/html/delta/admissions/system/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+#3 /var/www/html/delta/admissions/system/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+#4 /var/www/html/delta/admissions/app/Models/ApplicantModel.php(218): CodeIgniter\Database\BaseBuilder->insert()
+#5 /var/www/html/delta/admissions/app/Controllers/Applicant.php(717): App\Models\ApplicantModel->save_school()
+#6 /var/www/html/delta/admissions/system/CodeIgniter.php(933): App\Controllers\Applicant->add_school()
+#7 /var/www/html/delta/admissions/system/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+#8 /var/www/html/delta/admissions/system/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+#9 /var/www/html/delta/admissions/system/Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 /var/www/html/delta/admissions/system/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+#11 /var/www/html/delta/admissions/index.php(56): CodeIgniter\Boot::bootWeb()
+#12 {main}
+CRITICAL - 2024-08-28 09:32:12 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'grade' in 'field list'
+[Method: POST, Route: applicant/add_school]
+in SYSTEMPATH/Database/BaseConnection.php on line 688.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+ 2 APPPATH/Models/ApplicantModel.php(218): CodeIgniter\Database\BaseBuilder->insert()
+ 3 APPPATH/Controllers/Applicant.php(717): App\Models\ApplicantModel->save_school()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->add_school()
+ 5 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:32:12 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'grade' in 'field list'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 317.
+ 1 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+ 4 APPPATH/Models/ApplicantModel.php(218): CodeIgniter\Database\BaseBuilder->insert()
+ 5 APPPATH/Controllers/Applicant.php(717): App\Models\ApplicantModel->save_school()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->add_school()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:32:12 --> [Caused by] mysqli_sql_exception: Unknown column 'grade' in 'field list'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 312.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(312): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 SYSTEMPATH/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+ 5 APPPATH/Models/ApplicantModel.php(218): CodeIgniter\Database\BaseBuilder->insert()
+ 6 APPPATH/Controllers/Applicant.php(717): App\Models\ApplicantModel->save_school()
+ 7 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->add_school()
+ 8 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+ERROR - 2024-08-28 09:32:37 --> mysqli_sql_exception: Unknown column 'grade' in 'field list' in /var/www/html/delta/admissions/system/Database/MySQLi/Connection.php:312
+Stack trace:
+#0 /var/www/html/delta/admissions/system/Database/MySQLi/Connection.php(312): mysqli->query()
+#1 /var/www/html/delta/admissions/system/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+#2 /var/www/html/delta/admissions/system/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+#3 /var/www/html/delta/admissions/system/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+#4 /var/www/html/delta/admissions/app/Models/ApplicantModel.php(218): CodeIgniter\Database\BaseBuilder->insert()
+#5 /var/www/html/delta/admissions/app/Controllers/Applicant.php(717): App\Models\ApplicantModel->save_school()
+#6 /var/www/html/delta/admissions/system/CodeIgniter.php(933): App\Controllers\Applicant->add_school()
+#7 /var/www/html/delta/admissions/system/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+#8 /var/www/html/delta/admissions/system/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+#9 /var/www/html/delta/admissions/system/Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 /var/www/html/delta/admissions/system/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+#11 /var/www/html/delta/admissions/index.php(56): CodeIgniter\Boot::bootWeb()
+#12 {main}
+CRITICAL - 2024-08-28 09:32:37 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'grade' in 'field list'
+[Method: POST, Route: applicant/add_school]
+in SYSTEMPATH/Database/BaseConnection.php on line 688.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+ 2 APPPATH/Models/ApplicantModel.php(218): CodeIgniter\Database\BaseBuilder->insert()
+ 3 APPPATH/Controllers/Applicant.php(717): App\Models\ApplicantModel->save_school()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->add_school()
+ 5 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:32:37 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'grade' in 'field list'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 317.
+ 1 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+ 4 APPPATH/Models/ApplicantModel.php(218): CodeIgniter\Database\BaseBuilder->insert()
+ 5 APPPATH/Controllers/Applicant.php(717): App\Models\ApplicantModel->save_school()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->add_school()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:32:37 --> [Caused by] mysqli_sql_exception: Unknown column 'grade' in 'field list'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 312.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(312): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 SYSTEMPATH/Database/BaseBuilder.php(2332): CodeIgniter\Database\BaseConnection->query()
+ 5 APPPATH/Models/ApplicantModel.php(218): CodeIgniter\Database\BaseBuilder->insert()
+ 6 APPPATH/Controllers/Applicant.php(717): App\Models\ApplicantModel->save_school()
+ 7 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->add_school()
+ 8 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:48:11 --> ErrorException: Undefined property: stdClass::$grade
+[Method: GET, Route: applicant/editschool]
+in APPPATH/Views/applicants/editschool.php on line 69.
+ 1 APPPATH/Views/applicants/editschool.php(69): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(234): include('/var/www/html/delta/admissions/app/Views/applicants/editschool.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Applicant.php(910): view()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->editschool()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:55:14 --> ErrorException: Undefined array key "std_id"
+[Method: POST, Route: applicant/edit_school]
+in APPPATH/Models/ApplicantModel.php on line 221.
+ 1 APPPATH/Models/ApplicantModel.php(221): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Controllers/Applicant.php(761): App\Models\ApplicantModel->save_school()
+ 3 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->edit_school()
+ 4 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:55:30 --> ErrorException: Undefined array key "std_id"
+[Method: POST, Route: applicant/edit_school]
+in APPPATH/Models/ApplicantModel.php on line 221.
+ 1 APPPATH/Models/ApplicantModel.php(221): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Controllers/Applicant.php(761): App\Models\ApplicantModel->save_school()
+ 3 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->edit_school()
+ 4 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:56:21 --> ErrorException: Undefined array key "std_id"
+[Method: POST, Route: applicant/edit_school]
+in APPPATH/Models/ApplicantModel.php on line 230.
+ 1 APPPATH/Models/ApplicantModel.php(230): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Controllers/Applicant.php(761): App\Models\ApplicantModel->update_school()
+ 3 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->edit_school()
+ 4 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:56:58 --> ErrorException: Undefined array key "std_id"
+[Method: POST, Route: applicant/edit_school]
+in APPPATH/Models/ApplicantModel.php on line 230.
+ 1 APPPATH/Models/ApplicantModel.php(230): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Controllers/Applicant.php(761): App\Models\ApplicantModel->update_school()
+ 3 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->edit_school()
+ 4 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+ERROR - 2024-08-28 09:57:29 --> mysqli_sql_exception: Unknown column 'std_logid' in 'where clause' in /var/www/html/delta/admissions/system/Database/MySQLi/Connection.php:312
+Stack trace:
+#0 /var/www/html/delta/admissions/system/Database/MySQLi/Connection.php(312): mysqli->query()
+#1 /var/www/html/delta/admissions/system/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+#2 /var/www/html/delta/admissions/system/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+#3 /var/www/html/delta/admissions/system/Database/BaseBuilder.php(2508): CodeIgniter\Database\BaseConnection->query()
+#4 /var/www/html/delta/admissions/app/Models/ApplicantModel.php(231): CodeIgniter\Database\BaseBuilder->update()
+#5 /var/www/html/delta/admissions/app/Controllers/Applicant.php(761): App\Models\ApplicantModel->update_school()
+#6 /var/www/html/delta/admissions/system/CodeIgniter.php(933): App\Controllers\Applicant->edit_school()
+#7 /var/www/html/delta/admissions/system/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+#8 /var/www/html/delta/admissions/system/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+#9 /var/www/html/delta/admissions/system/Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 /var/www/html/delta/admissions/system/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+#11 /var/www/html/delta/admissions/index.php(56): CodeIgniter\Boot::bootWeb()
+#12 {main}
+CRITICAL - 2024-08-28 09:57:29 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'std_logid' in 'where clause'
+[Method: POST, Route: applicant/edit_school]
+in SYSTEMPATH/Database/BaseConnection.php on line 688.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(2508): CodeIgniter\Database\BaseConnection->query()
+ 2 APPPATH/Models/ApplicantModel.php(231): CodeIgniter\Database\BaseBuilder->update()
+ 3 APPPATH/Controllers/Applicant.php(761): App\Models\ApplicantModel->update_school()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->edit_school()
+ 5 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:57:29 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'std_logid' in 'where clause'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 317.
+ 1 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 SYSTEMPATH/Database/BaseBuilder.php(2508): CodeIgniter\Database\BaseConnection->query()
+ 4 APPPATH/Models/ApplicantModel.php(231): CodeIgniter\Database\BaseBuilder->update()
+ 5 APPPATH/Controllers/Applicant.php(761): App\Models\ApplicantModel->update_school()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->edit_school()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 09:57:29 --> [Caused by] mysqli_sql_exception: Unknown column 'std_logid' in 'where clause'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 312.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(312): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 SYSTEMPATH/Database/BaseBuilder.php(2508): CodeIgniter\Database\BaseConnection->query()
+ 5 APPPATH/Models/ApplicantModel.php(231): CodeIgniter\Database\BaseBuilder->update()
+ 6 APPPATH/Controllers/Applicant.php(761): App\Models\ApplicantModel->update_school()
+ 7 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->edit_school()
+ 8 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2024-08-28 10:04:56 --> ErrorException: Undefined property: stdClass::$pid
+[Method: GET, Route: applicant/editschool]
+in APPPATH/Views/applicants/editschool.php on line 100.
+ 1 APPPATH/Views/applicants/editschool.php(100): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(234): include('/var/www/html/delta/admissions/app/Views/applicants/editschool.php')
+ 3 SYSTEMPATH/View/View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1171): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Applicant.php(955): view()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Applicant->editschool()
+ 7 SYSTEMPATH/CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(67): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(56): CodeIgniter\Boot::bootWeb()
